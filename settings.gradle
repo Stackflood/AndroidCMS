@@ -1,1 +1,1 @@
-include ':app', ':WordPressUtils'
+include ':app', ':WordPressUtils', ':PersistentEditText'

@@ -133,7 +133,7 @@ public class CMS extends Application {
 
     private boolean createAndVerifyCMSDb() {
         try {
-            CMSDB.deleteDatabase(this);
+            //CMSDB.deleteDatabase(this);
             cmsDB = new CMSDB(this);
             // verify account data
             List<Map<String, Object>> accounts = cmsDB.getAllAccounts();

@@ -52,6 +52,7 @@ public class AppPrefs {
     private static String getString(PrefKey key) {
         return getString(key, "");
     }
+
     private static String getString(PrefKey key, String defaultValue) {
         return prefs().getString(key.name(), defaultValue);
     }

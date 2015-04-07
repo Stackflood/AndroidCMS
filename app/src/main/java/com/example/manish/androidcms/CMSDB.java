@@ -195,6 +195,7 @@ public class CMSDB {
     }
 
     public int getNumVisibleAccounts() {
-        return SqlUtils.intForQuery(db, "SELECT COUNT(*) FROM " + SETTINGS_TABLE + " WHERE isHidden = 0", null);
+        return SqlUtils.intForQuery(db, "SELECT COUNT(*) FROM " + SETTINGS_TABLE +
+                " WHERE isHidden = 0", null);
     }
 }

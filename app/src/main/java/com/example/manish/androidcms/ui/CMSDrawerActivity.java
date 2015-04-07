@@ -331,7 +331,13 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         }
     }
 
-   /* @Override
+
+   /* onStart()	Called when the activity is becoming visible to the user.
+    Followed by onResume() if the activity comes to the foreground, or onStop() if it becomes hidden.
+                                                                                                      No	onResume() or onStop()
+    onResume()	Called when the activity will start interacting with the user. At this point your activity is at the top of the activity stack, with user input going to it.
+    Always followed by onPause().*/
+    @Override
     protected void onResume() {
         super.onResume();
         refreshMenuDrawer();
@@ -342,7 +348,7 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         if (mScrollPositionManager != null) {
             mScrollPositionManager.restoreFromPreferences(this, SCROLL_POSITION_ID);
         }
-    }*/
+    }
 
     /**
      * Setup the global state tracking which blog is currently active if the user is signed in.
@@ -365,40 +371,47 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         return true;
     }
 
-    /*@Override
+
+    /*For example, your app can start a camera app and receive the captured photo as a result. Or, you might start the
+    People app in order for the user to select a contact and you'll receive the contact details as a result.
+
+    Of course, the activity that responds must be designed to return a result. When it does, it sends the result as
+    another Intent object. Your activity receives it in the onActivityResult() callback.*/
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            *//*case ADD_ACCOUNT_REQUEST:
+            case ADD_ACCOUNT_REQUEST:
                 if (resultCode == RESULT_OK) {
                     // new blog has been added, so rebuild cache of blogs and setup current blog
-                    getBlogNames();
+                    //getBlogNames();
                     setupCurrentBlog();
                     if (mDrawerListView != null) {
-                        initBlogSpinner();
+                       /// initBlogSpinner();
                     }
-                    WordPress.registerForCloudMessaging(this);
+                   // WordPress.registerForCloudMessaging(this);
                     // If logged in without blog, redirect to the Reader view
-                    showCorrectActivityForAccountIfRequired();
+                  //  showCorrectActivityForAccountIfRequired();
                 } else {
                     finish();
                 }
-                break;*//*
-            *//*case SETTINGS_REQUEST:
+                break;
+            case SETTINGS_REQUEST:
                 // user returned from settings - skip if user signed out
-                if (mDrawerListView != null && resultCode != SettingsActivity.RESULT_SIGNED_OUT) {
+               /* if (mDrawerListView != null && resultCode != SettingsActivity.RESULT_SIGNED_OUT) {
                     // If we need to add or remove the blog spinner, init the drawer again
-                    initBlogSpinner();
+                    //initBlogSpinner();
 
-                    String[] blogNames = getBlogNames();
-                    if (blogNames.length >= 1) {
+                   // String[] blogNames = getBlogNames();
+                    *//*if (blogNames.length >= 1) {
                         setupCurrentBlog();
-                    }
+                    }*//*
                     if (data != null && data.getBooleanExtra(SettingsActivity.CURRENT_BLOG_CHANGED, true)) {
                         blogChanged();
                     }
                     //WordPress.registerForCloudMessaging(this);
-                }*//*
+                }*/
 
                 //break;
             case AUTHENTICATE_REQUEST:
@@ -411,9 +424,10 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
                 break;
         }
     }
-*/
     void refreshMenuDrawer() {
-
+        if (mDrawerAdapter == null) return;
+        // the current blog may have changed while we were away
+        setupCurrentBlog();
     }
 
     public boolean isStaticMenuDrawer() {

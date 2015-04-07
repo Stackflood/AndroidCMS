@@ -1,0 +1,15 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_view"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/nux_background"
+    android:layout_height="match_parent"
+    android:baselineAligned="true">
+
+    <fragment
+        android:name="com.example.manish.androidcms.ui.accounts.SignInFragment"
+        android:id="@+id/sign_in_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
