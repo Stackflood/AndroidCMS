@@ -1,0 +1,101 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.example.manish.androidcms"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "String", "APP_PN_KEY", "\"org.wordpress.android.debug.build\""
+
+            buildConfigField "String", "GCM_ID", "\"\""
+            buildConfigField "String", "MIXPANEL_TOKEN", "\"\""
+            buildConfigField "String", "DB_SECRET", "\"\""
+            buildConfigField "String", "HELPSHIFT_API_KEY", "\"\""
+            buildConfigField "String", "OAUTH_APP_ID", "\"\""
+            buildConfigField "String", "OAUTH_APP_SECRET", "\"\""
+            buildConfigField "String", "SIMPERIUM_APP_NAME", "\"\""
+            buildConfigField "String", "SIMPERIUM_APP_SECRET", "\"\""
+            buildConfigField "String", "HELPSHIFT_API_DOMAIN", "\"\""
+            buildConfigField "String", "HELPSHIFT_API_ID", "\"\""
+            buildConfigField "String", "OAUTH_REDIRECT_URI", "\"\""
+            ext.enableCrashlytics = false
+        }
+    }
+
+
+}
+
+/*dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+}*/
+dependencies {
+    /*compile 'com.crashlytics.sdk.android:crashlytics:2.2.2'*/
+    // Provided by maven central
+    compile 'org.wordpress:mediapicker:1.1.4'
+    compile 'com.google.code.gson:gson:2.2.2'
+    compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
+    compile 'com.android.support:support-v13:21.0.+'
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile 'com.github.chrisbanes.photoview:library:1.2.3'
+    compile 'com.helpshift:android-aar:3.7.2'
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'com.cocosw:undobar:1.6@aar'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.mcxiaoke.volley:library:1.0.+'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
+    androidTestCompile 'org.objenesis:objenesis:2.1'
+    androidTestCompile 'org.mockito:mockito-core:+'
+    // Provided by the WordPress-Android Repository
+    /*  compile 'org.wordpress:gcm:1.0.0' // not found in maven central
+                        compile 'org.wordpress:drag-sort-listview:0.6.1' // not found in maven central
+                        compile 'org.wordpress:slidinguppanel:1.0.0' // not found in maven central
+                        compile 'org.wordpress:android-passcodelock:0.0.6'
+                        compile 'org.wordpress:emailchecker:0.3'*/
+    // Simperium
+    /* compile 'com.simperium.android:simperium:0.6.2'*/
+    /*   releaseCompile project(path:'WordPressUtils', configuration: 'release')
+                        debugCompile project(path:'WordPressUtils', configuration: 'debug')
+                        releaseCompile project(path:':libs:networking:WordPressNetworking', configuration: 'release')
+                        debugCompile project(path:':libs:networking:WordPressNetworking', configuration: 'debug')
+                        releaseCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'release')
+                        debugCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'debug')
+                        releaseCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'release')
+                        debugCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'debug')
+                        releaseCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'release')
+                        debugCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'debug')
+                        releaseCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'release')
+                        debugCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'debug')
+                        releaseCompile project(path:':libs:editor:WordPressEditor', configuration: 'release')
+                        debugCompile project(path:':libs:editor:WordPressEditor', configuration: 'debug')*/
+    debugCompile project(':WordPressUtils')
+}
