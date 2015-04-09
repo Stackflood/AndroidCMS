@@ -73,6 +73,10 @@ public class SignInFragment extends AbstractFragment implements TextWatcher {
     private String mHttpPassword;
     private Blog mJetpackBlog;
 
+    public SignInFragment() {
+        //mEmailChecker = new EmailChecker();
+    }
+
     @Override
     protected void onDoneAction() {
 
@@ -158,6 +162,8 @@ public class SignInFragment extends AbstractFragment implements TextWatcher {
             }
         });
 
+
+
        /* mForgotPassword = (WPTextView) rootView.findViewById(R.id.forgot_password);
         mForgotPassword.setOnClickListener(mForgotPasswordListener);
         mUsernameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -201,6 +207,27 @@ public class SignInFragment extends AbstractFragment implements TextWatcher {
         moveBottomButtons();*/
 
         return rootView;
+    }
+
+    public void askForSslTrust()
+    {
+        /*SelfSignedSSLCertsManager.askForSslTrust(getActivity(),
+                new GenericCallback<Void>() {
+            @Override
+            public void callback(Void aVoid) {
+                // Try to signin again
+                signIn();
+            }
+        });
+        endProgress();*/
+    }
+
+    public void signInDotComUser(String username, String password) {
+        if (username != null && password != null) {
+            mUsernameEditText.setText(username);
+            mPasswordEditText.setText(password);
+            signIn();
+        }
     }
 
     private final View.OnClickListener mOnLoginFormClickListener = new View.OnClickListener() {

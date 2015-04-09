@@ -2,6 +2,7 @@ package com.example.manish.androidcms.ui.accounts;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -61,5 +62,20 @@ public class SignInActivity extends Activity {
         }
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SHOW_CERT_DETAILS) {
+            mSignInFragment.askForSslTrust();
+        } else if (resultCode == RESULT_OK && data != null) {
+            String username = data.getStringExtra("username");
+            String password = data.getStringExtra("password");
+            if (username != null) {
+                mSignInFragment.signInDotComUser(username, password);
+            }
+        }
     }
 }

@@ -77,26 +77,26 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:+'
     // Provided by the WordPress-Android Repository
     /*  compile 'org.wordpress:gcm:1.0.0' // not found in maven central
-                            compile 'org.wordpress:drag-sort-listview:0.6.1' // not found in maven central
-                            compile 'org.wordpress:slidinguppanel:1.0.0' // not found in maven central
-                            compile 'org.wordpress:android-passcodelock:0.0.6'
-                            compile 'org.wordpress:emailchecker:0.3'*/
+                                        compile 'org.wordpress:drag-sort-listview:0.6.1' // not found in maven central
+                                        compile 'org.wordpress:slidinguppanel:1.0.0' // not found in maven central
+                                        compile 'org.wordpress:android-passcodelock:0.0.6'
+                                        compile 'org.wordpress:emailchecker:0.3'*/
     // Simperium
     /* compile 'com.simperium.android:simperium:0.6.2'*/
     /*   releaseCompile project(path:'WordPressUtils', configuration: 'release')
-                            debugCompile project(path:'WordPressUtils', configuration: 'debug')
-                            releaseCompile project(path:':libs:networking:WordPressNetworking', configuration: 'release')
-                            debugCompile project(path:':libs:networking:WordPressNetworking', configuration: 'debug')
-                            releaseCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'release')
-                            debugCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'debug')
-                            releaseCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'release')
-                            debugCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'debug')
-                            releaseCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'release')
-                            debugCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'debug')
-                            releaseCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'release')
-                            debugCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'debug')
-                            releaseCompile project(path:':libs:editor:WordPressEditor', configuration: 'release')
-                            debugCompile project(path:':libs:editor:WordPressEditor', configuration: 'debug')*/
-    debugCompile project(':WordPressUtils')
+                                        debugCompile project(path:'WordPressUtils', configuration: 'debug')
+                                        releaseCompile project(path:':libs:networking:WordPressNetworking', configuration: 'release')
+                                        debugCompile project(path:':libs:networking:WordPressNetworking', configuration: 'debug')
+                                        releaseCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'release')
+                                        debugCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'debug')
+                                        releaseCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'release')
+                                        debugCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'debug')
+                                        releaseCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'release')
+                                        debugCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'debug')
+                                        releaseCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'release')
+                                        debugCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'debug')
+                                        releaseCompile project(path:':libs:editor:WordPressEditor', configuration: 'release')
+                                        debugCompile project(path:':libs:editor:WordPressEditor', configuration: 'debug')*/
+    compile project(':WordPressUtils')
     compile project(':PersistentEditText')
 }
