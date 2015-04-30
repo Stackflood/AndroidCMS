@@ -16,17 +16,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.ui.accounts.SignInActivity;
 import com.example.manish.androidcms.ui.analytics.AnalyticsTracker;
 import com.example.manish.androidcms.ui.helpers.ListScrollPositionManager;
+import com.example.manish.androidcms.ui.posts.PostsActivity;
 import com.example.manish.androidcms.ui.stats.StatsActivity;
 import com.example.manish.androidcms.util.CMSActivityUtils;
 
 import org.wordpress.android.util.AppLog;
+import org.wordpress.android.util.BlogUtils;
 import org.wordpress.android.util.DisplayUtils;
+
+import java.util.List;
+import java.util.Map;
 
 //import de.greenrobot.event.EventBus;
 
@@ -48,6 +55,7 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
     /**
      * AuthenticatorRequest code for re-authentication
      */
+    private static int[] mBlogIDs;
     private static final int AUTHENTICATE_REQUEST = 300;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
@@ -135,7 +143,7 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         });
 
 
-        /*initBlogSpinner();*/
+       // initBlogSpinner();
         updateMenuDrawer();
 
         setToolbarClickListener();
@@ -355,7 +363,7 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
      */
     public void setupCurrentBlog() {
         if (askToSignInIfNot()) {
-            //CMS.getCurrentBlog();
+            CMS.getCurrentBlog();
         }
     }
 
@@ -371,12 +379,84 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * Get the names of all the blogs configured within the application. If a
+     * blog does not have a specific name, the blog URL is returned.
+     *
+     * @return array of blog names
+     */
+    private static String[] getBlogNames() {
+        List<Map<String, Object>> accounts = CMS.cmsDB.getVisibleAccounts();
+
+        int blogCount = accounts.size();
+        mBlogIDs = new int[blogCount];
+        String[] blogNames = new String[blogCount];
+
+        for (int i = 0; i < blogCount; i++) {
+            Map<String, Object> account = accounts.get(i);
+            blogNames[i] = BlogUtils.getBlogNameOrHostNameFromAccountMap(account);
+            mBlogIDs[i] = Integer.valueOf(account.get("id").toString());
+        }
+
+        return blogNames;
+    }
 
     /*For example, your app can start a camera app and receive the captured photo as a result. Or, you might start the
     People app in order for the user to select a contact and you'll receive the contact details as a result.
 
     Of course, the activity that responds must be designed to return a result. When it does, it sends the result as
     another Intent object. Your activity receives it in the onActivityResult() callback.*/
+/*
+     * setup the spinner in the drawer header which shows a list of the user's blogs
+     */
+    private void initBlogSpinner() {
+        /*TextView txtBlogName = (TextView) findViewById(R.id.text_header_blog_name);
+        mBlogSpinner = (Spinner) findViewById(R.id.blog_spinner);
+        String[] blogNames = getBlogNames();
+        if (blogNames.length > 1) {
+            // more than one blog so show spinner enabling user to choose
+            txtBlogName.setVisibility(View.GONE);
+            mBlogSpinner.setVisibility(View.VISIBLE);
+            mBlogSpinner.setOnItemSelectedListener(mItemSelectedListener);
+            populateBlogSpinner(blogNames);
+        } else if (blogNames.length == 1) {
+            // only one blog so hide spinner and show name of blog
+            txtBlogName.setVisibility(View.VISIBLE);
+            txtBlogName.setText(blogNames[0]);
+            mBlogSpinner.setVisibility(View.GONE);
+            mBlogSpinner.setOnItemSelectedListener(null);
+        } else {
+            // no blogs so hide spinner and blog name
+            txtBlogName.setVisibility(View.GONE);
+            mBlogSpinner.setVisibility(View.GONE);
+            mBlogSpinner.setOnItemSelectedListener(null);
+        }*/
+    }
+    /*
+     * redirect to the Reader if there aren't any visible blogs
+     * returns true if redirected, false otherwise
+     */
+    protected boolean showCorrectActivityForAccountIfRequired() {
+        if (CMS.cmsDB.getNumVisibleAccounts() == 0) {
+            //showReader();
+            return true;
+        } else if (hasNoDotComAccountsAndIsNotOnPostsActivity()) {
+            showPosts();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void showPosts() {
+        Intent intent = new Intent(CMSDrawerActivity.this, PostsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+    }
+
+    private boolean hasNoDotComAccountsAndIsNotOnPostsActivity() {
+        return (CMS.cmsDB.getNumDotComAccounts() == 0) && !(this instanceof PostsActivity);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -385,14 +465,14 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
             case ADD_ACCOUNT_REQUEST:
                 if (resultCode == RESULT_OK) {
                     // new blog has been added, so rebuild cache of blogs and setup current blog
-                    //getBlogNames();
+                    getBlogNames();
                     setupCurrentBlog();
                     if (mDrawerListView != null) {
-                       /// initBlogSpinner();
+                       initBlogSpinner();
                     }
                    // WordPress.registerForCloudMessaging(this);
                     // If logged in without blog, redirect to the Reader view
-                  //  showCorrectActivityForAccountIfRequired();
+                  showCorrectActivityForAccountIfRequired();
                 } else {
                     finish();
                 }

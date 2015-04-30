@@ -30,6 +30,34 @@ public class AppPrefs {
         MIXPANEL_EMAIL_ADDRESS,
     }
 
+    private static long getLong(PrefKey key) {
+        try {
+            String value = getString(key);
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private static void setLong(PrefKey key, long value) {
+        setString(key, Long.toString(value));
+    }
+
+    private static void remove(PrefKey key) {
+        prefs().edit().remove(key.name()).apply();
+    }
+
+    public static long getCurrentUserId() {
+        return getLong(PrefKey.USER_ID);
+    }
+    public static void setCurrentUserId(long userId) {
+        if (userId == 0) {
+            remove(PrefKey.USER_ID);
+        } else {
+            setLong(PrefKey.USER_ID, userId);
+        }
+    }
+
     private static SharedPreferences prefs()
     {
         return PreferenceManager.getDefaultSharedPreferences(CMS.getContext());

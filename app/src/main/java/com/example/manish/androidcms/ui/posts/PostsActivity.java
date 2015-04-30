@@ -77,11 +77,11 @@ public class PostsActivity extends CMSDrawerActivity
         CMS.currentPost = null;
 
         if (savedInstanceState != null) {
-          //  popPostDetail();
+            popPostDetail();
         }
 
-       //attemptToSelectPost();
-        //finish();
+       attemptToSelectPost();
+
     }
 
     protected void attemptToSelectPost() {
@@ -94,11 +94,30 @@ public class PostsActivity extends CMSDrawerActivity
 
     /*Receive the result from a previous call to startActivityForResult(Intent, int).*/
 
+    public void requestPosts() {
+        if (CMS.getCurrentBlog() == null) {
+            return;
+        }
+        // If user has local changes, don't refresh
+        if (!CMS.cmsDB.findLocalChanges(CMS.getCurrentBlog().getLocalTableBlogId(), mIsPage)) {
+            popPostDetail();
+            mPostList.requestPosts(false);
+            mPostList.setRefreshing(true);
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-
+        if (data != null) {
+            if (requestCode == ACTIVITY_EDIT_POST && resultCode == RESULT_OK) {
+                if (data.getBooleanExtra("shouldRefresh", false)) {
+                    mPostList.getPostListAdapter().loadPosts();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
+
     protected void popPostDetail() {
         if (isFinishing()) {
             return;

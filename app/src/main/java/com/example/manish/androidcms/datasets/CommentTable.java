@@ -2,6 +2,8 @@ package com.example.manish.androidcms.datasets;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.manish.androidcms.CMS;
+
 import org.wordpress.android.util.AppLog;
 
 /**
@@ -36,5 +38,22 @@ public class CommentTable {
         AppLog.i(AppLog.T.COMMENTS, "resetting comment table");
         dropTables(db);
         createTables(db);
+    }
+
+    private static SQLiteDatabase getWritableDb() {
+        return CMS.cmsDB.getDatabase();
+    }
+
+    /**
+     * nbradbury 11/12/13 - delete a single comment
+     * @param localBlogId - unique id in account table for this blog
+     * @param commentId - commentId of the actual comment
+     * @return true if comment deleted, false otherwise
+     */
+    public static boolean deleteComment(int localBlogId, long commentId) {
+        String[] args = {Integer.toString(localBlogId),
+                Long.toString(commentId)};
+        int count = getWritableDb().delete(COMMENTS_TABLE, "blog_id=? AND comment_id=?", args);
+        return (count > 0);
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.ui.ActivityId;
@@ -45,17 +46,17 @@ public class SignInActivity extends Activity {
             actionMode = extras.getInt(START_FRAGMENT_KEY, -1);
 
             if (extras.containsKey(ARG_JETPACK_SITE_AUTH)) {
-                //Blog jetpackBlog = WordPress.getBlog(extras.getInt(ARG_JETPACK_SITE_AUTH));
-                /*if (jetpackBlog != null) {
-                    //mSignInFragment.setBlog(jetpackBlog);
-                }*/
+                Blog jetpackBlog = CMS.getBlog(extras.getInt(ARG_JETPACK_SITE_AUTH));
+                if (jetpackBlog != null) {
+                    mSignInFragment.setBlog(jetpackBlog);
+                }
             } else if (extras.containsKey(ARG_IS_AUTH_ERROR)) {
-                //mSignInFragment.showAuthErrorMessage();
+                mSignInFragment.showAuthErrorMessage();
             }
         }
         switch (actionMode) {
             case ADD_SELF_HOSTED_BLOG:
-                //mSignInFragment.forceSelfHostedMode();
+                mSignInFragment.forceSelfHostedMode();
                 break;
             default:
                 break;

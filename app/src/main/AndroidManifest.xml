@@ -52,6 +52,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/SignInTheme" />
+        <activity android:name=".ui.accounts.NewAccountActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/SignInTheme"
+            android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name=".ui.posts.PostsActivity"
