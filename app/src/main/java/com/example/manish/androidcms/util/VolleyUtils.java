@@ -2,6 +2,8 @@ package com.example.manish.androidcms.util;
 
 import android.content.Context;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpStack;
 import com.example.manish.androidcms.models.Blog;
@@ -43,6 +45,21 @@ public class VolleyUtils {
         } catch (JSONException e) {
             return null;
         }
+    }
+
+    /*
+     * cancel all Volley requests
+     */
+    public static void cancelAllRequests(RequestQueue requestQueue) {
+        if (requestQueue==null)
+            return;
+        RequestQueue.RequestFilter filter = new RequestQueue.RequestFilter() {
+            @Override
+            public boolean apply(Request<?> request) {
+                return true;
+            }
+        };
+        requestQueue.cancelAll(filter);
     }
 
     /*

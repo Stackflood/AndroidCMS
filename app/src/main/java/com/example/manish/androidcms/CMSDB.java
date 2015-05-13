@@ -12,6 +12,7 @@ import android.util.Base64;
 import com.example.manish.androidcms.datasets.CommentTable;
 import com.example.manish.androidcms.datasets.SuggestionTable;
 import com.example.manish.androidcms.models.Blog;
+import com.example.manish.androidcms.models.Post;
 import com.example.manish.androidcms.models.PostsListPost;
 import com.example.manish.androidcms.networking.OAuthAuthenticator;
 
@@ -417,6 +418,29 @@ public class CMSDB {
         }
         c.close();
         return blog;
+    }
+
+    public void deleteAllAccounts() {
+        List<Integer> ids = getAllAccountIDs();
+        if (ids.size() == 0)
+            return;
+
+        db.beginTransaction();
+        try {
+            for (int id: ids) {
+                deleteAccount(context, id);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public boolean deleteAccount(Context ctx, int id) {
+        // TODO: should this also delete posts and other related info?
+        int rowsAffected = db.delete(SETTINGS_TABLE, "id=?", new String[]{Integer.toString(id)});
+        //deleteQuickPressShortcutsForAccount(ctx, id);
+        return (rowsAffected > 0);
     }
     /**
      * Instantiate a new Blog object from it's local id
@@ -825,6 +849,59 @@ public class CMSDB {
     public SQLiteDatabase getDatabase() {
         return db;
     }
+
+
+    public Post getPostForLocalTablePostId(long localTablePostId) {
+        Cursor c = db.query(POSTS_TABLE, null, "id=?", new String[]{String.valueOf(localTablePostId)}, null, null, null);
+
+        Post post = new Post();
+        if (c.moveToFirst()) {
+            post.setLocalTablePostId(c.getLong(c.getColumnIndex("id")));
+            post.setLocalTableBlogId(Integer.valueOf(c.getString(c.getColumnIndex("blogID"))));
+            post.setRemotePostId(c.getString(c.getColumnIndex("postid")));
+            post.setTitle(c.getString(c.getColumnIndex("title")));
+            post.setDateCreated(c.getLong(c.getColumnIndex("dateCreated")));
+            post.setDate_created_gmt(c.getLong(c.getColumnIndex("date_created_gmt")));
+            post.setCategories(c.getString(c.getColumnIndex("categories")));
+            post.setCustomFields(c.getString(c.getColumnIndex("custom_fields")));
+            post.setDescription(c.getString(c.getColumnIndex("description")));
+            post.setLink(c.getString(c.getColumnIndex("link")));
+            post.setAllowComments(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("mt_allow_comments"))));
+            post.setAllowPings(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("mt_allow_pings"))));
+            post.setPostExcerpt(c.getString(c.getColumnIndex("mt_excerpt")));
+            post.setKeywords(c.getString(c.getColumnIndex("mt_keywords")));
+            post.setMoreText(c.getString(c.getColumnIndex("mt_text_more")));
+            post.setPermaLink(c.getString(c.getColumnIndex("permaLink")));
+            post.setPostStatus(c.getString(c.getColumnIndex("post_status")));
+            post.setUserId(c.getString(c.getColumnIndex("userid")));
+            post.setAuthorDisplayName(c.getString(c.getColumnIndex("wp_author_display_name")));
+            post.setAuthorId(c.getString(c.getColumnIndex("wp_author_id")));
+            post.setPassword(c.getString(c.getColumnIndex("wp_password")));
+            post.setPostFormat(c.getString(c.getColumnIndex("wp_post_format")));
+            post.setSlug(c.getString(c.getColumnIndex("wp_slug")));
+            post.setMediaPaths(c.getString(c.getColumnIndex("mediaPaths")));
+
+            int latColumnIndex = c.getColumnIndex("latitude");
+            int lngColumnIndex = c.getColumnIndex("longitude");
+            if (!c.isNull(latColumnIndex) && !c.isNull(lngColumnIndex)) {
+                //post.setLocation(c.getDouble(latColumnIndex), c.getDouble(lngColumnIndex));
+            }
+
+            post.setLocalDraft(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("localDraft"))));
+            post.setUploading(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("isUploading"))));
+            post.setUploaded(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("uploaded"))));
+            post.setIsPage(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("isPage"))));
+            post.setPageParentId(c.getString(c.getColumnIndex("wp_page_parent_id")));
+            post.setPageParentTitle(c.getString(c.getColumnIndex("wp_page_parent_title")));
+            post.setLocalChange(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("isLocalChange"))));
+        } else {
+            post = null;
+        }
+
+        c.close();
+        return post;
+    }
+
 
     public List<Map<String, Object>> getAccountsBy(String byString, String[] extraFields, int limit) {
         if (db == null) {

@@ -75,6 +75,21 @@ public class Blog {
         this.isHidden = isHidden;
     }
 
+    public boolean isPrivate() {
+        JSONObject jsonOptions = getBlogOptionsJSONObject();
+        if (jsonOptions != null && jsonOptions.has("blog_public")) {
+            try {
+                String blogPublicValue = jsonOptions.getJSONObject("blog_public").getString("value");
+                if (!TextUtils.isEmpty(blogPublicValue) && "-1".equals(blogPublicValue)) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                AppLog.e(AppLog.T.UTILS, "Cannot load blog_public from options: " + jsonOptions, e);
+            }
+        }
+        return false;
+    }
+
     public Blog(String url, String username, String password) {
         this.url = url;
         this.username = username;

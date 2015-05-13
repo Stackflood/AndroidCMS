@@ -55,6 +55,10 @@ public class Post implements Serializable {
     public Post() {
     }
 
+    public PostStatus getStatusEnum() {
+        return PostStatus.fromPost(this);
+    }
+
     public Post(int blogId, boolean isPage) {
         // creates a new, empty post for the passed in blogId
         this.localTableBlogId = blogId;

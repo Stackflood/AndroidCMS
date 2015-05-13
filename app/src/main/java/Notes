@@ -1,3 +1,18 @@
 #!/usr/bin/env bash
 
 *Whenver got SSLHandshake - protocol error - Android has a bug with REST/SOAP/Http calals being made and paused in between : Don't put debugging breakpoints on such calls.
+
+
+getPostListAdapter() {
+        if (mPostsListAdapter == null) {
+            PostsListAdapter.OnLoadMoreListener loadMoreListener = new PostsListAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore() {
+                    if (mCanLoadMorePosts && !mIsFetchingPosts)
+                        requestPosts(true);
+                }
+            };
+
+            PostsListAdapter.OnPostsLoadedListener postsLoadedListener = new PostsListAdapter.OnPostsLoadedListener() {
+                @Override
+                public void onPostsLoaded

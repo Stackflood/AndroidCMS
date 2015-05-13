@@ -28,7 +28,7 @@
                 android:background="@drawable/right_shadow"/>
         </FrameLayout>
         <fragment
-            android:name="com.example.manish.androidcms.ui.posts.PostsListFragment"
+            android:name="com.example.manish.androidcms.ui.posts.ViewPostFragment"
             android:id="@+id/postDetail"
             android:layout_weight="0.6"
             android:layout_width="0dp"

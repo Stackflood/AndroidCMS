@@ -82,8 +82,21 @@ public class LoginWPCom extends LoginAbstract {
 
 
     protected void login() {
+
+       /* SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(CMS.getContext());
+
+        SharedPreferences.Editor editor = settings.edit();
+
+        String existingUsername = settings.getString(CMS.WPCOM_USERNAME_PREFERENCE, null);
+
+        editor.remove(CMS.IS_SIGNED_OUT_PREFERENCE);
+        editor.apply();
+
+        mCallback.onSuccess();*/
+        //Bypass this s** for now
+
         // Get OAuth token for the first time and check for errors
-        CMS.requestQueue.add(makeOAuthRequest(mUsername,
+       CMS.requestQueue.add(makeOAuthRequest(mUsername,
                 mPassword,
                 new Oauth.Listener() {
             @SuppressLint("CommitPrefEdits")
@@ -103,7 +116,7 @@ public class LoginWPCom extends LoginAbstract {
                 SharedPreferences.Editor editor = settings.edit();
 
                 String existingUsername = settings.getString(CMS.WPCOM_USERNAME_PREFERENCE, null);
-               /* if (settings.contains(CMS.IS_SIGNED_OUT_PREFERENCE) && existingUsername != null &&
+              /*if (settings.contains(CMS.IS_SIGNED_OUT_PREFERENCE) && existingUsername != null &&
                         !existingUsername.equals(mUsername)) {
                     // If user has signed out and back in with a different username, we must clear the old data
                     CMS.wpDB.dangerouslyDeleteAllContent();

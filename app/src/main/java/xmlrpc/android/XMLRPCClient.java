@@ -52,7 +52,7 @@ import java.util.Map;
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
-//import de.greenrobot.event.EventBus;
+import de.greenrobot.event.EventBus;
 
 /**
  * A WordPress XMLRPC Client.
@@ -88,15 +88,15 @@ public class XMLRPCClient implements XMLRPCClientInterface {
 
     private boolean mIsWpcom;
 
-   /* *
+    /**
      * XMLRPCClient constructor. Creates new instance based on server URI
-     * @param uri xml-rpc server URI*/
-
+     * @param uri xml-rpc server URI
+     */
     public XMLRPCClient(URI uri, String httpuser, String httppasswd) {
         mPostMethod = new HttpPost(uri);
         mPostMethod.addHeader("Content-Type", "text/xml");
         mPostMethod.addHeader("charset", "UTF-8");
-        //mPostMethod.addHeader("User-Agent", CMS.getUserAgent());
+        mPostMethod.addHeader("User-Agent", CMS.getUserAgent());
         addWPComAuthorizationHeaderIfNeeded();
 
         mHttpParams = mPostMethod.getParams();
@@ -183,16 +183,16 @@ public class XMLRPCClient implements XMLRPCClientInterface {
 
     /**
      * Convenience XMLRPCClient constructor. Creates new instance based on server URL
-     * @param url server URL*/
-
+     * @param url server URL
+     */
     public XMLRPCClient(URL url, String httpuser, String httppasswd) {
         this(URI.create(url.toExternalForm()), httpuser, httppasswd);
     }
 
-   /* *
+    /**
      * Set WP.com auth header
-     * @param authToken authorization token*/
-
+     * @param authToken authorization token
+     */
     public void setAuthorizationHeader(String authToken) {
         if( authToken != null)
             mPostMethod.addHeader("Authorization", String.format("Bearer %s", authToken));
@@ -208,8 +208,8 @@ public class XMLRPCClient implements XMLRPCClientInterface {
      * @param method name of method to call
      * @param params parameters to pass to method (may be null if method has no parameters)
      * @return deserialized method return value
-     * @throws XMLRPCException*/
-
+     * @throws XMLRPCException
+     */
     public Object call(String method, Object[] params) throws XMLRPCException, IOException, XmlPullParserException {
         return call(method, params, null);
     }
@@ -219,29 +219,24 @@ public class XMLRPCClient implements XMLRPCClientInterface {
      *
      * @param method name of method to call
      * @return deserialized method return value
-     * @throws XMLRPCException*/
-
+     * @throws XMLRPCException
+     */
     public Object call(String method) throws XMLRPCException, IOException, XmlPullParserException {
         return call(method, null, null);
     }
 
-    @Override
+
     public Object call(String method, Object[] params, File tempFile) throws XMLRPCException, IOException, XmlPullParserException {
-        return null;
+        return new Caller().callXMLRPC(method, params, tempFile);
     }
 
-
-    /*public Object call(String method, Object[] params, File tempFile) throws XMLRPCException, IOException, XmlPullParserException {
-        return new Caller().callXMLRPC(method, params, tempFile);
-    }*/
-
-   /* *
+    /**
      * Convenience call for callAsync with two paramaters
      *
      * @param listener, methodName, parameters
      * @return unique id of this async call
-     * @throws XMLRPCException*/
-
+     * @throws XMLRPCException
+     */
     public long callAsync(XMLRPCCallback listener, String methodName, Object[] params) {
         return callAsync(listener, methodName, params, null);
     }
@@ -251,8 +246,8 @@ public class XMLRPCClient implements XMLRPCClientInterface {
      *
      * @param listener, XMLRPC methodName, XMLRPC parameters, File for large uploads
      * @return unique id of this async call
-     * @throws XMLRPCException*/
-
+     * @throws XMLRPCException
+     */
     public long callAsync(XMLRPCCallback listener, String methodName, Object[] params, File tempFile) {
         long id = System.currentTimeMillis();
         new Caller(listener, id, methodName, params, tempFile).start();
@@ -326,9 +321,9 @@ public class XMLRPCClient implements XMLRPCClientInterface {
         }
     }
 
-   /* *
-     * Deallocate Http Entity and close streams*/
-
+    /**
+     * Deallocate Http Entity and close streams
+     */
     private static void consumeHttpEntity(HttpEntity entity) {
         // Ideally we should use EntityUtils.consume(), introduced in apache http utils 4.1 - not available in
         // Android yet
@@ -413,8 +408,8 @@ public class XMLRPCClient implements XMLRPCClientInterface {
 
     /**
      * The Caller class is used to make asynchronous calls to the server.
-     * For synchronous calls the Thread function of this class isn't used.*/
-
+     * For synchronous calls the Thread function of this class isn't used.
+     */
     private class Caller extends Thread {
         private XMLRPCCallback listener;
         private long threadId;
@@ -428,8 +423,8 @@ public class XMLRPCClient implements XMLRPCClientInterface {
          * @param listener The listener to notice about the response or an error.
          * @param threadId An id that will be send to the listener.
          * @param methodName The method name to call.
-         * @param params The parameters of the call or null.*/
-
+         * @param params The parameters of the call or null.
+         */
         public Caller(XMLRPCCallback listener, long threadId, String methodName, Object[] params, File tempFile) {
             this.listener = listener;
             this.threadId = threadId;
@@ -443,14 +438,14 @@ public class XMLRPCClient implements XMLRPCClientInterface {
          * If the caller has been created with this constructor you cannot use the
          * start method to start it as a thread. But you can call the call method
          * on it for synchronous use.
-
+         */
         public Caller() { }
 
-        *
+        /**
          * The run method is invoked when the thread gets started.
          * This will only work, if the Caller has been created with parameters.
-         * It execute the call method and notify the listener about the result.*/
-
+         * It execute the call method and notify the listener about the result.
+         */
         @Override
         public void run() {
             if(listener == null)
@@ -476,8 +471,8 @@ public class XMLRPCClient implements XMLRPCClientInterface {
          * @param method name of method to call
          * @param params parameters to pass to method (may be null if method has no parameters)
          * @return deserialized method return value
-         * @throws XMLRPCException*/
-
+         * @throws XMLRPCException
+         */
         private Object callXMLRPC(String method, Object[] params, File tempFile)
                 throws XMLRPCException, IOException, XmlPullParserException {
             mLoggedInputStream = null;
@@ -540,10 +535,10 @@ public class XMLRPCClient implements XMLRPCClientInterface {
                 // Detect login issues and broadcast a message if the error is known
                 switch (e.getFaultCode()) {
                     case 403:
-                        //EventBus.getDefault().post(new CoreEvents.InvalidCredentialsDetected());
+                        EventBus.getDefault().post(new CoreEvents.InvalidCredentialsDetected());
                         break;
                     case 425:
-                        //EventBus.getDefault().post(new CoreEvents.TwoFactorAuthenticationDetected());
+                        EventBus.getDefault().post(new CoreEvents.TwoFactorAuthenticationDetected());
                         break;
                     //TODO: Check the login limit here
                     default:
@@ -576,7 +571,7 @@ public class XMLRPCClient implements XMLRPCClientInterface {
                     AppLog.e(T.NUX, "SSLHandshakeException failed. Erroneous SSL certificate detected on wordpress.com");
                 } else {
                     AppLog.w(T.NUX, "SSLHandshakeException failed. Erroneous SSL certificate detected.");
-                    //EventBus.getDefault().post(new CoreEvents.InvalidSslCertificateDetected());
+                    EventBus.getDefault().post(new CoreEvents.InvalidSslCertificateDetected());
                 }
                 throw e;
             } catch (SSLPeerUnverifiedException e) {
@@ -584,7 +579,7 @@ public class XMLRPCClient implements XMLRPCClientInterface {
                     AppLog.e(T.NUX, "SSLPeerUnverifiedException failed. Erroneous SSL certificate detected on wordpress.com");
                 } else {
                     AppLog.w(T.NUX, "SSLPeerUnverifiedException failed. Erroneous SSL certificate detected.");
-                    //EventBus.getDefault().post(new CoreEvents.InvalidSslCertificateDetected());
+                    EventBus.getDefault().post(new CoreEvents.InvalidSslCertificateDetected());
                 }
                 throw e;
             } catch (IOException e) {
@@ -601,17 +596,17 @@ public class XMLRPCClient implements XMLRPCClientInterface {
         }
     }
 
-   /* *
+    /**
      * Detect login issues and broadcast a message if the error is known, App Activities should listen to these
      * broadcasted events and present user action to take
      *
-     * @return true if error is known and event broadcasted, false else*/
-
+     * @return true if error is known and event broadcasted, false else
+     */
     private boolean checkXMLRPCErrorMessage(Exception exception) {
         String errorMessage = exception.getMessage().toLowerCase();
         if ((errorMessage.contains("code: 503") || errorMessage.contains("code 503")) &&
-            (errorMessage.contains("limit reached") || errorMessage.contains("login limit"))) {
-            //EventBus.getDefault().post(new CoreEvents.LoginLimitDetected());
+                (errorMessage.contains("limit reached") || errorMessage.contains("login limit"))) {
+            EventBus.getDefault().post(new CoreEvents.LoginLimitDetected());
             return true;
         }
         return false;

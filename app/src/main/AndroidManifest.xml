@@ -65,6 +65,14 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.prefs.SettingsActivity"
+            android:theme="@style/WordPress.DrawerActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <!--<activity
             android:name=".ui.posts.PagesActivity"
             android:theme="@style/WordPress.DrawerActivity" />

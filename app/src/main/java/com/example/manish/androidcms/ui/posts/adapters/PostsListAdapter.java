@@ -27,72 +27,28 @@ public class PostsListAdapter extends BaseAdapter {
         public void onLoadMore();
     }
 
-    class PostViewWrapper {
-        View base;
-        TextView title = null;
-        TextView date = null;
-        TextView status = null;
-
-        PostViewWrapper(View base) {
-            this.base = base;
-        }
-
-        TextView getTitle() {
-            if (title == null) {
-                title = (TextView) base.findViewById(R.id.post_list_title);
-            }
-            return (title);
-        }
-
-        TextView getDate() {
-            if (date == null) {
-                date = (TextView) base.findViewById(R.id.post_list_date);
-            }
-            return (date);
-        }
-
-        TextView getStatus() {
-            if (status == null) {
-                status = (TextView) base.findViewById(R.id.post_list_status);
-            }
-            return (status);
-        }
+    public static interface OnPostsLoadedListener {
+        public void onPostsLoaded(int postCount);
     }
 
-    public void loadPosts() {
-        if (CMS.getCurrentBlog() == null) {
-            return;
-        }
+    private final OnLoadMoreListener mOnLoadMoreListener;
+    private final OnPostsLoadedListener mOnPostsLoadedListener;
+    private Context mContext;
+    private boolean mIsPage;
+    private LayoutInflater mLayoutInflater;
 
-        // load posts from db
-        new LoadPostsTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    private List<PostsListPost> mPosts = new ArrayList<PostsListPost>();
+
+    public PostsListAdapter(Context context, boolean isPage, OnLoadMoreListener onLoadMoreListener, OnPostsLoadedListener onPostsLoadedListener) {
+        mContext = context;
+        mIsPage = isPage;
+        mOnLoadMoreListener = onLoadMoreListener;
+        mOnPostsLoadedListener = onPostsLoadedListener;
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
-    public boolean postsListMatch(List<PostsListPost> newPostsList) {
-        if (newPostsList == null || newPostsList.size() == 0 || mPosts == null || mPosts.size() != newPostsList.size())
-            return false;
-
-        for (int i = 0; i < newPostsList.size(); i++) {
-            PostsListPost newPost = newPostsList.get(i);
-            PostsListPost currentPost = mPosts.get(i);
-
-            if (newPost.getPostId() != currentPost.getPostId())
-                return false;
-            if (!newPost.getTitle().equals(currentPost.getTitle()))
-                return false;
-            if (newPost.getDateCreatedGmt() != currentPost.getDateCreatedGmt())
-                return false;
-            if (!newPost.getOriginalStatus().equals(currentPost.getOriginalStatus()))
-                return false;
-            if (newPost.isUploading() != currentPost.isUploading())
-                return false;
-            if (newPost.isLocalDraft() != currentPost.isLocalDraft())
-                return false;
-            if (newPost.hasLocalChanges() != currentPost.hasLocalChanges())
-                return false;
-        }
-
-        return true;
+    public List<PostsListPost> getPosts() {
+        return mPosts;
     }
 
     public void setPosts(List<PostsListPost> postsList) {
@@ -100,31 +56,11 @@ public class PostsListAdapter extends BaseAdapter {
             this.mPosts = postsList;
     }
 
-    private class LoadPostsTask extends AsyncTask <Void, Void, Boolean> {
-        List<PostsListPost> loadedPosts;
-
-        @Override
-        protected Boolean doInBackground(Void... nada) {
-            loadedPosts = CMS.cmsDB.getPostsListPosts(CMS.getCurrentLocalTableBlogId(), mIsPage);
-            if (postsListMatch(loadedPosts)) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                setPosts(loadedPosts);
-                notifyDataSetChanged();
-
-                if (mOnPostsLoadedListener != null && mPosts != null) {
-                    mOnPostsLoadedListener.onPostsLoaded(mPosts.size());
-                }
-            }
-        }
+    @Override
+    public int getCount() {
+        return mPosts.size();
     }
+
     @Override
     public Object getItem(int position) {
         return mPosts.get(position);
@@ -213,30 +149,106 @@ public class PostsListAdapter extends BaseAdapter {
         return view;
     }
 
-    public static interface OnPostsLoadedListener {
-        public void onPostsLoaded(int postCount);
+    public void loadPosts() {
+        if (CMS.getCurrentBlog() == null) {
+            return;
+        }
+
+        // load posts from db
+        new LoadPostsTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private final OnLoadMoreListener mOnLoadMoreListener;
-    private final OnPostsLoadedListener mOnPostsLoadedListener;
-    private Context mContext;
-    private boolean mIsPage;
-    private LayoutInflater mLayoutInflater;
-
-    private List<PostsListPost> mPosts = new ArrayList<PostsListPost>();
-
-
-    public PostsListAdapter(Context context, boolean isPage, OnLoadMoreListener onLoadMoreListener, OnPostsLoadedListener onPostsLoadedListener) {
-        mContext = context;
-        mIsPage = isPage;
-        mOnLoadMoreListener = onLoadMoreListener;
-        mOnPostsLoadedListener = onPostsLoadedListener;
-        mLayoutInflater = LayoutInflater.from(mContext);
+    public void clear() {
+        if (mPosts.size() > 0) {
+            mPosts.clear();
+            notifyDataSetChanged();
+        }
     }
 
-    @Override
-    public int getCount() {
-        return mPosts.size();
+
+    class PostViewWrapper {
+        View base;
+        TextView title = null;
+        TextView date = null;
+        TextView status = null;
+
+        PostViewWrapper(View base) {
+            this.base = base;
+        }
+
+        TextView getTitle() {
+            if (title == null) {
+                title = (TextView) base.findViewById(R.id.post_list_title);
+            }
+            return (title);
+        }
+
+        TextView getDate() {
+            if (date == null) {
+                date = (TextView) base.findViewById(R.id.post_list_date);
+            }
+            return (date);
+        }
+
+        TextView getStatus() {
+            if (status == null) {
+                status = (TextView) base.findViewById(R.id.post_list_status);
+            }
+            return (status);
+        }
+    }
+
+    private class LoadPostsTask extends AsyncTask <Void, Void, Boolean> {
+        List<PostsListPost> loadedPosts;
+
+        @Override
+        protected Boolean doInBackground(Void... nada) {
+            loadedPosts = CMS.cmsDB.getPostsListPosts(CMS.getCurrentLocalTableBlogId(), mIsPage);
+            if (postsListMatch(loadedPosts)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                setPosts(loadedPosts);
+                notifyDataSetChanged();
+
+                if (mOnPostsLoadedListener != null && mPosts != null) {
+                    mOnPostsLoadedListener.onPostsLoaded(mPosts.size());
+                }
+            }
+        }
+    }
+
+    public boolean postsListMatch(List<PostsListPost> newPostsList) {
+        if (newPostsList == null || newPostsList.size() == 0 || mPosts == null || mPosts.size() != newPostsList.size())
+            return false;
+
+        for (int i = 0; i < newPostsList.size(); i++) {
+            PostsListPost newPost = newPostsList.get(i);
+            PostsListPost currentPost = mPosts.get(i);
+
+            if (newPost.getPostId() != currentPost.getPostId())
+                return false;
+            if (!newPost.getTitle().equals(currentPost.getTitle()))
+                return false;
+            if (newPost.getDateCreatedGmt() != currentPost.getDateCreatedGmt())
+                return false;
+            if (!newPost.getOriginalStatus().equals(currentPost.getOriginalStatus()))
+                return false;
+            if (newPost.isUploading() != currentPost.isUploading())
+                return false;
+            if (newPost.isLocalDraft() != currentPost.isLocalDraft())
+                return false;
+            if (newPost.hasLocalChanges() != currentPost.hasLocalChanges())
+                return false;
+        }
+
+        return true;
     }
 
     public int getRemotePostCount() {

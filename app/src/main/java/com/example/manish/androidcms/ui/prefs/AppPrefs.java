@@ -30,6 +30,16 @@ public class AppPrefs {
         MIXPANEL_EMAIL_ADDRESS,
     }
 
+    /**
+     * remove all user-related preferences
+     */
+    public static void reset() {
+        SharedPreferences.Editor editor = prefs().edit();
+        for (PrefKey key : PrefKey.values()) {
+            editor.remove(key.name());
+        }
+        editor.apply();
+    }
     private static long getLong(PrefKey key) {
         try {
             String value = getString(key);

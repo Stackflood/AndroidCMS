@@ -1,11 +1,13 @@
 package com.example.manish.androidcms;
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteException;
 import android.net.http.HttpResponseCache;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -19,11 +21,15 @@ import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.models.Post;
 import com.example.manish.androidcms.networking.OAuthAuthenticator;
 import com.example.manish.androidcms.networking.OAuthAuthenticatorFactory;
+import com.example.manish.androidcms.networking.SelfSignedSSLCertsManager;
 import com.example.manish.androidcms.ui.analytics.AnalyticsTracker;
+import com.example.manish.androidcms.ui.prefs.AppPrefs;
 import com.example.manish.androidcms.util.BitmapLruCache;
 import com.example.manish.androidcms.util.CoreEvents;
 import com.example.manish.androidcms.util.HelpshiftHelper;
 import com.example.manish.androidcms.util.VolleyUtils;
+import com.google.android.gcm.GCMRegistrar;
+
 import Rest.RestRequest;
 
 
@@ -32,10 +38,13 @@ import org.wordpress.android.util.PackageUtils;
 import org.wordpress.android.util.SqlUtils;
 import org.wordpress.android.util.ProfilingUtils;
 import org.wordpress.android.util.AppLog;
+import org.wordpress.passcodelock.AbstractAppLock;
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -55,7 +64,7 @@ public class CMS extends Application {
     public static final String IS_SIGNED_OUT_PREFERENCE="wp_pref_is_signed_out";
     public static String versionName;
     public static CMSDB cmsDB;
-
+    public static boolean postsShouldRefresh;
     public static Blog currentBlog;
     private static Context mContext;
     public static RequestQueue requestQueue;
@@ -169,6 +178,122 @@ public class CMS extends Application {
         }
 
         return currentBlog;
+    }
+    public static class SignOutAsync extends AsyncTask<Void, Void, Void> {
+        public interface SignOutCallback {
+            public void onSignOut();
+        }
+
+        ProgressDialog mProgressDialog;
+        WeakReference<Context> mWeakContext;
+        SignOutCallback mCallback;
+
+        public SignOutAsync(Context context, SignOutCallback callback) {
+            mWeakContext = new WeakReference<Context>(context);
+            mCallback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Context context = mWeakContext.get();
+            if (context != null) {
+                mProgressDialog = ProgressDialog.show(context, null, context.getText(R.string.signing_out));
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Context context = mWeakContext.get();
+            if (context != null) {
+                signOut(context);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (mProgressDialog != null) {
+                mProgressDialog.dismiss();
+            }
+            if (mCallback != null) {
+                mCallback.onSignOut();
+            }
+        }
+    }
+
+    private static void flushHttpCache() {
+        HttpResponseCache cache = HttpResponseCache.getInstalled();
+        if (cache != null) {
+            cache.flush();
+        }
+    }
+
+    public static void removeWpComUserRelatedData(Context context) {
+        // cancel all Volley requests - do this before unregistering push since that uses
+        // a Volley request
+        VolleyUtils.cancelAllRequests(requestQueue);
+
+        //NotificationsUtils.unregisterDevicePushNotifications(context);
+        try {
+            GCMRegistrar.checkDevice(context);
+            GCMRegistrar.unregister(context);
+        } catch (Exception e) {
+            AppLog.v(AppLog.T.NOTIFS, "Could not unregister for GCM: " + e.getMessage());
+        }
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.remove(CMS.WPCOM_USERNAME_PREFERENCE);
+        editor.remove(CMS.ACCESS_TOKEN_PREFERENCE);
+        editor.commit();
+
+        // reset all reader-related prefs & data
+        AppPrefs.reset();
+        //ReaderDatabase.reset();
+
+        // Reset Simperium buckets (removes local data)
+       // SimperiumUtils.resetBucketsAndDeauthorize();
+    }
+
+    /**
+
+     * Sign out from all accounts by clearing out the password, which will require user to sign in
+     * again
+     */
+    public static void signOut(Context context) {
+        removeWpComUserRelatedData(context);
+
+        try {
+            SelfSignedSSLCertsManager.getInstance(context).emptyLocalKeyStoreFile();
+        } catch (GeneralSecurityException e) {
+            AppLog.e(AppLog.T.UTILS, "Error while cleaning the Local KeyStore File", e);
+        } catch (IOException e) {
+            AppLog.e(AppLog.T.UTILS, "Error while cleaning the Local KeyStore File", e);
+        }
+
+        cmsDB.deleteAllAccounts();
+        cmsDB.updateLastBlogId(-1);
+        currentBlog = null;
+        flushHttpCache();
+
+        // General analytics resets
+        //AnalyticsTracker.endSession(false);
+        //AnalyticsTracker.clearAllData();
+
+        // disable passcode lock
+        AbstractAppLock appLock = AppLockManager.getInstance().getCurrentAppLock();
+        if (appLock != null) {
+            appLock.setPassword(null);
+        }
+
+        // send broadcast that user is signing out - this is received by WPDrawerActivity
+        // descendants
+        //EventBus.getDefault().post(new CoreEvents.UserSignedOut());
+    }
+
+    public static void signOutAsyncWithProgressBar(Context context, SignOutAsync.SignOutCallback callback) {
+        new SignOutAsync(context, callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public interface OnPostUploadedListener {
@@ -298,6 +423,23 @@ public class CMS extends Application {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * returns the blogID of the current blog or -1 if current blog is null
+     */
+    public static int getCurrentRemoteBlogId() {
+        return (getCurrentBlog() != null ? getCurrentBlog().getRemoteBlogId() : -1);
+    }
+
+    public static String getLoggedInUsername(Context context, Blog blog) {
+        if (hasDotComToken(context)) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            return settings.getString(WPCOM_USERNAME_PREFERENCE, null);
+        } else if (blog != null) {
+            return blog.getUsername();
+        }
+        return "";
     }
 
     /*

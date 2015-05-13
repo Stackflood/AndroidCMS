@@ -256,7 +256,7 @@ dependencies {
             }
         }
 
-        // Add generateCrashlyticsConfig to all generateBuildConfig tasks (all variants)
+        // Add generatgetPostListAdaptereCrashlyticsConfig to all generateBuildConfig tasks (all variants)
         android.applicationVariants.all { variant ->
             variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
         }*/

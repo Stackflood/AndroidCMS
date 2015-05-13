@@ -1,6 +1,8 @@
 package com.example.manish.androidcms.ui;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -21,10 +24,12 @@ import android.widget.TextView;
 
 import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.R;
+import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.ui.accounts.SignInActivity;
 import com.example.manish.androidcms.ui.analytics.AnalyticsTracker;
 import com.example.manish.androidcms.ui.helpers.ListScrollPositionManager;
 import com.example.manish.androidcms.ui.posts.PostsActivity;
+import com.example.manish.androidcms.ui.prefs.SettingsActivity;
 import com.example.manish.androidcms.ui.stats.StatsActivity;
 import com.example.manish.androidcms.util.CMSActivityUtils;
 
@@ -63,8 +68,111 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private DrawerAdapter mDrawerAdapter;
+    private static final int OPENED_FROM_DRAWER_DELAY = 250;
     private boolean mShouldFinish;
     private ListScrollPositionManager mScrollPositionManager;
+
+    @Override
+    @SuppressLint("NewApi")
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        boolean menuDrawerDisabled = false;
+
+        if(getIntent() != null)
+        {
+            menuDrawerDisabled = getIntent().getBooleanExtra(StatsActivity.ARG_NO_MENU_DRAWER, false);
+        }
+        if (isStaticMenuDrawer() && !menuDrawerDisabled) {
+            setContentView(R.layout.activity_drawer_static);
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary_dark));
+            }*/
+        }
+        else {
+            setContentView(R.layout.activity_drawer);
+        }
+
+        setSupportActionBar(getToolbar());
+    }
+
+    /*
+     * fade out the view containing the current drawer activity
+     */
+    private void hideActivityView() {
+        // activity_container is the parent view which contains the toolbar (first child) and
+        // the activity itself (second child)
+        ViewGroup container = (ViewGroup) findViewById(R.id.activity_container);
+        if (container == null || container.getChildCount() < 2) {
+            return;
+        }
+        final View activityView = container.getChildAt(1);
+        if (activityView == null || activityView.getVisibility() != View.VISIBLE) {
+            return;
+        }
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(activityView, View.ALPHA, 1.0f, 0.0f);
+        fadeOut.setDuration(OPENED_FROM_DRAWER_DELAY);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.start();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        //EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (isAnimatingRefreshButton) {
+            isAnimatingRefreshButton = false;
+        }
+        if (mShouldFinish) {
+            overridePendingTransition(0, 0);
+            finish();
+        }
+        if (mScrollPositionManager != null) {
+            mScrollPositionManager.saveToPreferences(this, SCROLL_POSITION_ID);
+        }
+    }
+
+
+    /* onStart()	Called when the activity is becoming visible to the user.
+     Followed by onResume() if the activity comes to the foreground, or onStop() if it becomes hidden.
+                                                                                                       No	onResume() or onStop()
+     onResume()	Called when the activity will start interacting with the user. At this point your activity is at the top of the activity stack, with user input going to it.
+     Always followed by onPause().*/
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshMenuDrawer();
+        if (mDrawerToggle != null) {
+            // Sync the toggle state after onRestoreInstanceState has occurred.
+            mDrawerToggle.syncState();
+        }
+        if (mScrollPositionManager != null) {
+            mScrollPositionManager.restoreFromPreferences(this, SCROLL_POSITION_ID);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    protected boolean isActivityDestroyed() {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isDestroyed());
+    }
+
+    void refreshMenuDrawer() {
+        if (mDrawerAdapter == null) return;
+        // the current blog may have changed while we were away
+        setupCurrentBlog();
+    }
 
     protected void createMenuDrawer(int contentViewId)
     {
@@ -73,8 +181,12 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         initMenuDrawer();
     }
 
-    protected ActionBarDrawerToggle getDrawerToggle() {
-        return mDrawerToggle;
+    protected Toolbar getToolbar() {
+        if (mToolbar == null) {
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        }
+
+        return mToolbar;
     }
 
     /**ActionBarOverlayLayout
@@ -125,12 +237,12 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         mScrollPositionManager = new ListScrollPositionManager(mDrawerListView, false);
         View settingsRow = findViewById(R.id.settings_row);
 
-        /*settingsRow.setOnClickListener(new View.OnClickListener() {
+        settingsRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSettings();
             }
-        });*/
+        });
 
         mDrawerAdapter = new DrawerAdapter(this);
         mDrawerListView.setAdapter(mDrawerAdapter);
@@ -143,12 +255,14 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         });
 
 
-       // initBlogSpinner();
+        // initBlogSpinner();
         updateMenuDrawer();
 
         setToolbarClickListener();
 
     }
+
+
 
     protected void setToolbarClickListener() {
         // Set navigation listener, which ensures menu button works on all devices (#2157)
@@ -175,6 +289,11 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         });
     }
 
+    void closeDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
 
     private void openDrawer() {
         if (mDrawerLayout != null) {
@@ -182,6 +301,12 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         }
     }
 
+    protected void hideDrawer() {
+        View drawer = findViewById(R.id.left_drawer);
+        if (drawer != null) {
+            drawer.setVisibility(View.GONE);
+        }
+    }
 
 
     private void toggleDrawer() {
@@ -194,6 +319,21 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         }
     }
 
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return mDrawerToggle;
+    }
+
+
+
+    private void showSettings() {
+        startActivityForResult(new Intent(this, SettingsActivity.class), SETTINGS_REQUEST);
+    }
+
+
+
+
+
+
     /**
      * Update all of the items in the menu drawer based on the current active blog.
      */
@@ -201,11 +341,7 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         mDrawerAdapter.refresh();
     }
 
-    void closeDrawer() {
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
-    }
+
     /**
      * called when user selects an item from the drawer
      */
@@ -279,84 +415,24 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
         }
     }
 
+
+
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     * If the activity has a menu drawer attached that is opened or in the
+     * process of opening, the back button press closes it. Otherwise, the
+     * normal back action is taken.
+     */
     @Override
-    @SuppressLint("NewApi")
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        boolean menuDrawerDisabled = false;
-
-        if(getIntent() != null)
-        {
-            menuDrawerDisabled = getIntent().getBooleanExtra(StatsActivity.ARG_NO_MENU_DRAWER, false);
-        }
-        if (isStaticMenuDrawer() && !menuDrawerDisabled) {
-            setContentView(R.layout.activity_drawer_static);
-           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary_dark));
-            }*/
-        }
-        else {
-            setContentView(R.layout.activity_drawer);
-        }
-
-        setSupportActionBar(getToolbar());
-    }
-
-    protected Toolbar getToolbar() {
-        if (mToolbar == null) {
-            mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        }
-
-        return mToolbar;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        //EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        //EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (isAnimatingRefreshButton) {
-            isAnimatingRefreshButton = false;
-        }
-        if (mShouldFinish) {
-            overridePendingTransition(0, 0);
-            finish();
-        }
-        if (mScrollPositionManager != null) {
-            mScrollPositionManager.saveToPreferences(this, SCROLL_POSITION_ID);
+    public void onBackPressed() {
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 
 
-   /* onStart()	Called when the activity is becoming visible to the user.
-    Followed by onResume() if the activity comes to the foreground, or onStop() if it becomes hidden.
-                                                                                                      No	onResume() or onStop()
-    onResume()	Called when the activity will start interacting with the user. At this point your activity is at the top of the activity stack, with user input going to it.
-    Always followed by onPause().*/
-    @Override
-    protected void onResume() {
-        super.onResume();
-        refreshMenuDrawer();
-        if (mDrawerToggle != null) {
-            // Sync the toggle state after onRestoreInstanceState has occurred.
-            mDrawerToggle.syncState();
-        }
-        if (mScrollPositionManager != null) {
-            mScrollPositionManager.restoreFromPreferences(this, SCROLL_POSITION_ID);
-        }
-    }
 
     /**
      * Setup the global state tracking which blog is currently active if the user is signed in.
@@ -504,11 +580,7 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
                 break;
         }
     }
-    void refreshMenuDrawer() {
-        if (mDrawerAdapter == null) return;
-        // the current blog may have changed while we were away
-        setupCurrentBlog();
-    }
+
 
     public boolean isStaticMenuDrawer() {
         return DisplayUtils.isLandscape(this)

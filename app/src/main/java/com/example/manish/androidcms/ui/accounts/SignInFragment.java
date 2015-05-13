@@ -381,7 +381,7 @@ public class SignInFragment extends AbstractFragment implements TextWatcher {
                 }
 
                 // refresh first blog
-                //refreshFirstBlogContent();
+                refreshFirstBlogContent();
             }
 
             //trackAnalyticsSignIn();
