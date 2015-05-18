@@ -40,7 +40,8 @@ import xmlrpc.android.ApiHelper;
  * Created by Manish on 4/1/2015.
  */
 public class PostsListFragment extends ListFragment
-        implements CMS.OnPostUploadedListener
+        implements CMS.OnPostUploadedListener,
+        EmptyViewAnimationHandler.OnAnimationProgressListener
 
 {
 
@@ -59,10 +60,34 @@ public class PostsListFragment extends ListFragment
     private TextView mEmptyViewTitle;
     private boolean mSwipedToRefresh;
     public static final int POSTS_REQUEST_COUNT = 20;
+
     //private EmptyViewAnimationHandler mEmptyViewAnimationHandler;
     private View mEmptyViewImage;
 
     private ApiHelper.FetchPostsTask mCurrentFetchPostsTask;
+
+    @Override
+    public void onSequenceStarted(EmptyViewMessageType emptyViewMessageType) {
+        mEmptyViewMessage = emptyViewMessageType;
+    }
+
+    @Override
+    public void onNewTextFadingIn() {
+        switch (mEmptyViewMessage) {
+            case LOADING:
+                mEmptyViewTitle.setText(mIsPage ? R.string.pages_fetching :
+                        R.string.posts_fetching);
+                break;
+            case NO_CONTENT:
+                mEmptyViewTitle.setText(mIsPage ? R.string.pages_empty_list :
+                        R.string.posts_empty_list);
+                mSwipeToRefreshHelper.setRefreshing(false);
+                mKeepSwipeRefreshLayoutVisible = false;
+                break;
+            default:
+                break;
+        }
+    }
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -258,8 +283,9 @@ public class PostsListFragment extends ListFragment
             }
         });*/
 
-        /*mEmptyViewAnimationHandler = new EmptyViewAnimationHandler(mEmptyViewTitle, mEmptyViewImage, this);
-*/
+        mEmptyViewAnimationHandler = new EmptyViewAnimationHandler
+                (mEmptyViewTitle, mEmptyViewImage, this);
+
 
         if (NetworkUtils.isNetworkAvailable(getActivity())) {
             ((PostsActivity) getActivity()).requestPosts();
@@ -389,12 +415,13 @@ public class PostsListFragment extends ListFragment
                 if (!isAdded())
                     return;
 
-                /*if (mEmptyViewAnimationHandler.isShowingLoadingAnimation() || mEmptyViewAnimationHandler.isBetweenSequences()) {
+                if (mEmptyViewAnimationHandler.isShowingLoadingAnimation() ||
+                        mEmptyViewAnimationHandler.isBetweenSequences()) {
                     // Keep the SwipeRefreshLayout animation visible until the EmptyViewAnimationHandler dismisses it
                     mKeepSwipeRefreshLayoutVisible = true;
                 } else {
                     mSwipeToRefreshHelper.setRefreshing(false);
-                }*/
+                }
 
                 if (mProgressFooterView != null) {
                     mProgressFooterView.setVisibility(View.GONE);

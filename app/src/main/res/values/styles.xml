@@ -26,7 +26,13 @@
         <!--<item name="swipeToRefreshStyle">@style/WordPress.SwipeToRefresh</item>-->
     </style>
 
-
+    <style name="WordPressSubHeader">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:textColor">#AAAAAA</item>
+        <item name="android:layout_marginBottom">-4dp</item>
+    </style>
 
     <style name="WordPress.EmptyList">
         <item name="android:textColor">@color/grey_darken_30</item>

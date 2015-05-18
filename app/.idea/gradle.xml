@@ -8,11 +8,10 @@
         <option name="gradleHome" value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/.." />
-            <option value="$PROJECT_DIR$/../PersistentEditText" />
-            <option value="$PROJECT_DIR$/../WordPressUtils" />
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/../library-1.0.10" />
+            <option value="$PROJECT_DIR$/PersistentEditText" />
+            <option value="$PROJECT_DIR$/WordPressUtils" />
+            <option value="$PROJECT_DIR$/editor" />
           </set>
         </option>
       </GradleProjectSettings>

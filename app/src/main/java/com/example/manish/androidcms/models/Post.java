@@ -66,6 +66,10 @@ public class Post implements Serializable {
         this.localDraft = true;
     }
 
+    public boolean hasLocation() {
+        return mPostLocation != null && mPostLocation.isValid();
+    }
+
     public long getLocalTablePostId() {
         return localTablePostId;
     }
@@ -244,6 +248,26 @@ public class Post implements Serializable {
    /* public PostStatus getStatusEnum() {
         return PostStatus.fromPost(this);
     }*/
+
+    /**
+     * Checks if this post currently has data differing from another post.
+     *
+     * @param otherPost The post to compare to this post's editable data.
+     * @return True if this post's data differs from otherPost's data, False otherwise.
+     */
+    public boolean hasChanges(Post otherPost) {
+        return otherPost == null || !(StringUtils.equals(title, otherPost.title) &&
+                StringUtils.equals(description, otherPost.description) &&
+                StringUtils.equals(excerpt, otherPost.excerpt) &&
+                StringUtils.equals(keywords, otherPost.keywords) &&
+                StringUtils.equals(categories, otherPost.categories) &&
+                StringUtils.equals(status, otherPost.status) &&
+                StringUtils.equals(password, otherPost.password) &&
+                StringUtils.equals(postFormat, otherPost.postFormat) &&
+                this.dateCreatedGmt == otherPost.dateCreatedGmt &&
+                PostLocation.equals(this.mPostLocation, otherPost.mPostLocation)
+        );
+    }
 
     public String getRemotePostId() {
         return StringUtils.notNullStr(remotePostId);

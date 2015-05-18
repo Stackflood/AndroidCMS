@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidCMS.iml" filepath="$PROJECT_DIR$/AndroidCMS.iml" />
       <module fileurl="file://$PROJECT_DIR$/PersistentEditText/PersistentEditText.iml" filepath="$PROJECT_DIR$/PersistentEditText/PersistentEditText.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WordPressEditor/WordPressEditor.iml" filepath="$PROJECT_DIR$/WordPressEditor/WordPressEditor.iml" />
       <module fileurl="file://$PROJECT_DIR$/WordPressUtils/WordPressUtils.iml" filepath="$PROJECT_DIR$/WordPressUtils/WordPressUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-1.0.10/library-1.0.10.iml" filepath="$PROJECT_DIR$/library-1.0.10/library-1.0.10.iml" />

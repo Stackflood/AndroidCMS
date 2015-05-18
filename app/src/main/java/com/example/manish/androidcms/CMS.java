@@ -133,6 +133,7 @@ public class CMS extends Application {
         return currentBlog;
     }
 
+
     /**
      * Set the last active blog as the current blog.
      *

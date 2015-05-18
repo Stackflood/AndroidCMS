@@ -134,9 +134,12 @@ public class ViewPostFragment extends Fragment {
                             CMS.currentPost);
                     Intent i = new Intent(getActivity().getApplicationContext(),
                             EditPostActivity.class);
-                    i.putExtra(EditPostActivity.EXTRA_IS_PAGE,CMS.currentPost.isPage());
-                    i.putExtra(EditPostActivity.EXTRA_POSTID, CMS.currentPost.getLocalTablePostId());
-                    getActivity().startActivityForResult(i,PostsActivity.ACTIVITY_EDIT_POST);
+                    i.putExtra(EditPostActivity.EXTRA_IS_PAGE,
+                            CMS.currentPost.isPage());
+                    i.putExtra(EditPostActivity.EXTRA_POSTID,
+                            CMS.currentPost.getLocalTablePostId());
+                    getActivity().startActivityForResult(i,
+                            PostsActivity.ACTIVITY_EDIT_POST);
                 }
             }
         });

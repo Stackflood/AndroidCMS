@@ -13,6 +13,7 @@ import com.example.manish.androidcms.datasets.CommentTable;
 import com.example.manish.androidcms.datasets.SuggestionTable;
 import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.models.Post;
+import com.example.manish.androidcms.models.PostLocation;
 import com.example.manish.androidcms.models.PostsListPost;
 import com.example.manish.androidcms.networking.OAuthAuthenticator;
 
@@ -24,6 +25,7 @@ import org.wordpress.android.util.SqlUtils;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.wordpress.android.util.StringUtils;
+import org.wordpress.android.util.helpers.MediaFile;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +59,7 @@ public class CMSDB {
             + "url text, blogName text, username text, password text, imagePlacement text, centerThumbnail boolean, fullSizeImage boolean, maxImageWidth text, maxImageWidthId integer);";
 
     public static final String SETTINGS_TABLE = "accounts";
-
+    private static final String MEDIA_TABLE = "media";
     private static final String CREATE_TABLE_POSTS = "create table if not exists posts (id integer primary key autoincrement, blogID text, "
             + "postid text, title text default '', dateCreated date, date_created_gmt date, categories text default '', custom_fields text default '', "
             + "description text default '', link text default '', mt_allow_comments boolean, mt_allow_pings boolean, "
@@ -314,6 +316,144 @@ public class CMSDB {
         }
 
         return false;
+    }
+
+    /** For a given blogId, get all the media files **/
+    public Cursor getMediaFilesForBlog(String blogId) {
+        return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND "
+                + "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[] { blogId, "uploading" });
+    }
+
+    public MediaFile getMediaFile(String src, Post post) {
+        Cursor c = db.query(MEDIA_TABLE, null, "postID=? AND filePath=?",
+                new String[]{String.valueOf(post.getLocalTablePostId()), src}, null, null, null);
+
+        try {
+            if (c.moveToFirst()) {
+                MediaFile mf = new MediaFile();
+                mf.setId(c.getInt(0));
+                mf.setPostID(c.getInt(1));
+                mf.setFilePath(c.getString(2));
+                mf.setFileName(c.getString(3));
+                mf.setTitle(c.getString(4));
+                mf.setDescription(c.getString(5));
+                mf.setCaption(c.getString(6));
+                mf.setHorizontalAlignment(c.getInt(7));
+                mf.setWidth(c.getInt(8));
+                mf.setHeight(c.getInt(9));
+                mf.setMimeType(c.getString(10));
+                mf.setFeatured(c.getInt(11) > 0);
+                mf.setVideo(c.getInt(12) > 0);
+                mf.setFeaturedInPost(c.getInt(13) > 0);
+                mf.setFileURL(c.getString(14));
+                mf.setThumbnailURL(c.getString(15));
+                mf.setMediaId(c.getString(16));
+                mf.setBlogId(c.getString(17));
+                mf.setDateCreatedGMT(c.getLong(18));
+                mf.setUploadState(c.getString(19));
+                mf.setVideoPressShortCode(c.getString(20));
+
+                return mf;
+            } else {
+                return null;
+            }
+        } finally {
+            c.close();
+        }
+    }
+
+    public boolean deletePost(Post post) {
+        int result = db.delete(POSTS_TABLE,
+                "blogID=? AND id=?",
+                new String[]{String.valueOf(post.getLocalTableBlogId()), String.valueOf(post.getLocalTablePostId())});
+
+        return (result == 1);
+    }
+
+    public long savePost(Post post) {
+        long result = -1;
+        if (post != null) {
+            ContentValues values = new ContentValues();
+            values.put("blogID", post.getLocalTableBlogId());
+            values.put("title", post.getTitle());
+            values.put("date_created_gmt", post.getDate_created_gmt());
+            values.put("description", post.getDescription());
+            values.put("mt_text_more", post.getMoreText());
+
+            JSONArray categoriesJsonArray = post.getJSONCategories();
+            if (categoriesJsonArray != null) {
+                values.put("categories", categoriesJsonArray.toString());
+            }
+
+            values.put("localDraft", post.isLocalDraft());
+            values.put("mt_keywords", post.getKeywords());
+            values.put("wp_password", post.getPassword());
+            values.put("post_status", post.getPostStatus());
+            values.put("isUploading", post.isUploading());
+            values.put("uploaded", post.isUploaded());
+            values.put("isPage", post.isPage());
+            values.put("wp_post_format", post.getPostFormat());
+            putPostLocation(post, values);
+            values.put("isLocalChange", post.isLocalChange());
+            values.put("mt_excerpt", post.getPostExcerpt());
+
+            result = db.insert(POSTS_TABLE, null, values);
+
+            if (result >= 0 && post.isLocalDraft() && !post.isUploaded()) {
+                post.setLocalTablePostId(result);
+            }
+        }
+
+        return (result);
+    }
+
+    public int updatePost(Post post) {
+        int result = 0;
+        if (post != null) {
+            ContentValues values = new ContentValues();
+            values.put("title", post.getTitle());
+            values.put("date_created_gmt", post.getDate_created_gmt());
+            values.put("description", post.getDescription());
+            values.put("mt_text_more", post.getMoreText());
+            values.put("isUploading", post.isUploading());
+            values.put("uploaded", post.isUploaded());
+
+            JSONArray categoriesJsonArray = post.getJSONCategories();
+            if (categoriesJsonArray != null) {
+                values.put("categories", categoriesJsonArray.toString());
+            }
+
+            values.put("localDraft", post.isLocalDraft());
+            values.put("mediaPaths", post.getMediaPaths());
+            values.put("mt_keywords", post.getKeywords());
+            values.put("wp_password", post.getPassword());
+            values.put("post_status", post.getPostStatus());
+            values.put("isPage", post.isPage());
+            values.put("wp_post_format", post.getPostFormat());
+            values.put("isLocalChange", post.isLocalChange());
+            values.put("mt_excerpt", post.getPostExcerpt());
+            putPostLocation(post, values);
+
+            result = db.update(POSTS_TABLE, values, "blogID=? AND id=? AND isPage=?",
+                    new String[]{
+                            String.valueOf(post.getLocalTableBlogId()),
+                            String.valueOf(post.getLocalTablePostId()),
+                            String.valueOf(SqlUtils.boolToSql(post.isPage()))
+                    });
+        }
+
+        return (result);
+    }
+
+    private void putPostLocation(Post post, ContentValues values) {
+        if (post.hasLocation()) {
+            PostLocation location = post.getLocation();
+            values.put("latitude", location.getLatitude());
+            values.put("longitude", location.getLongitude());
+        } else {
+            values.putNull("latitude");
+            values.putNull("longitude");
+        }
     }
 
     public void deleteUploadedPosts(int blogID, boolean isPage) {

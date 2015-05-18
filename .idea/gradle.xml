@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/PersistentEditText" />
+            <option value="$PROJECT_DIR$/WordPressEditor" />
             <option value="$PROJECT_DIR$/WordPressUtils" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/library-1.0.10" />

@@ -211,57 +211,60 @@ dependencies {
     // Simperium
     /*compile 'com.simperium.android:simperium:0.6.2'
 
-            releaseCompile project(path:':libs:utils:WordPressUtils', configuration: 'release')
-            debugCompile project(path:':libs:utils:WordPressUtils', configuration: 'debug')
-            releaseCompile project(path:':libs:networking:WordPressNetworking', configuration: 'release')
-            debugCompile project(path:':libs:networking:WordPressNetworking', configuration: 'debug')
-            releaseCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'release')
-            debugCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'debug')
-            releaseCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'release')
-            debugCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'debug')
-            releaseCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'release')
-            debugCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'debug')
-            releaseCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'release')
-            debugCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'debug')
-            releaseCompile project(path:':libs:editor:WordPressEditor', configuration: 'release')
-            debugCompile project(path:':libs:editor:WordPressEditor', configuration: 'debug')
-        }
-
-        configurations.all {
-            // Exclude packaged wordpress sub projects, force the use of the source project
-            // (eg. use :libs:utils:WordPressUtils instead of 'org.wordpress:utils')
-            exclude group: 'org.wordpress', module: 'utils'
-            exclude group: 'org.wordpress', module: 'analytics'
-        }
-
-        task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
-            def outputFile = new File("${rootDir}/WordPress/crashlytics.properties")
-            def inputFile = file("${rootDir}/WordPress/gradle.properties")
-            if (!inputFile.exists()) {
-                throw new StopActionException("Build configuration file:" + inputFile
-                        + " doesn't exist, follow README instructions")
-            }
-            outputs.file outputFile
-            inputs.file inputFile
-            doLast {
-                def properties = new Properties()
-                inputFile.withInputStream { stream ->
-                    properties.load(stream)
+                    releaseCompile project(path:':libs:utils:WordPressUtils', configuration: 'release')
+                    debugCompile project(path:':libs:utils:WordPressUtils', configuration: 'debug')
+                    releaseCompile project(path:':libs:networking:WordPressNetworking', configuration: 'release')
+                    debugCompile project(path:':libs:networking:WordPressNetworking', configuration: 'debug')
+                    releaseCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'release')
+                    debugCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'debug')
+                    releaseCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'release')
+                    debugCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'debug')
+                    releaseCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'release')
+                    debugCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'debug')
+                    releaseCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'release')
+                    debugCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'debug')
+                    releaseCompile project(path:':libs:editor:WordPressEditor', configuration: 'release')
+                    debugCompile project(path:':libs:editor:WordPressEditor', configuration: 'debug')
                 }
-                def crashlyticsApiKey = properties.getProperty('crashlytics.apikey', '0')
-                def writer = new FileWriter(outputFile)
-                writer.write("""// auto-generated file from ${rootDir}/gradle.properties do not modify
-        apiKey=${crashlyticsApiKey}""")
-                writer.close()
-            }
-        }
 
-        // Add generatgetPostListAdaptereCrashlyticsConfig to all generateBuildConfig tasks (all variants)
-        android.applicationVariants.all { variant ->
-            variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
-        }*/
+                configurations.all {
+                    // Exclude packaged wordpress sub projects, force the use of the source project
+                    // (eg. use :libs:utils:WordPressUtils instead of 'org.wordpress:utils')
+                    exclude group: 'org.wordpress', module: 'utils'
+                    exclude group: 'org.wordpress', module: 'analytics'
+                }
+
+                task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
+                    def outputFile = new File("${rootDir}/WordPress/crashlytics.properties")
+                    def inputFile = file("${rootDir}/WordPress/gradle.properties")
+                    if (!inputFile.exists()) {
+                        throw new StopActionException("Build configuration file:" + inputFile
+                                + " doesn't exist, follow README instructions")
+                    }
+                    outputs.file outputFile
+                    inputs.file inputFile
+                    doLast {
+                        def properties = new Properties()
+                        inputFile.withInputStream { stream ->
+                            properties.load(stream)
+                        }
+                        def crashlyticsApiKey = properties.getProperty('crashlytics.apikey', '0')
+                        def writer = new FileWriter(outputFile)
+                        writer.write("""// auto-generated file from ${rootDir}/gradle.properties do not modify
+                apiKey=${crashlyticsApiKey}""")
+                        writer.close()
+                    }
+                }
+
+                // Add generatgetPostListAdaptereCrashlyticsConfig to all generateBuildConfig tasks (all variants)
+                android.applicationVariants.all { variant ->
+                    variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
+                }*/
+    //compile project(':PersistentEditText')
+    //compile project(':WordPressUtils')
     compile project(':PersistentEditText')
     compile project(':WordPressUtils')
+    compile project(':WordPressEditor')
 }
 // Add properties named "wp.xxx" to our BuildConfig
 android.buildTypes.all { buildType ->

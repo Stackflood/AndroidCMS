@@ -35,7 +35,7 @@
             android:label="@string/create_a_link"
             android:theme="@style/WordPress.Dialog"
             android:windowSoftInputMode="stateVisible" />-->
-        <!--<activity
+        <activity
             android:name=".ui.posts.EditPostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden|adjustResize"
@@ -46,7 +46,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </activity>-->
+        </activity>
         <activity
             android:name=".ui.accounts.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

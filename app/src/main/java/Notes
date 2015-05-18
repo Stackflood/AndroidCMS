@@ -16,3 +16,14 @@ getPostListAdapter() {
             PostsListAdapter.OnPostsLoadedListener postsLoadedListener = new PostsListAdapter.OnPostsLoadedListener() {
                 @Override
                 public void onPostsLoaded
+
+
+ pushing commits on git
+
+--> git status
+
+--> git add .
+
+--> git commit -m "Comments"
+
+--> git push origin master
