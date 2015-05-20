@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -26,6 +27,8 @@ import org.wordpress.android.util.ToastUtils;
 import org.wordpress.passcodelock.AppLockManager;
 
 import com.example.manish.androidcms.widgets.CMSAlertDialogFragment;
+
+import xmlrpc.android.ApiHelper;
 
 /**
  * Created by Manish on 4/1/2015.
@@ -92,6 +95,26 @@ public class PostsActivity extends CMSDrawerActivity
 
        attemptToSelectPost();
 
+    }
+
+
+    public class refreshCommentsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            Object[] commentParams = { CMS.currentBlog.getRemoteBlogId(),
+                    CMS.currentBlog.getUsername(),
+                    CMS.currentBlog.getPassword() };
+
+            try {
+                ApiHelper.refreshComments(CMS.currentBlog, commentParams);
+            } catch (final Exception e) {
+                mErrorMsg = getResources().getText(R.string.error_generic).toString();
+            }
+            return null;
+        }
+    }
+    protected void refreshComments() {
+        new refreshCommentsTask().execute();
     }
 
     private void showPostUploadErrorAlert(String errorMessage, String infoTitle,

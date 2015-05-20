@@ -429,7 +429,7 @@ public class ApiHelper {
         }
 
         int localBlogId = blog.getLocalTableBlogId();
-        //CommentTable.saveComments(localBlogId, comments);
+        CommentTable.saveComments(localBlogId, comments);
 
         return comments;
     }

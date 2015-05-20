@@ -24,11 +24,13 @@ import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.models.Post;
 import com.example.manish.androidcms.models.PostStatus;
 import com.example.manish.androidcms.ui.WPWebViewActivity;
+import com.example.manish.androidcms.ui.comments.CommentActions;
 import com.example.manish.androidcms.widgets.SuggestionAutoCompleteText;
 
 import org.wordpress.android.util.EditTextUtils;
 import org.wordpress.android.util.NetworkUtils;
 import org.wordpress.android.util.StringUtils;
+import org.wordpress.android.util.ToastUtils;
 
 import de.greenrobot.event.EventBus;
 
@@ -196,8 +198,6 @@ public class ViewPostFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    boolean mIsCommentBoxShowing = false;
-    boolean mIsSubmittingComment = false;
 
     private void showCommentBox() {
         // skip if it's already showing or a comment is being submitted
@@ -246,6 +246,9 @@ public class ViewPostFragment extends Fragment {
         mIsCommentBoxShowing = false;
     }
 
+    boolean mIsCommentBoxShowing = false;
+    boolean mIsSubmittingComment = false;
+
     private void toggleCommentBox() {
         if (mIsCommentBoxShowing) {
             hideCommentBox();
@@ -269,7 +272,8 @@ public class ViewPostFragment extends Fragment {
         final ImageView imgPostComment = (ImageView) mLayoutCommentBox.findViewById(R.id.image_post_comment);
         final ProgressBar progress = (ProgressBar) mLayoutCommentBox.findViewById(R.id.progress_submit_comment);
 
-        // disable editor & comment button, hide soft keyboard, hide submit icon, and show progress spinner while submitting
+        // disable editor & comment button, hide soft keyboard,
+        // hide submit icon, and show progress spinner while submitting
         mEditComment.setEnabled(false);
         mAddCommentButton.setEnabled(false);
         EditTextUtils.hideSoftInput(mEditComment);
@@ -277,6 +281,37 @@ public class ViewPostFragment extends Fragment {
         progress.setVisibility(View.VISIBLE);
 
         ///Leave it for now -- check later
+
+        CommentActions.CommentActionListener actionListener = new CommentActions.CommentActionListener()
+        {
+            public void onActionResult(boolean succeeded)
+            {
+                mIsSubmittingComment = false;
+                if (!isAdded())
+                    return;
+
+                mParentActivity.attemptToSelectPost();
+
+                mEditComment.setEnabled(true);
+                mAddCommentButton.setEnabled(true);
+                imgPostComment.setVisibility(View.VISIBLE);
+                progress.setVisibility(View.GONE);
+
+                if (succeeded) {
+                    ToastUtils.showToast(getActivity(), R.string.comment_added);
+                    hideCommentBox();
+                    mEditComment.setText(null);
+                    mParentActivity.refreshComments();
+                } else {
+                    ToastUtils.showToast(getActivity(), R.string.reader_toast_err_comment_failed, ToastUtils.Duration.LONG);
+                }
+            }
+        };
+
+        int accountId = CMS.getCurrentLocalTableBlogId();
+        CommentActions.addComment(accountId,
+                CMS.currentPost.getRemotePostId(),
+                commentText, actionListener);
     }
 
 
