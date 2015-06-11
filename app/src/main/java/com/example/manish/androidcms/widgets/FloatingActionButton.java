@@ -49,7 +49,8 @@ public class FloatingActionButton extends ImageButton {
         int fabColorPressed = darken(fabColor);
 
         StateListDrawable background = new StateListDrawable();
-        background.addState(new int[]{android.R.attr.state_pressed}, createOval(fabColorPressed));
+        background.addState(new int[]{android.R.attr.state_pressed},
+                createOval(fabColorPressed));
         background.addState(new int[]{}, createOval(fabColor));
         setBackgroundCompat(background);
     }
@@ -90,7 +91,9 @@ public class FloatingActionButton extends ImageButton {
         if (mIsLollipop) {
             int rippleColor = getContext().getResources().getColor(R.color.fab_color);
             RippleDrawable rippleDrawable = new RippleDrawable(
-                    new ColorStateList(new int[][]{{}}, new int[]{rippleColor}), drawable, null);
+                    new ColorStateList(new int[][]{{}},
+                            new int[]{rippleColor}),
+                            drawable, null);
             setBackground(rippleDrawable);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(drawable);

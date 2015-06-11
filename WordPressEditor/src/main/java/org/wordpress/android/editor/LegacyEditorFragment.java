@@ -66,7 +66,8 @@ import org.wordpress.android.util.helpers.WPImageSpan;
 import org.wordpress.android.util.helpers.WPUnderlineSpan;
 import org.wordpress.android.util.widgets.WPEditText;
 
-public class LegacyEditorFragment extends EditorFragmentAbstract implements TextWatcher,
+public class LegacyEditorFragment extends EditorFragmentAbstract implements
+        TextWatcher,
         WPEditText.OnSelectionChangedListener, View.OnTouchListener {
     public static final int ACTIVITY_REQUEST_CODE_CREATE_LINK = 4;
     public static final String ACTION_MEDIA_GALLERY_TOUCHED = "MEDIA_GALLERY_TOUCHED";

@@ -3,8 +3,12 @@ package com.example.manish.androidcms.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -12,14 +16,19 @@ import android.widget.Toast;
 import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.models.Blog;
+import com.example.manish.androidcms.util.WPWebViewClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.wordpress.android.util.AppLog;
+import org.wordpress.android.util.StringUtils;
 import org.wordpress.android.util.UrlUtils;
 import org.wordpress.android.util.helpers.WPWebChromeClient;
+import org.wordpress.passcodelock.AppLockManager;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -129,7 +138,7 @@ public class WPWebViewActivity extends WebViewActivity {
                 AppLog.e(AppLog.T.UTILS, "No valid parameters passed to WPWebViewActivity!!");
                 finish();
             }
-           // mWebView.setWebViewClient(new WPWebViewClient(this, blog));
+            mWebView.setWebViewClient(new WPWebViewClient(this, blog));
         } else {
             mWebView.setWebViewClient(new WebViewClient());
         }
@@ -150,8 +159,12 @@ public class WPWebViewActivity extends WebViewActivity {
             finish();
         }
 
-        if (TextUtils.isEmpty(authURL) && TextUtils.isEmpty(username) && TextUtils.isEmpty(password)) {
-            // Only the URL to load is passed to this activity. Use a the normal loader not authenticated.
+        if (TextUtils.isEmpty(authURL)
+                && TextUtils.isEmpty(username)
+                && TextUtils.isEmpty(password))
+        {
+            // Only the URL to load is passed to this activity.
+            // Use a the normal loader not authenticated.
             loadUrl(addressToLoad);
         } else {
             if (TextUtils.isEmpty(authURL) || !UrlUtils.isValidUrlAndHostNotNull(authURL)) {
@@ -167,8 +180,90 @@ public class WPWebViewActivity extends WebViewActivity {
                 finish();
             }
 
-            //this.loadAuthenticatedUrl(authURL, addressToLoad, username, password);
+           this.loadAuthenticatedUrl(authURL, addressToLoad, username, password);
         }
+    }
+
+    /**
+     * Login to the WordPress.com and load the specified URL.
+     *
+     */
+    protected void loadAuthenticatedUrl(String authenticationURL, String urlToLoad, String username, String password) {
+        String postData = getAuthenticationPostData(authenticationURL, urlToLoad, username, password,
+                CMS.getDotComToken(this));
+
+        mWebView.postUrl(authenticationURL, postData.getBytes());
+    }
+
+    public static String getAuthenticationPostData(String authenticationUrl,
+                                                   String urlToLoad,
+                                                   String username,
+                                                   String password,
+                                                   String token) {
+        if (TextUtils.isEmpty(authenticationUrl)) return "";
+
+        try {
+            String postData = String.format("log=%s&pwd=%s&redirect_to=%s",
+                    URLEncoder.encode(StringUtils.notNullStr(username), ENCODING_UTF8),
+                    URLEncoder.encode(StringUtils.notNullStr(password), ENCODING_UTF8),
+                    URLEncoder.encode(StringUtils.notNullStr(urlToLoad), ENCODING_UTF8)
+            );
+
+            // Add token authorization when signing in to WP.com
+            if (authenticationUrl.contains("wordpress.com/wp-login.php") &&
+                    !TextUtils.isEmpty(token)) {
+                postData += "&authorization=Bearer " +
+                        URLEncoder.encode(token, ENCODING_UTF8);
+            }
+
+            return postData;
+        } catch (UnsupportedEncodingException e) {
+            AppLog.e(AppLog.T.UTILS, e);
+        }
+
+        return "";
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.webview, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (mWebView == null) {
+            return false;
+        }
+
+        int itemID = item.getItemId();
+        if (itemID == R.id.menu_refresh) {
+            mWebView.reload();
+            return true;
+        } else if (itemID == R.id.menu_share) {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, mWebView.getUrl());
+            startActivity(Intent.createChooser(share, getText(R.string.share_link)));
+            return true;
+        } else if (itemID == R.id.menu_browser) {
+            String url = mWebView.getUrl();
+            if (url != null) {
+                Uri uri = Uri.parse(url);
+                if (uri != null) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(uri);
+                    startActivity(i);
+                    AppLockManager.getInstance().setExtendedTimeout();
+                }
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

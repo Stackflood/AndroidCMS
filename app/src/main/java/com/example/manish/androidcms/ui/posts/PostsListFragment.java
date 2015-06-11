@@ -23,6 +23,7 @@ import com.example.manish.androidcms.models.PostsListPost;
 import com.example.manish.androidcms.ui.EmptyViewAnimationHandler;
 import com.example.manish.androidcms.ui.EmptyViewMessageType;
 import com.example.manish.androidcms.ui.posts.adapters.PostsListAdapter;
+import com.example.manish.androidcms.widgets.FloatingActionButton;
 //import com.example.manish.androidcms.widgets.FloatingActionButton;
 
 import org.wordpress.android.util.NetworkUtils;
@@ -49,6 +50,7 @@ public class PostsListFragment extends ListFragment
     private boolean mIsPage, mShouldSelectFirstPost, mIsFetchingPosts;
     private OnPostSelectedListener mOnPostSelectedListener;
     private OnSinglePostLoadedListener mOnSinglePostLoadedListener;
+    private FloatingActionButton mFabButton;
     private PostsListAdapter mPostsListAdapter;
     private boolean mCanLoadMorePosts = true;
     private SwipeToRefreshHelper mSwipeToRefreshHelper;
@@ -111,7 +113,9 @@ public class PostsListFragment extends ListFragment
         }
     }
 
-    /*Called to have the fragment instantiate its user interface view. This is optional, and non-graphical fragments can return null (which is the default implementation). This will be called between onCreate(Bundle) and onActivityCreated(Bundle).
+    /*Called to have the fragment instantiate its user interface view.
+    This is optional, and non-graphical fragments can return null
+     (which is the default implementation). This will be called between onCreate(Bundle) and onActivityCreated(Bundle).
 
     If you return a View from here, you will later be called in onDestroyView() when the view is being released.*/
     @Override
@@ -275,13 +279,13 @@ public class PostsListFragment extends ListFragment
         initSwipeToRefreshHelper();
         CMS.setOnPostUploadedListener(this);
 
-        /*mFabButton = (FloatingActionButton) getView().findViewById(R.id.fab_button);
+        mFabButton = (FloatingActionButton) getView().findViewById(R.id.fab_button);
         mFabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 newPost();
             }
-        });*/
+        });
 
         mEmptyViewAnimationHandler = new EmptyViewAnimationHandler
                 (mEmptyViewTitle, mEmptyViewImage, this);
@@ -490,7 +494,7 @@ public class PostsListFragment extends ListFragment
             if (mEmptyViewMessage == EmptyViewMessageType.NO_CONTENT &&
                     emptyViewMessageType == EmptyViewMessageType.LOADING) {
                 // Show the NO_CONTENT > LOADING sequence, but only if the user swiped to refresh
-                /*if (mSwipedToRefresh) {
+                if (mSwipedToRefresh) {
                     mSwipedToRefresh = false;
                     mEmptyViewAnimationHandler.showLoadingSequence();
                     return;
@@ -500,13 +504,13 @@ public class PostsListFragment extends ListFragment
                 // Show the LOADING > NO_CONTENT sequence
                 mEmptyViewAnimationHandler.showNoContentSequence();
                 return;
-            }*/
+            }
             } else {
                 // Dismiss the SwipeRefreshLayout animation if it was set to persist
-            /*if (mKeepSwipeRefreshLayoutVisible) {
+            if (mKeepSwipeRefreshLayoutVisible) {
                 mSwipeToRefreshHelper.setRefreshing(false);
                 mKeepSwipeRefreshLayoutVisible = false;
-            }*/
+            }
             }
 
             if (mEmptyView != null) {
@@ -514,13 +518,13 @@ public class PostsListFragment extends ListFragment
 
                 // Don't modify the empty view image if the NO_CONTENT > LOADING sequence has already run -
                 // let the EmptyViewAnimationHandler take care of it
-            /*if (!mEmptyViewAnimationHandler.isBetweenSequences()) {
+            if (!mEmptyViewAnimationHandler.isBetweenSequences()) {
                 if (emptyViewMessageType == EmptyViewMessageType.NO_CONTENT) {
                     mEmptyViewImage.setVisibility(View.VISIBLE);
                 } else {
                     mEmptyViewImage.setVisibility(View.GONE);
                 }
-            }*/
+            }
 
                 switch (emptyViewMessageType) {
                     case LOADING:
@@ -545,7 +549,7 @@ public class PostsListFragment extends ListFragment
                 mEmptyViewMessage = emptyViewMessageType;
             }
         }
-    }
+
 
 
 

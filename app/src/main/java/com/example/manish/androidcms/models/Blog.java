@@ -46,6 +46,11 @@ public class Blog {
     public Blog() {
     }
 
+
+    public boolean isPhotonCapable() {
+        return ((isDotcomFlag() && !isPrivate()) || (isJetpackPowered() && !hasValidHTTPAuthCredentials()));
+    }
+
     public Blog(int localTableBlogId, String url, String homeURL, String blogName, String username, String password, String imagePlacement, boolean featuredImageCapable, boolean fullSizeImage, boolean scaledImage, int scaledImageWidth, String maxImageWidth, int maxImageWidthId, int remoteBlogId, String dotcom_username, String dotcom_password, String api_key, String api_blogid, boolean dotcomFlag, String wpVersion, String httpuser, String httppassword, String postFormats, String blogOptions, boolean isAdmin, boolean isHidden) {
         this.localTableBlogId = localTableBlogId;
         this.url = url;
@@ -73,6 +78,15 @@ public class Blog {
         this.blogOptions = blogOptions;
         this.isAdmin = isAdmin;
         this.isHidden = isHidden;
+    }
+
+
+    public boolean isJetpackPowered() {
+        JSONObject jsonOptions = getBlogOptionsJSONObject();
+        if (jsonOptions != null && jsonOptions.has("jetpack_client_id")) {
+            return true;
+        }
+        return false;
     }
 
     public boolean isPrivate() {

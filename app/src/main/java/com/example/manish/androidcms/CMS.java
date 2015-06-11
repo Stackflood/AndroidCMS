@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.http.HttpResponseCache;
 import android.os.AsyncTask;
@@ -128,11 +130,47 @@ public class CMS extends Application {
 
     }
 
+
+
+
     public static Blog setCurrentBlog(int id) {
         currentBlog = cmsDB.instantiateBlogByLocalId(id);
         return currentBlog;
     }
 
+
+    public static void postUploaded(int localBlogId, String postId, boolean isPage) {
+        if (onPostUploadedListener != null) {
+            try {
+                onPostUploadedListener.OnPostUploaded(localBlogId, postId, isPage);
+            } catch (Exception e) {
+                postsShouldRefresh = true;
+            }
+        } else {
+            postsShouldRefresh = true;
+        }
+
+    }
+
+    public static void postUploadFailed(int localBlogId) {
+        if (onPostUploadedListener != null) {
+            try {
+                onPostUploadedListener.OnPostUploadFailed(localBlogId);
+            } catch (Exception e) {
+                postsShouldRefresh = true;
+            }
+        } else {
+            postsShouldRefresh = true;
+        }
+
+    }
+
+    public static String getDotComToken(Context context) {
+        if (context == null) return null;
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        return settings.getString(ACCESS_TOKEN_PREFERENCE, null);
+    }
 
     /**
      * Set the last active blog as the current blog.

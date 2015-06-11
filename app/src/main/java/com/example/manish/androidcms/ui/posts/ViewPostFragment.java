@@ -60,6 +60,19 @@ public class ViewPostFragment extends Fragment {
         super.onActivityCreated(bundle);
     }
 
+    public void clearContent() {
+        TextView txtTitle = (TextView) getView().findViewById(R.id.postTitle);
+        WebView webView = (WebView) getView().findViewById(R.id.viewPostWebView);
+        TextView txtContent = (TextView) getView().findViewById(R.id.viewPostTextView);
+        txtTitle.setText("");
+        txtContent.setText("");
+        String htmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
+                + "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"webview.css\" /></head>"
+                + "<body><div id=\"container\"></div></body></html>";
+        webView.loadDataWithBaseURL("file:///android_asset/", htmlText,
+                "text/html", "utf-8", null);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -149,6 +162,7 @@ public class ViewPostFragment extends Fragment {
         mShareUrlButton.setOnClickListener(new ImageButton.OnClickListener() {
             public void onClick(View v) {
                 if (!mParentActivity.isRefreshing()) {
+                    //onAttach event, it is binded to the PostActivity Class
                     mOnDetailPostActionListener.onDetailPostAction(
                             PostsActivity.POST_SHARE, CMS.currentPost);
                 }
@@ -160,6 +174,7 @@ public class ViewPostFragment extends Fragment {
         deletePostButton.setOnClickListener(new ImageButton.OnClickListener() {
             public void onClick(View v) {
                 if (!mParentActivity.isRefreshing()) {
+                    //onAttach event, it is binded to the PostActivity Class
                     mOnDetailPostActionListener.onDetailPostAction(PostsActivity.POST_DELETE,
                             CMS.currentPost);
                 }
@@ -168,6 +183,7 @@ public class ViewPostFragment extends Fragment {
 
         mViewPostButton.setOnClickListener(new ImageButton.OnClickListener() {
             public void onClick(View v) {
+                //onAttach event, it is binded to the PostActivity Class
                 mOnDetailPostActionListener.onDetailPostAction(PostsActivity.POST_VIEW,
                         CMS.currentPost);
                 if (!mParentActivity.isRefreshing()) {

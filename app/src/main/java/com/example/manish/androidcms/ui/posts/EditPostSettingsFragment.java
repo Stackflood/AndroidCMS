@@ -70,7 +70,7 @@ public class EditPostSettingsFragment extends Fragment
             pubDateTimestamp = d.getTime();
         } else if (!pubDate.equals(getResources().getText(R.string.immediately))) {
             if (mIsCustomPubDate)
-                pubDateTimestamp = mCustomPubDate;
+                  pubDateTimestamp = mCustomPubDate;
             else if (post.getDate_created_gmt() > 0)
                 pubDateTimestamp = post.getDate_created_gmt();
         } else if (pubDate.equals(getResources().getText(R.string.immediately)) && post.isLocalDraft()) {

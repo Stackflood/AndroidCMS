@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.R;
+import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.models.Post;
+import com.example.manish.androidcms.models.PostStatus;
 import com.example.manish.androidcms.ui.CMSDrawerActivity;
 
 import org.wordpress.android.util.AlertUtils;
@@ -25,10 +27,17 @@ import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.ProfilingUtils;
 import org.wordpress.android.util.ToastUtils;
 import org.wordpress.passcodelock.AppLockManager;
+import org.xmlpull.v1.XmlPullParserException;
 
+import com.example.manish.androidcms.util.WPMeShortlinks;
 import com.example.manish.androidcms.widgets.CMSAlertDialogFragment;
 
+import java.io.IOException;
+
 import xmlrpc.android.ApiHelper;
+import xmlrpc.android.XMLRPCClientInterface;
+import xmlrpc.android.XMLRPCException;
+import xmlrpc.android.XMLRPCFactory;
 
 /**
  * Created by Manish on 4/1/2015.
@@ -224,17 +233,18 @@ public class PostsActivity extends CMSDrawerActivity
     public void newPost() {
         if (CMS.getCurrentBlog() == null) {
             if (!isFinishing())
-                Toast.makeText(this, R.string.blog_not_found, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.blog_not_found,
+                        Toast.LENGTH_SHORT).show();
             return;
         }
         // Create a new post object
         Post newPost = new Post(CMS.getCurrentBlog().getLocalTableBlogId(), mIsPage);
-        /*CMS.cmsDB.savePost(newPost);
+        CMS.cmsDB.savePost(newPost);
         Intent i = new Intent(this, EditPostActivity.class);
         i.putExtra(EditPostActivity.EXTRA_POSTID, newPost.getLocalTablePostId());
         i.putExtra(EditPostActivity.EXTRA_IS_PAGE, mIsPage);
         i.putExtra(EditPostActivity.EXTRA_IS_NEW_POST, true);
-        startActivityForResult(i, ACTIVITY_EDIT_POST);*/
+        startActivityForResult(i, ACTIVITY_EDIT_POST);
     }
 
     @Override
@@ -265,15 +275,6 @@ public class PostsActivity extends CMSDrawerActivity
             mPostList.setShouldSelectFirstPost(true);
         }
     }
-
-
-
-
-
-
-
-
-
 
     @Override
     public void onPostSelected(Post post) {
@@ -314,6 +315,109 @@ public class PostsActivity extends CMSDrawerActivity
             Toast.makeText(PostsActivity.this,
                     R.string.post_not_found, Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        if(action == POST_DELETE)
+        {
+            if(post.isLocalDraft())
+            {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PostsActivity.this);
+                dialogBuilder.setTitle(getResources().getText(
+                        R.string.delete_draft));
+                String deleteDraftMessage = getResources().getText(R.string.delete_sure).toString();
+                if (!post.getTitle().isEmpty()) {
+                    String postTitleEnclosedByQuotes = "'" + post.getTitle() + "'";
+                    deleteDraftMessage += " " + postTitleEnclosedByQuotes;
+                }
+
+                dialogBuilder.setMessage(deleteDraftMessage + "?");
+                dialogBuilder.setPositiveButton(
+                        getResources().getText(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                CMS.cmsDB.deletePost(post);
+                                popPostDetail();
+                                attemptToSelectPost();
+                                mPostList.getPostListAdapter().loadPosts();
+                            }
+                        });
+                dialogBuilder.setNegativeButton(
+                        getResources().getText(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                // Just close the window.
+                            }
+                        });
+                dialogBuilder.setCancelable(true);
+                if (!isFinishing()) {
+                    dialogBuilder.create().show();
+                }
+            }
+            else {
+                String deletePostMessage = getResources().getText(
+                        (post.isPage()) ? R.string.delete_sure_page
+                                : R.string.delete_sure_post).toString();
+                if (!post.getTitle().isEmpty()) {
+                    String postTitleEnclosedByQuotes = "'" + post.getTitle() + "'";
+                    deletePostMessage += " " + postTitleEnclosedByQuotes;
+                }
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
+                        PostsActivity.this);
+                dialogBuilder.setTitle(getResources().getText(
+                        (post.isPage()) ? R.string.delete_page
+                                : R.string.delete_post));
+                dialogBuilder.setMessage(deletePostMessage + "?");
+                dialogBuilder.setPositiveButton(
+                        getResources().getText(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                new deletePostTask().execute(post);
+                            }
+                        });
+                dialogBuilder.setNegativeButton(
+                        getResources().getText(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                // Just close the window.
+                            }
+                        });
+                dialogBuilder.setCancelable(true);
+                if (!isFinishing()) {
+                    dialogBuilder.create().show();
+                }
+            }
+        }
+        else if(action == POST_SHARE) {
+            // Only share published posts
+            if (post.getStatusEnum() != PostStatus.PUBLISHED &&
+                    post.getStatusEnum() != PostStatus.SCHEDULED) {
+
+                AlertUtils.showAlert(this, R.string.error,
+                        post.isPage() ? R.string.page_not_published : R.string.post_not_published);
+                return;
+            }
+
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_SUBJECT, post.getTitle());
+            String shortlink = WPMeShortlinks.getPostShortlink(CMS.getCurrentBlog(), post);
+            share.putExtra(Intent.EXTRA_TEXT, shortlink != null ? shortlink : post.getPermaLink());
+            startActivity(Intent.createChooser(share, getResources()
+                    .getText(R.string.share_url)));
+            AppLockManager.getInstance().setExtendedTimeout();
+        }
+        else if (action == POST_CLEAR) {
+            FragmentManager fm = getFragmentManager();
+            ViewPostFragment f = (ViewPostFragment) fm
+                    .findFragmentById(R.id.postDetail);
+            if (f != null) {
+                f.clearContent();
+            }
         }
 
         /*if (action == POST_DELETE) {
@@ -415,9 +519,95 @@ public class PostsActivity extends CMSDrawerActivity
         }*/
     }
 
+    public class deletePostTask extends AsyncTask<Post, Void, Boolean>
+    {
+        Post post;
+
+        @Override
+        protected void onPreExecute()
+        {
+            // pop out of the detail view if on a smaller screen
+            popPostDetail();
+            showDialog(ID_DIALOG_DELETING);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                CMS.cmsDB.deletePost(post);
+            }
+            if (mLoadingDialog == null || isActivityDestroyed() || isFinishing()) {
+                return;
+            }
+            dismissDialog(ID_DIALOG_DELETING);
+            attemptToSelectPost();
+            if (result) {
+                Toast.makeText(PostsActivity.this, getResources().getText((mIsPage) ?
+                                R.string.page_deleted : R.string.post_deleted),
+                        Toast.LENGTH_SHORT).show();
+                requestPosts();
+                mPostList.requestPosts(false);
+                mPostList.setRefreshing(true);
+            } else {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PostsActivity.this);
+                dialogBuilder.setTitle(getResources().getText(R.string.connection_error));
+                dialogBuilder.setMessage(mErrorMsg);
+                dialogBuilder.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Just close the window.
+                            }
+                        });
+                dialogBuilder.setCancelable(true);
+                if (!isFinishing()) {
+                    dialogBuilder.create().show();
+                }
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Post... params) {
+            boolean result = false;
+            post = params[0];
+            Blog blog = CMS.currentBlog;
+            XMLRPCClientInterface client = XMLRPCFactory.instantiate(blog.getUri(),
+
+                    blog.getHttpuser(),
+                    blog.getHttppassword());
+
+            Object[] postParams = { "", post.getRemotePostId(),
+                    CMS.currentBlog.getUsername(),
+                    CMS.currentBlog.getPassword() };
+            Object[] pageParams = { CMS.currentBlog.getRemoteBlogId(),
+                    CMS.currentBlog.getUsername(),
+                    CMS.currentBlog.getPassword(), post.getRemotePostId() };
+
+            try {
+                client.call((mIsPage) ? "wp.deletePage" :
+                        "blogger.deletePost", (mIsPage) ? pageParams : postParams);
+                result = true;
+            } catch (final XMLRPCException e) {
+                mErrorMsg = prepareErrorMessage(e);
+            } catch (IOException e) {
+                mErrorMsg = prepareErrorMessage(e);
+            } catch (XmlPullParserException e) {
+                mErrorMsg = prepareErrorMessage(e);
+            }
+            return result;
+        }
+
+        private String prepareErrorMessage(Exception e) {
+            AppLog.e(AppLog.T.POSTS, "Error while deleting post or page", e);
+            return String.format(getResources().getString(R.string.error_delete_post),
+                    (mIsPage) ? getResources().getText(R.string.page)
+                            : getResources().getText(R.string.post));
+        }
+
+    }
+
     @Override
     public void onDetailPostAction(int action, Post post) {
-
+        onPostAction(action, post);
     }
 
     @Override

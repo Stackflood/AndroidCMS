@@ -25,6 +25,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.WPWebViewActivity"/>
+
         <!-- Posts activities -->
         <!--<activity
             android:name=".ui.posts.AddCategoryActivity"
@@ -73,6 +75,20 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.posts.PagesActivity"
+            android:theme="@style/WordPress.DrawerActivity" />
+
+        <activity
+            android:name=".ui.media.MediaPickerActivity"
+            android:theme="@style/WordPress.DrawerActivity" />
+
+        <!-- Services -->
+        <service
+            android:name=".ui.posts.PostUploadService"
+            android:label="Post Upload Service" >
+        </service>
+
         <!--<activity
             android:name=".ui.posts.PagesActivity"
             android:theme="@style/WordPress.DrawerActivity" />

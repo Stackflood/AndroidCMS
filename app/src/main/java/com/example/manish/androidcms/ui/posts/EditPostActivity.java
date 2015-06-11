@@ -6,18 +6,25 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.media.browse.MediaBrowser;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.CharacterStyle;
+import android.text.style.SuggestionSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.example.manish.androidcms.CMS;
@@ -26,6 +33,10 @@ import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.models.Post;
 import com.example.manish.androidcms.ui.ActivityId;
+import com.example.manish.androidcms.ui.media.MediaPickerActivity;
+import com.example.manish.androidcms.ui.media.MediaSourceWPImages;
+import com.example.manish.androidcms.ui.media.MediaSourceWPVideos;
+import com.example.manish.androidcms.ui.media.WordPressMediaUtils;
 import com.example.manish.androidcms.util.WPHtml;
 import com.example.manish.androidcms.widgets.WPViewPager;
 
@@ -34,16 +45,28 @@ import org.wordpress.android.editor.EditorFragmentAbstract;
 import org.wordpress.android.editor.LegacyEditorFragment;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.ImageUtils;
+import org.wordpress.android.util.MediaUtils;
 import org.wordpress.android.util.NetworkUtils;
 import org.wordpress.android.util.StringUtils;
 import org.wordpress.android.util.ToastUtils;
 import org.wordpress.android.util.helpers.MediaFile;
 import org.wordpress.android.util.helpers.MediaGallery;
+import org.wordpress.android.util.helpers.MediaGalleryImageSpan;
+import org.wordpress.android.util.helpers.WPImageSpan;
+import org.wordpress.mediapicker.MediaItem;
+import org.wordpress.mediapicker.source.MediaSource;
+import org.wordpress.mediapicker.source.MediaSourceDeviceImages;
+import org.wordpress.mediapicker.source.MediaSourceDeviceVideos;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import de.greenrobot.event.EventBus;
+import xmlrpc.android.ApiHelper;
 
 /**
  * Created by Manish on 5/11/2015.
@@ -86,6 +109,9 @@ public class EditPostActivity extends ActionBarActivity
     private boolean mIsNewPost;
     private Post mOriginalPost;
 
+    // -1=no response yet, 0=unavailable, 1=available
+    private int mBlogMediaStatus = -1;
+
     private static final int AUTOSAVE_INTERVAL_MILLIS = 10000;
 
     /**
@@ -119,7 +145,8 @@ public class EditPostActivity extends ActionBarActivity
         Bundle extras = getIntent().getExtras();
         String action = getIntent().getAction();
         if (savedInstanceState == null) {
-            if (Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action)
+            if (Intent.ACTION_SEND.equals(action) ||
+                    Intent.ACTION_SEND_MULTIPLE.equals(action)
                     || NEW_MEDIA_GALLERY.equals(action)
                     || NEW_MEDIA_POST.equals(action)
                     || getIntent().hasExtra(EXTRA_IS_QUICKPRESS)
@@ -240,11 +267,156 @@ public class EditPostActivity extends ActionBarActivity
 
         // Update post object from fragment fields
         if (mEditorFragment != null) {
-            //updatePostContent(isAutosave);
+            updatePostContent(isAutosave);
         }
-        if (mEditPostSettingsFragment != null) {
+        /*if (mEditPostSettingsFragment != null) {
             mEditPostSettingsFragment.updatePostSettings();
+        }*/
+    }
+
+    /**
+     * Updates post object with content of this fragment
+     */
+    public void updatePostContent(boolean isAutoSave) {
+        Post post = getPost();
+
+        if (post == null) {
+            return;
         }
+        String title = StringUtils.notNullStr((String) mEditorFragment.getTitle());
+        SpannableStringBuilder postContent;
+        if (mEditorFragment.getSpannedContent() != null) {
+            // needed by the legacy editor to save local drafts
+            postContent =
+                    new SpannableStringBuilder(mEditorFragment.getSpannedContent());
+        } else {
+            postContent = new SpannableStringBuilder(StringUtils.notNullStr((String)
+                    mEditorFragment.getContent()));
+        }
+
+        String content;
+        if (post.isLocalDraft()) {
+            // remove suggestion spans, they cause craziness in WPHtml.toHTML().
+            CharacterStyle[] characterStyles = postContent.getSpans(0, postContent.length(),
+                    CharacterStyle.class);
+            for (CharacterStyle characterStyle : characterStyles) {
+                if (characterStyle instanceof SuggestionSpan) {
+                    postContent.removeSpan(characterStyle);
+                }
+            }
+            content = WPHtml.toHtml(postContent);
+            // replace duplicate <p> tags so there's not duplicates, trac #86
+            content = content.replace("<p><p>", "<p>");
+            content = content.replace("</p></p>", "</p>");
+            content = content.replace("<br><br>", "<br>");
+            // sometimes the editor creates extra tags
+            content = content.replace("</strong><strong>", "").replace("</em><em>", "").replace("</u><u>", "")
+                    .replace("</strike><strike>", "").replace("</blockquote><blockquote>", "");
+        } else {
+            if (!isAutoSave) {
+                // Add gallery shortcode
+                MediaGalleryImageSpan[] gallerySpans = postContent.getSpans(0, postContent.length(),
+                        MediaGalleryImageSpan.class);
+                for (MediaGalleryImageSpan gallerySpan : gallerySpans) {
+                    int start = postContent.getSpanStart(gallerySpan);
+                    postContent.removeSpan(gallerySpan);
+                    postContent.insert(start, WPHtml.getGalleryShortcode(gallerySpan));
+                }
+            }
+
+            WPImageSpan[] imageSpans = postContent.getSpans(0,
+                    postContent.length(),
+                    WPImageSpan.class);
+            if (imageSpans.length != 0) {
+                for (WPImageSpan wpIS : imageSpans) {
+                    MediaFile mediaFile = wpIS.getMediaFile();
+                    if (mediaFile == null)
+                        continue;
+                    if (mediaFile.getMediaId() != null) {
+                        updateMediaFileOnServer(wpIS);
+                    } else {
+                        mediaFile.setFileName(wpIS.getImageSource().toString());
+                        mediaFile.setFilePath(wpIS.getImageSource().toString());
+                        CMS.cmsDB.saveMediaFile(mediaFile);
+                    }
+
+                    int tagStart = postContent.getSpanStart(wpIS);
+                    if (!isAutoSave) {
+                        postContent.removeSpan(wpIS);
+
+                        // network image has a mediaId
+                        if (mediaFile.getMediaId() != null && mediaFile.getMediaId().length() > 0) {
+                            postContent.insert(tagStart, WPHtml.getContent(wpIS));
+                        } else {
+                            // local image for upload
+                            postContent.insert(tagStart,
+                                    "<img android-uri=\"" + wpIS.getImageSource().toString() + "\" />");
+                        }
+                    }
+                }
+            }
+            content = postContent.toString();
+        }
+
+        String moreTag = "<!--more-->";
+
+        post.setTitle(title);
+        // split up the post content if there's a more tag
+        if (post.isLocalDraft() && content.contains(moreTag)) {
+            post.setDescription(content.substring(0, content.indexOf(moreTag)));
+            post.setMoreText(content.substring(content.indexOf(moreTag) + moreTag.length(), content.length()));
+        } else {
+            post.setDescription(content);
+            post.setMoreText("");
+        }
+
+        if (!post.isLocalDraft()) {
+            post.setLocalChange(true);
+        }
+    }
+
+    private void updateMediaFileOnServer(WPImageSpan wpIS)
+    {
+        Blog currentBlog = CMS.getCurrentBlog();
+        if (currentBlog == null || wpIS == null)
+            return;
+
+        MediaFile mf = wpIS.getMediaFile();
+
+        final String mediaId = mf.getMediaId();
+        final String title = mf.getTitle();
+        final String description = mf.getDescription();
+        final String caption = mf.getCaption();
+
+        ApiHelper.EditMediaItemTask task = new ApiHelper.EditMediaItemTask(mf.getMediaId(),
+                mf.getTitle(),
+                mf.getDescription(),
+                mf.getCaption(),
+                new ApiHelper.GenericCallback() {
+                    @Override
+                    public void onSuccess() {
+                        if (CMS.getCurrentBlog() == null) {
+                            return;
+                        }
+                        String localBlogTableIndex = String.valueOf(CMS.getCurrentBlog().getLocalTableBlogId());
+                        CMS.cmsDB.updateMediaFile(localBlogTableIndex,
+                                mediaId,
+                                title,
+                                description,
+                                caption);
+                    }
+
+                    @Override
+                    public void onFailure(ApiHelper.ErrorType errorType, String errorMessage, Throwable throwable) {
+                        Toast.makeText(EditPostActivity.this,
+                                R.string.media_edit_failure,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        List<Object> apiArgs = new ArrayList<Object>();
+        apiArgs.add(currentBlog);
+        task.execute(apiArgs);
     }
 
     private void savePost(boolean isAutosave, boolean updatePost) {
@@ -268,12 +440,15 @@ public class EditPostActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         super.onResume();
-        //refreshBlogMedia();
+        refreshBlogMedia();
         mAutoSaveTimer = new Timer();
         mAutoSaveTimer.scheduleAtFixedRate(new AutoSaveTask(), AUTOSAVE_INTERVAL_MILLIS,
                 AUTOSAVE_INTERVAL_MILLIS);
     }
 
+    private void refreshBlogMedia() {
+
+    }
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
@@ -430,8 +605,8 @@ public class EditPostActivity extends ActionBarActivity
                 return false;
             }
 
-            //PostUploadService.addPostToUpload(mPost);
-            //startService(new Intent(this, PostUploadService.class));
+            PostUploadService.addPostToUpload(mPost);
+            startService(new Intent(this, PostUploadService.class));
             Intent i = new Intent();
             i.putExtra("shouldRefresh", true);
             setResult(RESULT_OK, i);
@@ -454,6 +629,182 @@ public class EditPostActivity extends ActionBarActivity
     private boolean hasEmptyContentFields() {
         return TextUtils.isEmpty(mEditorFragment.getTitle())
                 && TextUtils.isEmpty(mEditorFragment.getContent());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(data != null ||
+                ((resultCode == WordPressMediaUtils.RequestCode.ACTIVITY_REQUEST_CODE_TAKE_PHOTO ||
+                        requestCode == WordPressMediaUtils.RequestCode.ACTIVITY_REQUEST_CODE_TAKE_VIDEO)))
+        {
+            Bundle extras;
+
+            switch(requestCode)
+            {
+                case MediaPickerActivity.ACTIVITY_REQUEST_CODE_MEDIA_SELECTION:
+                    if(resultCode == MediaPickerActivity.ACTIVITY_RESULT_CODE_MEDIA_SELECTED)
+                    {
+                        new HandleMediaSelectionTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                                data);
+                    }
+            }
+        }
+    }
+
+    private class HandleMediaSelectionTask extends AsyncTask<Intent, Void, Void> {
+        @Override
+        protected Void doInBackground(Intent... params) {
+            handleMediaSelectionResult(params[0]);
+            return null;
+        }
+    }
+
+
+    private void handleMediaSelectionResult(Intent data)
+    {
+        if(data!= null)
+        {
+            final List<MediaItem> selectedContent =
+
+                    data.getParcelableArrayListExtra(MediaPickerActivity.SELECTED_CONTENT_RESULTS_KEY);
+            if (selectedContent != null && selectedContent.size() > 0) {
+                Integer localMediaAdded = 0;
+                Integer libraryMediaAdded = 0;
+
+                for (MediaItem media : selectedContent) {
+                    if (URLUtil.isNetworkUrl(media.getSource().toString())) {
+                        addExistingMediaToEditor(media.getTag());
+                        ++libraryMediaAdded;
+                    } else {
+                        addMedia(media.getSource());
+                        ++localMediaAdded;
+                    }
+                }
+
+                if (localMediaAdded > 0) {
+                    Map<String, Object> analyticsProperties = new HashMap<>();
+                    //analyticsProperties.put(ANALYTIC_PROP_NUM_LOCAL_PHOTOS_ADDED, localMediaAdded);
+                    //AnalyticsTracker.track(AnalyticsTracker.Stat.EDITOR_ADDED_PHOTO_VIA_LOCAL_LIBRARY, analyticsProperties);
+                }
+
+                if (libraryMediaAdded > 0) {
+                    Map<String, Object> analyticsProperties = new HashMap<>();
+                    //analyticsProperties.put(ANALYTIC_PROP_NUM_WP_PHOTOS_ADDED, libraryMediaAdded);
+                   // AnalyticsTracker.track(AnalyticsTracker.Stat.EDITOR_ADDED_PHOTO_VIA_WP_MEDIA_LIBRARY, analyticsProperties);
+                }
+            }
+        }
+    }
+
+    private boolean addMedia(Uri imageUri)
+    {
+        if (!MediaUtils.isInMediaStore(imageUri) && !imageUri.toString().startsWith("/")) {
+            imageUri = MediaUtils.downloadExternalMedia(this, imageUri);
+        }
+
+        if (imageUri == null) {
+            return false;
+        }
+
+        String mediaTitle;
+        if (MediaUtils.isVideo(imageUri.toString())) {
+            mediaTitle = getResources().getString(R.string.video);
+        } else {
+            mediaTitle = ImageUtils.getTitleForWPImageSpan(this, imageUri.getEncodedPath());
+        }
+
+        MediaFile mediaFile = new MediaFile();
+        mediaFile.setPostID(getPost().getLocalTablePostId());
+        mediaFile.setTitle(mediaTitle);
+        mediaFile.setFilePath(imageUri.toString());
+        if (imageUri.getEncodedPath() != null) {
+            mediaFile.setVideo(MediaUtils.isVideo(imageUri.toString()));
+        }
+        CMS.cmsDB.saveMediaFile(mediaFile);
+        mEditorFragment.appendMediaFile(mediaFile, mediaFile.getFilePath(), CMS.imageLoader);
+
+        return true;
+    }
+
+    private void addExistingMediaToEditor(String mediaId) {
+        if (CMS.getCurrentBlog() == null) {
+            return;
+        }
+
+        String blogId = String.valueOf(CMS.getCurrentBlog().getLocalTableBlogId());
+
+        MediaFile mediaFile = createMediaFile(blogId, mediaId);
+
+        if (mediaFile == null) {
+            return;
+        }
+
+        mEditorFragment.appendMediaFile(mediaFile, getMediaUrl(mediaFile), CMS.imageLoader);
+
+    }
+
+    /**
+     * Get media url from a MediaFile,
+     * returns a photon URL if the selected blog is Photon capable.
+     */
+    private String getMediaUrl(MediaFile mediaFile) {
+        if (mediaFile == null) {
+            return null;
+        }
+        String imageURL;
+        if (CMS.getCurrentBlog() != null && CMS.getCurrentBlog().isPhotonCapable()) {
+            String photonUrl = mediaFile.getFileURL();
+            imageURL = StringUtils.getPhotonUrl(photonUrl, getMaximumThumbnailWidthForEditor());
+        } else {
+            // Not a Jetpack or wpcom blog
+            // imageURL = mediaFile.getThumbnailURL(); // do not use fileURL here since downloading picture
+            // of big dimensions can result in OOM Exception
+            imageURL = mediaFile.getFileURL() != null ?  mediaFile.getFileURL() : mediaFile.getThumbnailURL();
+        }
+        return imageURL;
+    }
+
+    private MediaFile createMediaFile(String blogId, final String mediaId)
+    {
+        Cursor cursor = CMS.cmsDB.getMediaFile(blogId, mediaId);
+
+        if(cursor == null || !cursor.moveToFirst())
+        {
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+
+        String url = cursor.getString(cursor.getColumnIndex("fileURL"));
+        if (url == null) {
+            cursor.close();
+            return null;
+        }
+
+        String mimeType = cursor.getString(cursor.getColumnIndex("mimeType"));
+        boolean isVideo = mimeType != null && mimeType.contains("video");
+        MediaFile mediaFile = new MediaFile();
+        mediaFile.setMediaId(mediaId);
+        mediaFile.setBlogId(blogId);
+        mediaFile.setCaption(cursor.getString(cursor.getColumnIndex("caption")));
+        mediaFile.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+        mediaFile.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+        mediaFile.setWidth(cursor.getInt(cursor.getColumnIndex("width")));
+        mediaFile.setHeight(cursor.getInt(cursor.getColumnIndex("height")));
+        mediaFile.setMimeType(mimeType);
+        mediaFile.setFileName(cursor.getString(cursor.getColumnIndex("fileName")));
+        mediaFile.setThumbnailURL(cursor.getString(cursor.getColumnIndex("thumbnailURL")));
+        mediaFile.setDateCreatedGMT(cursor.getLong(cursor.getColumnIndex("date_created_gmt")));
+        mediaFile.setVideoPressShortCode(cursor.getString(cursor.getColumnIndex("videoPressShortcode")));
+        mediaFile.setFileURL(cursor.getString(cursor.getColumnIndex("fileURL")));;
+        mediaFile.setVideo(isVideo);
+        CMS.cmsDB.saveMediaFile(mediaFile);
+        cursor.close();
+        return mediaFile;
     }
 
     private void saveAndFinish() {
@@ -575,8 +926,70 @@ public class EditPostActivity extends ActionBarActivity
         //WordPress.wpDB.saveMediaFile(mediaFile);
     }
 
+    /**
+     * Create image {@link org.wordpress.mediapicker.source.MediaSource}'s for media selection.
+     *
+     * @return
+     *  list containing all sources to gather image media from
+     */
+    private ArrayList<MediaSource> imageMediaSelectionSources() {
+        ArrayList<MediaSource> imageMediaSources = new ArrayList<MediaSource>();
+        imageMediaSources.add(new MediaSourceDeviceImages());
+
+        return imageMediaSources;
+    }
+
+    /**
+     * Create video {@link org.wordpress.mediapicker.source.MediaSource}'s for media selection.
+     *
+     * @return
+     *  list containing all sources to gather video media from
+     */
+    private ArrayList<MediaSource> videoMediaSelectionSources() {
+        ArrayList<MediaSource> videoMediaSources = new ArrayList<MediaSource>();
+        videoMediaSources.add(new MediaSourceDeviceVideos());
+
+        return videoMediaSources;
+    }
+
+    private ArrayList<MediaSource> blogImageMediaSelectionSources() {
+        ArrayList<MediaSource> imageMediaSources = new ArrayList<MediaSource>();
+        imageMediaSources.add(new MediaSourceWPImages());
+
+        return imageMediaSources;
+    }
+
+    private ArrayList<MediaSource> blogVideoMediaSelectionSources() {
+        ArrayList<MediaSource> imageMediaSources = new ArrayList<MediaSource>();
+        imageMediaSources.add(new MediaSourceWPVideos());
+
+        return imageMediaSources;
+    }
+
+    private void startMediaSelection()
+    {
+        Intent intent = new Intent(this, MediaPickerActivity.class);
+        intent.putExtra(MediaPickerActivity.ACTIVITY_TITLE_KEY,
+                getString(R.string.add_to_post));
+
+        intent.putParcelableArrayListExtra(MediaPickerActivity.DEVICE_IMAGE_MEDIA_SOURCES_KEY,
+                imageMediaSelectionSources());
+        intent.putParcelableArrayListExtra(MediaPickerActivity.DEVICE_VIDEO_MEDIA_SOURCES_KEY,
+                videoMediaSelectionSources());
+
+        if (mBlogMediaStatus != 0) {
+            intent.putParcelableArrayListExtra(MediaPickerActivity.BLOG_IMAGE_MEDIA_SOURCES_KEY,
+                    blogImageMediaSelectionSources());
+            intent.putParcelableArrayListExtra(MediaPickerActivity.BLOG_VIDEO_MEDIA_SOURCES_KEY,
+                    blogVideoMediaSelectionSources());
+        }
+
+        startActivityForResult(intent, MediaPickerActivity.ACTIVITY_REQUEST_CODE_MEDIA_SELECTION);
+        overridePendingTransition(R.anim.slide_up, R.anim.fade_out);
+    }
+
     @Override
     public void onAddMediaClicked() {
-        //startMediaSelection();
+        startMediaSelection();
     }
 }

@@ -48,6 +48,26 @@ import javax.crypto.spec.DESKeySpec;
  */
 public class CMSDB {
 
+    public static final String COLUMN_NAME_POST_ID               = "postID";
+    public static final String COLUMN_NAME_FILE_PATH             = "filePath";
+    public static final String COLUMN_NAME_FILE_NAME             = "fileName";
+    public static final String COLUMN_NAME_TITLE                 = "title";
+    public static final String COLUMN_NAME_DESCRIPTION           = "description";
+    public static final String COLUMN_NAME_CAPTION               = "caption";
+    public static final String COLUMN_NAME_HORIZONTAL_ALIGNMENT  = "horizontalAlignment";
+    public static final String COLUMN_NAME_WIDTH                 = "width";
+    public static final String COLUMN_NAME_HEIGHT                = "height";
+    public static final String COLUMN_NAME_MIME_TYPE             = "mimeType";
+    public static final String COLUMN_NAME_FEATURED              = "featured";
+    public static final String COLUMN_NAME_IS_VIDEO              = "isVideo";
+    public static final String COLUMN_NAME_IS_FEATURED_IN_POST   = "isFeaturedInPost";
+    public static final String COLUMN_NAME_FILE_URL              = "fileURL";
+    public static final String COLUMN_NAME_THUMBNAIL_URL         = "thumbnailURL";
+    public static final String COLUMN_NAME_MEDIA_ID              = "mediaId";
+    public static final String COLUMN_NAME_BLOG_ID               = "blogId";
+    public static final String COLUMN_NAME_DATE_CREATED_GMT      = "date_created_gmt";
+    public static final String COLUMN_NAME_VIDEO_PRESS_SHORTCODE = "videoPressShortcode";
+    public static final String COLUMN_NAME_UPLOAD_STATE          = "uploadState";
     // add hidden flag to blog settings (accounts)
     private static final String ADD_ACCOUNTS_HIDDEN_FLAG = "alter table accounts add isHidden boolean default 0;";
     private SQLiteDatabase db;
@@ -133,6 +153,17 @@ public class CMSDB {
             localBlogID = this.getLocalTableBlogIdForJetpackRemoteID(remoteBlogId, xmlRpcUrl);
         }
         return localBlogID;
+    }
+
+    public void deleteMediaFilesForPost(Post post) {
+        db.delete(MEDIA_TABLE, "blogId='" + post.getLocalTableBlogId() +
+                "' AND postID=" + post.getLocalTablePostId(), null);
+    }
+
+    /** For a given blogId, get the media file with the given media_id **/
+    public Cursor getMediaFile(String blogId, String mediaId) {
+        return db.rawQuery("SELECT * FROM " +
+                MEDIA_TABLE + " WHERE blogId=? AND mediaId=?", new String[] { blogId, mediaId });
     }
 
     public boolean addBlog(Blog blog) {
@@ -273,6 +304,36 @@ public class CMSDB {
         }
     }
 
+    public void updateMediaFile(String blogId, String mediaId,
+                                String title, String description, String caption) {
+        if (blogId == null || blogId.equals("")) {
+            return;
+        }
+
+        ContentValues values = new ContentValues();
+
+        if (title == null || title.equals("")) {
+            values.put("title", "");
+        } else {
+            values.put("title", title);
+        }
+
+        if (title == null || title.equals("")) {
+            values.put("description", "");
+        } else {
+            values.put("description", description);
+        }
+
+        if (caption == null || caption.equals("")) {
+            values.put("caption", "");
+        } else {
+            values.put("caption", caption);
+        }
+
+        db.update(MEDIA_TABLE, values, "blogId = ? AND mediaId=?", new String[] { blogId, mediaId });
+    }
+
+
     public List<PostsListPost> getPostsListPosts(int blogId, boolean loadPages) {
         List<PostsListPost> posts = new ArrayList<PostsListPost>();
         Cursor c;
@@ -365,9 +426,65 @@ public class CMSDB {
     public boolean deletePost(Post post) {
         int result = db.delete(POSTS_TABLE,
                 "blogID=? AND id=?",
-                new String[]{String.valueOf(post.getLocalTableBlogId()), String.valueOf(post.getLocalTablePostId())});
+                new String[]{String.valueOf(post.getLocalTableBlogId()),
+                        String.valueOf(post.getLocalTablePostId())});
 
         return (result == 1);
+    }
+
+    public void saveMediaFile(MediaFile mf)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME_POST_ID, mf.getPostID());
+        values.put(COLUMN_NAME_FILE_PATH, mf.getFilePath());
+        values.put(COLUMN_NAME_FILE_NAME, mf.getFileName());
+        values.put(COLUMN_NAME_TITLE, mf.getTitle());
+        values.put(COLUMN_NAME_DESCRIPTION, mf.getDescription());
+        values.put(COLUMN_NAME_CAPTION, mf.getCaption());
+        values.put(COLUMN_NAME_HORIZONTAL_ALIGNMENT, mf.getHorizontalAlignment());
+        values.put(COLUMN_NAME_WIDTH, mf.getWidth());
+        values.put(COLUMN_NAME_HEIGHT, mf.getHeight());
+        values.put(COLUMN_NAME_MIME_TYPE, mf.getMimeType());
+        values.put(COLUMN_NAME_FEATURED, mf.isFeatured());
+        values.put(COLUMN_NAME_IS_VIDEO, mf.isVideo());
+        values.put(COLUMN_NAME_IS_FEATURED_IN_POST, mf.isFeaturedInPost());
+        values.put(COLUMN_NAME_FILE_URL, mf.getFileURL());
+        values.put(COLUMN_NAME_THUMBNAIL_URL, mf.getThumbnailURL());
+        values.put(COLUMN_NAME_MEDIA_ID, mf.getMediaId());
+        values.put(COLUMN_NAME_BLOG_ID, mf.getBlogId());
+        values.put(COLUMN_NAME_DATE_CREATED_GMT, mf.getDateCreatedGMT());
+        values.put(COLUMN_NAME_VIDEO_PRESS_SHORTCODE, mf.getVideoPressShortCode());
+        if (mf.getUploadState() != null)
+            values.put(COLUMN_NAME_UPLOAD_STATE, mf.getUploadState());
+        else
+            values.putNull(COLUMN_NAME_UPLOAD_STATE);
+
+        synchronized (this) {
+            int result = 0;
+            boolean isMarkedForDelete = false;
+            if (mf.getMediaId() != null) {
+                Cursor cursor = db.rawQuery("SELECT uploadState FROM " +
+                                MEDIA_TABLE + " WHERE mediaId=?",
+                        new String[]{StringUtils.notNullStr(mf.getMediaId())});
+                if (cursor != null && cursor.moveToFirst()) {
+                    isMarkedForDelete = "delete".equals(cursor.getString(0));
+                    cursor.close();
+                }
+
+                if (!isMarkedForDelete)
+                    result = db.update(MEDIA_TABLE, values, "blogId=? AND mediaId=?",
+                            new String[]{StringUtils.notNullStr(mf.getBlogId()), StringUtils.notNullStr(mf.getMediaId())});
+            }
+
+            if (result == 0 && !isMarkedForDelete) {
+                result = db.update(MEDIA_TABLE, values, "postID=? AND filePath=?",
+                        new String[]{String.valueOf(mf.getPostID()), StringUtils.notNullStr(mf.getFilePath())});
+                if (result == 0)
+                    db.insert(MEDIA_TABLE,null, values);
+            }
+        }
+
+
     }
 
     public long savePost(Post post) {
@@ -407,6 +524,16 @@ public class CMSDB {
         return (result);
     }
 
+    public Cursor getMediaImagesForBlog(String blogId) {
+        return db.rawQuery("SELECT id as _id, * FROM " +
+                        MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND "
+                        + "(uploadState IS NULL OR uploadState IN " +
+                        "('uploaded', 'queued', 'failed', 'uploading')) " +
+                        "AND mimeType LIKE ? ORDER BY " +
+                        "(uploadState=?) DESC, date_created_gmt DESC",
+                new String[] { blogId, "image%", "uploading" });
+    }
+
     public int updatePost(Post post) {
         int result = 0;
         if (post != null) {
@@ -434,7 +561,8 @@ public class CMSDB {
             values.put("mt_excerpt", post.getPostExcerpt());
             putPostLocation(post, values);
 
-            result = db.update(POSTS_TABLE, values, "blogID=? AND id=? AND isPage=?",
+            result = db.update(POSTS_TABLE, values,
+                    "blogID=? AND id=? AND isPage=?",
                     new String[]{
                             String.valueOf(post.getLocalTableBlogId()),
                             String.valueOf(post.getLocalTablePostId()),
