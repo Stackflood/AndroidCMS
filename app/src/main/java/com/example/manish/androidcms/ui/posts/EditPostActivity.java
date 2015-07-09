@@ -2,16 +2,19 @@ package com.example.manish.androidcms.ui.posts;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.media.browse.MediaBrowser;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -37,6 +40,7 @@ import com.example.manish.androidcms.ui.media.MediaPickerActivity;
 import com.example.manish.androidcms.ui.media.MediaSourceWPImages;
 import com.example.manish.androidcms.ui.media.MediaSourceWPVideos;
 import com.example.manish.androidcms.ui.media.WordPressMediaUtils;
+import com.example.manish.androidcms.ui.media.services.MediaUploadService;
 import com.example.manish.androidcms.util.WPHtml;
 import com.example.manish.androidcms.widgets.WPViewPager;
 
@@ -58,6 +62,7 @@ import org.wordpress.mediapicker.source.MediaSource;
 import org.wordpress.mediapicker.source.MediaSourceDeviceImages;
 import org.wordpress.mediapicker.source.MediaSourceDeviceVideos;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +88,7 @@ public class EditPostActivity extends ActionBarActivity
 
     public static final String EXTRA_POSTID = "postId";
     public static final String EXTRA_IS_PAGE = "isPage";
+    private boolean mMediaUploadServiceStarted;
 
     // Moved from EditPostContentFragment
     public static final String NEW_MEDIA_GALLERY = "NEW_MEDIA_GALLERY";
@@ -113,6 +119,9 @@ public class EditPostActivity extends ActionBarActivity
     private int mBlogMediaStatus = -1;
 
     private static final int AUTOSAVE_INTERVAL_MILLIS = 10000;
+
+    // Each element is a list of media IDs being uploaded to a gallery, keyed by gallery ID
+    private Map<Long, List<String>> mPendingGalleryUploads = new HashMap<>();
 
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
@@ -592,7 +601,8 @@ public class EditPostActivity extends ActionBarActivity
             // If the post is new and there are no changes, don't publish
             updatePostObject(false);
             if (!mPost.isPublishable()) {
-                ToastUtils.showToast(this, R.string.error_publish_empty_post, ToastUtils.Duration.SHORT);
+                ToastUtils.showToast(this, R.string.error_publish_empty_post,
+                        ToastUtils.Duration.SHORT);
                 return false;
             }
 
@@ -631,6 +641,131 @@ public class EditPostActivity extends ActionBarActivity
                 && TextUtils.isEmpty(mEditorFragment.getContent());
     }
 
+    /**
+     * Queues a media file for upload and starts the MediaUploadService. Toasts will alert the user
+     * if there are issues with the file.
+     *
+     * @param path
+     *  local path of the media file to upload
+     * @param mediaIdOut
+     *  the new {@link org.wordpress.android.models.MediaFile} ID is added if non-null
+     */
+    private void queueFileForUpload(String path, ArrayList<String> mediaIdOut) {
+        // Invalid file path
+        if (TextUtils.isEmpty(path)) {
+            Toast.makeText(this, R.string.editor_toast_invalid_path, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // File not found
+        File file = new File(path);
+        if (!file.exists()) {
+            Toast.makeText(this, R.string.file_not_found, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Blog blog = CMS.getCurrentBlog();
+        long currentTime = System.currentTimeMillis();
+        String mimeType = MediaUtils.getMediaFileMimeType(file);
+        String fileName = MediaUtils.getMediaFileName(file, mimeType);
+        MediaFile mediaFile = new MediaFile();
+
+        mediaFile.setBlogId(String.valueOf(blog.getLocalTableBlogId()));
+        mediaFile.setFileName(fileName);
+        mediaFile.setFilePath(path);
+        mediaFile.setUploadState("queued");
+        mediaFile.setDateCreatedGMT(currentTime);
+        mediaFile.setMediaId(String.valueOf(currentTime));
+
+        if (mimeType != null && mimeType.startsWith("image")) {
+            // get width and height
+            BitmapFactory.Options bfo = new BitmapFactory.Options();
+            bfo.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(path, bfo);
+            mediaFile.setWidth(bfo.outWidth);
+            mediaFile.setHeight(bfo.outHeight);
+        }
+
+        if (!TextUtils.isEmpty(mimeType)) {
+            mediaFile.setMimeType(mimeType);
+        }
+
+        if (mediaIdOut != null) {
+            mediaIdOut.add(mediaFile.getMediaId());
+        }
+
+        saveMediaFile(mediaFile);
+        startMediaUploadService();
+    }
+
+    /**
+     * Starts the upload service to upload selected media.
+     */
+    private void startMediaUploadService() {
+        if (!mMediaUploadServiceStarted) {
+            startService(new Intent(this, MediaUploadService.class));
+            mMediaUploadServiceStarted = true;
+        }
+    }
+
+    /**
+     * Handles result from {@link org.wordpress.android.ui.media.MediaPickerActivity}. Uploads local
+     * media to users blog then adds a gallery to the Post with all the selected media.
+     *
+     * @param data
+     *  contains the selected media content with key
+     *  {@link org.wordpress.android.ui.media.MediaPickerActivity#SELECTED_CONTENT_RESULTS_KEY}
+     */
+    private void handleGalleryResult(Intent data) {
+        if (data != null) {
+            List<MediaItem> selectedContent = data.getParcelableArrayListExtra(MediaPickerActivity.SELECTED_CONTENT_RESULTS_KEY);
+
+            if (selectedContent != null && selectedContent.size() > 0) {
+                ArrayList<String> blogMediaIds = new ArrayList<>();
+                ArrayList<String> localMediaIds = new ArrayList<>();
+
+                for (MediaItem content : selectedContent) {
+                    Uri source = content.getSource();
+                    final String id = content.getTag();
+
+                    if (source != null && id != null) {
+                        final String sourceString = source.toString();
+
+                        if (MediaUtils.isVideo(sourceString)) {
+                            // Videos cannot be added to a gallery, insert inline instead
+                            addMedia(source);
+                        } else if (URLUtil.isNetworkUrl(sourceString)) {
+                            blogMediaIds.add(id);
+                            AnalyticsTracker.track(AnalyticsTracker.Stat.EDITOR_ADDED_PHOTO_VIA_WP_MEDIA_LIBRARY);
+                        } else if (MediaUtils.isValidImage(sourceString)) {
+                            queueFileForUpload(sourceString, localMediaIds);
+                            AnalyticsTracker.track(AnalyticsTracker.Stat.EDITOR_ADDED_PHOTO_VIA_LOCAL_LIBRARY);
+                        }
+                    }
+                }
+
+                MediaGallery gallery = new MediaGallery();
+                gallery.setIds(blogMediaIds);
+
+                if (localMediaIds.size() > 0) {
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(
+                            Context.NOTIFICATION_SERVICE);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                    builder.setSmallIcon(android.R.drawable.stat_sys_upload);
+                    builder.setContentTitle("Uploading gallery");
+                    notificationManager.notify(10, builder.build());
+
+                    mPendingGalleryUploads.put(gallery.getUniqueId(), new ArrayList<>(localMediaIds));
+                }
+
+                // Only insert gallery span if images were added
+                if (localMediaIds.size() > 0 || blogMediaIds.size() > 0) {
+                    mEditorFragment.appendGallery(gallery);
+                }
+            }
+        }
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -649,6 +784,9 @@ public class EditPostActivity extends ActionBarActivity
                     {
                         new HandleMediaSelectionTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                                 data);
+                    }
+                    else if (resultCode == MediaPickerActivity.ACTIVITY_RESULT_CODE_GALLERY_CREATED) {
+                        handleGalleryResult(data);
                     }
             }
         }

@@ -30,7 +30,9 @@ getPostListAdapter() {
 
 ---->
 Bundle is most often used for passing
-data through various Activities. Provides putType() and getType() methods for storing and retrieving data from it.
+data through various Activities.
+Provides putType() and getType() methods
+ for storing and retrieving data from it.
 
 --->
 An Intent is exactly what it describes. It's an "intention" to do an action.
@@ -87,3 +89,116 @@ An Intent provides a facility for performing late runtime binding between the co
          * @return the row ID of the newly inserted row, or -1 if an error occurred
          */
         public long insert(String table, String nullColumnHack, ContentValues values) {
+
+
+--->
+
+attr.xml
+<declare-styleable name="FlowLayout"> ==
+ TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
+
+
+ --->
+View.getTag() It's basically a way for views to have memories.
+
+
+---->
+
+/**
+ * The SwipeRefreshLayout should be used whenever the user can refresh the
+ * contents of a view via a vertical swipe gesture. The activity that
+ * instantiates this view should add an OnRefreshListener to be notified
+ * whenever the swipe to refresh gesture is completed. The SwipeRefreshLayout
+ * will notify the listener each and every time the gesture is completed again;
+ * the listener is responsible for correctly determining when to actually
+ * initiate a refresh of its content. If the listener determines there should
+ * not be a refresh, it must call setRefreshing(false) to cancel any visual
+ * indication of a refresh. If an activity wishes to show just the progress
+ * animation, it should call setRefreshing(true). To disable the gesture and
+ * progress animation, call setEnabled(false) on the view.
+ * <p>
+ * This layout should be made the parent of the view that will be refreshed as a
+ * result of the gesture and can only support one direct child. This view will
+ * also be made the target of the gesture and will be forced to match both the
+ * width and the height supplied in this layout. The SwipeRefreshLayout does not
+ * provide accessibility events; instead, a menu item must be provided to allow
+ * refresh of the content wherever this gesture is used.
+ * </p>
+ */
+public class SwipeRefreshLayout extends ViewGroup
+
+--->
+
+SparseArrays map integers to Objects.  Unlike a normal array of Objects,
+ * there can be gaps in the indices.  It is intended to be more memory efficient
+ * than using a HashMap to map Integers to Objects, both because it avoids
+ * auto-boxing keys and its data structure doesn't rely on an extra entry object
+ * for each mapping.
+
+ --->
+
+ /**
+      * Causes the Runnable r to be added to the message queue.
+      * The runnable will be run on the thread to which this handler is
+      * attached.
+      *
+      * @param r The Runnable that will be executed.
+      *
+      * @return Returns true if the Runnable was successfully placed in to the
+      *         message queue.  Returns false on failure, usually because the
+      *         looper processing the message queue is exiting.
+      */
+     public final boolean post(Runnable r)
+     {
+        return  sendMessageDelayed(getPostMessage(r), 0);
+     }
+
+
+ ---->
+
+     HANDLERS :
+     http://developer.android.com/reference/android/os/Handler.html
+
+ --->
+
+ Example of RELATIVE LAYOUTS
+
+ http://developer.android.com/guide/topics/ui/layout/relative.html
+
+
+ --> Frame is not available
+
+ Issue doing database access such as :
+
+ Cursor c = db.query(CATEGORIES_TABLE, new String[]
+
+
+ -->
+ To go to next activity : startActivityForResult-- using intent
+ i=intent
+ r= request code
+ startActivityForResult(i,r);
+
+ getting back :
+ setResult(RESULT_OK, mIntent);
+                     finish();
+
+
+ ---> ViewStub
+
+ The < include /> will just include the xml contents in your base xml file as if the whole thing was just a single big file. It’s a nice way to share layout parts between different layouts.The < ViewStub /> is a bit different because it is not directly included, and will be loaded only when you actually use it/need it, i.e, when you set it’s visibility to “true”. This a nice optimization because you could have a complex layout with tons of small views or headers anywhere, and still have your Activity load up really fast.
+  Once you use one of those views, it’ll be loaded.
+
+
+  ----> Broadcast
+
+  A broadcast receiver (short receiver) is an Android component which allows you to register for system or application events.
+  All registered receivers for an event are notified by the Android runtime once this event happens.
+
+  ---> Android Video Uploader has problems - --- > all versions
+
+
+
+
+
+

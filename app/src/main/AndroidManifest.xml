@@ -4,6 +4,42 @@
     package="com.example.manish.androidcms"
     android:installLocation="auto">
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+
+    <!-- GCM all build types configuration -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
     <application
         android:name=".CMS"
         android:allowBackup="true"
@@ -83,10 +119,24 @@
             android:name=".ui.media.MediaPickerActivity"
             android:theme="@style/WordPress.DrawerActivity" />
 
+        <activity
+            android:name=".ui.posts.SelectCategoriesActivity"
+            android:theme="@style/CalypsoTheme"/>
+
+        <!-- Posts activities -->
+        <activity
+            android:name=".ui.posts.AddCategoryActivity"
+            android:label="@string/add_new_category"
+            android:theme="@style/WordPress.Dialog" />
         <!-- Services -->
         <service
             android:name=".ui.posts.PostUploadService"
             android:label="Post Upload Service" >
+        </service>
+
+        <service
+            android:name=".ui.media.services.MediaUploadService"
+            android:label="Media Upload Service" >
         </service>
 
         <!--<activity
@@ -100,5 +150,4 @@
             android:value="6d7d230c4ad98c9d7f8eb941cc6d83148e1f82b5" />-->
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

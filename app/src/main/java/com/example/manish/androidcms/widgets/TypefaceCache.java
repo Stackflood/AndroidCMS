@@ -19,7 +19,9 @@ public class TypefaceCache {
     public static Typeface getTypeface(Context context) {
         return getTypeface(context, Typeface.NORMAL, VARIATION_NORMAL);
     }
-    private static Typeface getTypeface(Context context, int fontStyle, int variation) {
+    private static Typeface getTypeface(Context context,
+                                        int fontStyle,
+                                        int variation) {
         if (context == null) {
             return null;
         }
@@ -87,11 +89,13 @@ public class TypefaceCache {
         // read custom fontVariation from attributes, default to normal
         int variation = TypefaceCache.VARIATION_NORMAL;
         if (attrs != null) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.WPTextView, 0, 0);
+            TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
+                    R.styleable.WPTextView, 0, 0);
 
             if (a != null) {
                 try {
-                    variation = a.getInteger(R.styleable.WPTextView_fontVariation, TypefaceCache.VARIATION_NORMAL);
+                    variation = a.getInteger(R.styleable.WPTextView_fontVariation,
+                            TypefaceCache.VARIATION_NORMAL);
                 } finally {
                     a.recycle();
                 }

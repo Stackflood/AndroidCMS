@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PersistentEditText/PersistentEditText.iml" filepath="$PROJECT_DIR$/PersistentEditText/PersistentEditText.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WordPressUtils/WordPressUtils.iml" filepath="$PROJECT_DIR$/WordPressUtils/WordPressUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/editor/editor.iml" filepath="$PROJECT_DIR$/editor/editor.iml" />
     </modules>
   </component>
 </project>
-

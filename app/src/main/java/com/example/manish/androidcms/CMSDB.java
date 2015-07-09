@@ -146,8 +146,97 @@ public class CMSDB {
         return result;
     }
 
+    //Categories
+    public boolean insertCategory(int id, int wp_id, int parent_id, String category_name)
+    {
+        ContentValues values = new ContentValues();
+        values.put("blog_id", id);
+        values.put("wp_id", wp_id);
+        values.put("category_name", category_name.toString());
+        boolean returnValue = false;
+        synchronized (this)
+        {
+            returnValue = db.insert(CATEGORIES_TABLE, null, values) > 0;
+        }
+        return (returnValue);
+    }
+
+    public List<String> loadCategories(int id)
+    {
+        Cursor c = db.query(CATEGORIES_TABLE, new String[]
+                {"id", "wp_id", "category_name"}, "blog_id=" +
+                id, null, null, null, null);
+
+        int numRows = c.getCount();
+        c.moveToFirst();
+        List<String> returnVector = new Vector<String>();
+
+        for(int i=0; i<numRows; i++)
+        {
+            String category_name = c.getString(2);
+            if (category_name != null) {
+                returnVector.add(category_name);
+            }
+            c.moveToNext();
+        }
+        c.close();
+
+        return returnVector;
+    }
+
+    public int getCategoryId(int id, String category) {
+        Cursor c = db.query(CATEGORIES_TABLE, new String[]
+                        { "wp_id" },
+                "category_name=? AND blog_id=?",
+                new String[] {
+                        category,
+                        String.valueOf(id)},
+                null, null, null);
+
+        if (c.getCount() == 0)
+            return 0;
+        c.moveToFirst();
+        int categoryID = 0;
+        categoryID = c.getInt(0);
+
+        c.close();
+
+        return categoryID;
+    }
+
+    public int getCategoryParentId(int id, String category)
+    {
+        Cursor c = db.query(CATEGORIES_TABLE, new String[]{"parent_id"},
+
+                "category_name=? AND blog_id=?",
+                new String[]
+                        {category, String.valueOf(id)},
+                null, null, null
+        );
+        if (c.getCount() == 0)
+            return -1;
+        c.moveToFirst();
+        int categoryParentID = c.getInt(0);
+        c.close();
+        return categoryParentID;
+    }
+
+    /**
+     * For a given blogId, set all uploading states to failed.
+     * Useful for cleaning up files stuck in the "uploading" state.
+     **/
+    public void setMediaUploadingToFailed(String blogId) {
+        if (blogId == null || blogId.equals(""))
+            return;
+
+        ContentValues values = new ContentValues();
+        values.put("uploadState", "failed");
+        db.update(MEDIA_TABLE, values, "blogId=? AND uploadState=?", new String[]{blogId, "uploading"});
+    }
+
     public int instantiateBlogByLocalId(int remoteBlogId, String xmlRpcUrl) {
-        int localBlogID = SqlUtils.intForQuery(db, "SELECT id FROM accounts WHERE blogId=? AND url=?",
+        int localBlogID = SqlUtils.intForQuery(db, "SELECT id FROM accounts " +
+                        "WHERE blogId=? AND url=?",
                 new String[]{Integer.toString(remoteBlogId), xmlRpcUrl});
         if (localBlogID==0) {
             localBlogID = this.getLocalTableBlogIdForJetpackRemoteID(remoteBlogId, xmlRpcUrl);
@@ -155,6 +244,11 @@ public class CMSDB {
         return localBlogID;
     }
 
+    public void clearCategories(int id) {
+        // clear out the table since we are refreshing the whole enchilada
+        db.delete(CATEGORIES_TABLE, "blog_id=" + id, null);
+
+    }
     public void deleteMediaFilesForPost(Post post) {
         db.delete(MEDIA_TABLE, "blogId='" + post.getLocalTableBlogId() +
                 "' AND postID=" + post.getLocalTablePostId(), null);

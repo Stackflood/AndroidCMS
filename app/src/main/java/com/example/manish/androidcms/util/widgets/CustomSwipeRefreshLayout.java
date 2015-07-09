@@ -7,12 +7,16 @@ import android.view.MotionEvent;
 
 import org.wordpress.android.util.AppLog;
 
+/**
+ * Created by Manish on 6/17/2015.
+ */
 public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
     public CustomSwipeRefreshLayout(Context context) {
         super(context);
     }
 
-    public CustomSwipeRefreshLayout(Context context, AttributeSet attrs) {
+    public CustomSwipeRefreshLayout(Context context,
+                                    AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -30,3 +34,4 @@ public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
         }
     }
 }
+

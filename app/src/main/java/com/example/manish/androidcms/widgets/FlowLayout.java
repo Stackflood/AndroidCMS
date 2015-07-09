@@ -18,7 +18,8 @@ public class FlowLayout extends ViewGroup {
     private int mVerticalSpacing;
     private Paint mPaint;
 
-    public FlowLayout(Context context, AttributeSet attrs) {
+    public FlowLayout(Context context,
+                      AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
         try {
@@ -31,7 +32,8 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec) - getPaddingRight() - getPaddingLeft();
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec) -
+                getPaddingRight() - getPaddingLeft();
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 
         boolean growHeight = widthMode != MeasureSpec.UNSPECIFIED;
@@ -88,7 +90,8 @@ public class FlowLayout extends ViewGroup {
         for (int i = 0; i < count; i++) {
             View child = getChildAt(i);
             LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            child.layout(lp.x, lp.y, lp.x + child.getMeasuredWidth(), lp.y + child.getMeasuredHeight());
+            child.layout(lp.x, lp.y, lp.x + child.getMeasuredWidth(),
+                    lp.y + child.getMeasuredHeight());
         }
     }
 
@@ -120,9 +123,11 @@ public class FlowLayout extends ViewGroup {
 
         public LayoutParams(Context context, AttributeSet attrs) {
             super(context, attrs);
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout_LayoutParams);
+            TypedArray a = context.obtainStyledAttributes(attrs,
+                    R.styleable.FlowLayout_LayoutParams);
             try {
-                horizontalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_LayoutParams_layout_horizontalSpacing, -1);
+                horizontalSpacing = a.getDimensionPixelSize
+                        (R.styleable.FlowLayout_LayoutParams_layout_horizontalSpacing, -1);
             } finally {
                 a.recycle();
             }

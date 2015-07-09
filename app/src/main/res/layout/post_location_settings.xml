@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/location"
         android:textSize="@dimen/text_sz_large"
-        android:layout_marginBottom="@dimen/margin_small" />
+        android:layout_marginBottom= "@dimen/margin_small" />
 
     <include layout="@layout/post_location_settings_add" />
 

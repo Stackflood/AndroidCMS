@@ -171,7 +171,7 @@ public class LegacyEditorFragment extends EditorFragmentAbstract implements
                 // Go to full screen editor when 'next' button is tapped on soft keyboard
                 if (actionId == EditorInfo.IME_ACTION_NEXT && isAdded() && mActivity.getSupportActionBar() != null &&
                         mActivity.getSupportActionBar().isShowing()) {
-                    setContentEditingModeVisible(true);
+                    setContentEditingModeVisible (true);
                 }
                 return false;
             }
