@@ -26,6 +26,9 @@
         <!--<item name="swipeToRefreshStyle">@style/WordPress.SwipeToRefresh</item>-->
     </style>
 
+    <style name="WordPressListRowBackground">
+        <item name="android:background">@null</item>
+    </style>
     <style name="WordPressSubHeader">
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginTop">8dp</item>

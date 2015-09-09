@@ -285,9 +285,12 @@ public class RestClientUtils {
     /**
      * Make POST request with params
      */
-    public void post(final String path, Map<String, String> params, RetryPolicy retryPolicy, RestRequest.Listener listener,
+    public void post(final String path, Map<String, String> params,
+                     RetryPolicy retryPolicy,
+                     RestRequest.Listener listener,
                      RestRequest.ErrorListener errorListener) {
-        final RestRequest request = mRestClient.makeRequest(Method.POST, mRestClient.getAbsoluteURL(path), params,
+        final RestRequest request = mRestClient.makeRequest(Method.POST,
+                mRestClient.getAbsoluteURL(path), params,
                                                             listener, errorListener);
         if (retryPolicy == null) {
             retryPolicy = new DefaultRetryPolicy(REST_TIMEOUT_MS, REST_MAX_RETRIES_POST,

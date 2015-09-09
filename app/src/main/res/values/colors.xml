@@ -26,7 +26,9 @@
     <!-- note that black should NOT be used for text - use grey_dark instead -->
     <color name="black">#000000</color>
     <color name="default_background">@color/grey_lighten_30</color>
-
+    <color name="grey_medium_light">#bbbbbb</color>
+    <color name="grey_medium">#999999</color>       <!-- "all T, all shade grey" -->
+    <color name="grey_medium_dark">#666666</color>  <!-- "whisper grey" -->
     <!-- ==================================== -->
     <!-- WordPress.com Colors                 -->
     <!-- wordpress.com/design-handbook/colors -->

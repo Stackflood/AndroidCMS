@@ -84,7 +84,8 @@ public class WPDelayedHurlStack implements HttpStack {
     }
 
     @Override
-    public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders)
+    public HttpResponse performRequest(Request<?> request,
+                                       Map<String, String> additionalHeaders)
             throws IOException, AuthFailureError {
         if (request.getUrl() != null) {
             if (!StringUtils.getHost(request.getUrl()).endsWith("wordpress.com") && mCurrentBlog != null

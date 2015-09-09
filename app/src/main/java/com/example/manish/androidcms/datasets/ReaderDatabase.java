@@ -23,6 +23,9 @@ public class ReaderDatabase extends SQLiteOpenHelper {
         reset(db);
     }
 
+    public static SQLiteDatabase getReadableDb() {
+        return getDatabase().getReadableDatabase();
+    }
     /*
      * drop & recreate all tables (essentially clears the db of all data)
      */

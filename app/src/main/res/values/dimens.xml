@@ -19,7 +19,7 @@
 
     <dimen name="message_bar_elevation">2dp</dimen>
     <dimen name="tabs_elevation">4dp</dimen>
-
+    <dimen name="reader_video_overlay_size">48dp</dimen>
     <dimen name="drawer_width_static">300dp</dimen>
     <dimen name="drawer_row_height">40dp</dimen>
     <dimen name="drawer_icon_size">24dp</dimen>

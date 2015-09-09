@@ -20,11 +20,13 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.example.manish.androidcms.datasets.SuggestionTable;
 import com.example.manish.androidcms.models.Blog;
+import com.example.manish.androidcms.models.Note;
 import com.example.manish.androidcms.models.Post;
 import com.example.manish.androidcms.networking.OAuthAuthenticator;
 import com.example.manish.androidcms.networking.OAuthAuthenticatorFactory;
 import com.example.manish.androidcms.networking.SelfSignedSSLCertsManager;
 import com.example.manish.androidcms.ui.analytics.AnalyticsTracker;
+import com.example.manish.androidcms.ui.notifications.utils.NotificationsUtils;
 import com.example.manish.androidcms.ui.prefs.AppPrefs;
 import com.example.manish.androidcms.util.BitmapLruCache;
 import com.example.manish.androidcms.util.CoreEvents;
@@ -195,6 +197,7 @@ public class CMS extends Application {
         return null;
     }
 
+
     /**
      * Get the currently active blog.
      * <p/>
@@ -363,7 +366,8 @@ public class CMS extends Application {
     public static RestClientUtils getRestClientUtils() {
         if (mRestClientUtils == null) {
             OAuthAuthenticator authenticator = OAuthAuthenticatorFactory.instantiate();
-            mRestClientUtils = new RestClientUtils(requestQueue, authenticator, mOnAuthFailedListener);
+            mRestClientUtils = new RestClientUtils(requestQueue,
+                    authenticator, mOnAuthFailedListener);
         }
         return mRestClientUtils;
     }
@@ -382,7 +386,8 @@ public class CMS extends Application {
     };
 
     public static void setupVolleyQueue() {
-        requestQueue = Volley.newRequestQueue(mContext, VolleyUtils.getHTTPClientStack(mContext));
+        requestQueue = Volley.newRequestQueue(mContext,
+                VolleyUtils.getHTTPClientStack(mContext));
         imageLoader = new ImageLoader(requestQueue, getBitmapCache());
         VolleyLog.setTag(AppLog.TAG);
         // http://stackoverflow.com/a/17035814
@@ -431,7 +436,52 @@ public class CMS extends Application {
 
     }
 
+    /** Register the device to Google Cloud Messaging service or return registration id if it's already registered.
+            *
+            * @return registration id or empty string if it's not registered.
+            */
+    private static String gcmRegisterIfNot(Context context) {
+
+        String regId = "";
+        try
+        {
+            GCMRegistrar.checkDevice(context);
+            GCMRegistrar.checkManifest(context);
+            regId = GCMRegistrar.getRegistrationId(context);
+            String gcmId = BuildConfig.GCM_ID;
+
+            if (gcmId != null && TextUtils.isEmpty(regId)) {
+                GCMRegistrar.register(context, gcmId);
+            }
+
+        } catch (UnsupportedOperationException e) {
+            // GCMRegistrar.checkDevice throws an UnsupportedOperationException if the device
+            // doesn't support GCM (ie. non-google Android)
+            AppLog.e(AppLog.T.NOTIFS, "Device doesn't support GCM: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            // GCMRegistrar.checkManifest or GCMRegistrar.register throws an IllegalStateException if Manifest
+            // configuration is incorrect (missing a permission for instance) or if GCM dependencies are missing
+            AppLog.e(AppLog.T.NOTIFS, "APK (manifest error or dependency missing) doesn't support GCM: " + e.getMessage());
+        } catch (Exception e) {
+            // SecurityException can happen on some devices without Google services (these devices probably strip
+            // the AndroidManifest.xml and remove unsupported permissions).
+            AppLog.e(AppLog.T.NOTIFS, e);
+        }
+        return regId;
+    }
+
     public static void registerForCloudMessaging(Context context) {
+
+        String regId = gcmRegisterIfNot(context);
+
+        // Register to WordPress.com notifications
+        if (CMS.hasDotComToken(context)) {
+            if (!TextUtils.isEmpty(regId)) {
+                // Send the token to WP.com in case it was invalidated
+                NotificationsUtils.registerDeviceForPushNotifications(context, regId);
+                AppLog.v(AppLog.T.NOTIFS, "Already registered for GCM");
+            }
+        }
         /*String regId = gcmRegisterIfNot(context);
 
         // Register to WordPress.com notifications

@@ -53,7 +53,9 @@ public class RestClient {
         return makeRequest(Method.POST, getAbsoluteURL(path), body, listener, errorListener);
     }
 
-    public RestRequest makeRequest(int method, String url, Map<String, String> params, Listener<JSONObject> listener,
+    public RestRequest makeRequest(int method,
+                                   String url, Map<String, String> params,
+                                   Listener<JSONObject> listener,
                                    ErrorListener errorListener) {
         RestRequest request = new RestRequest(method, url, params, listener, errorListener);
         if (mOnAuthFailedListener != null) {

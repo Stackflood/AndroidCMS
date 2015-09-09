@@ -20,6 +20,7 @@
     <string name="password">Password</string>
     <string name="blogs">Blogs</string>
     <string name="account_details">Account details</string>
+
     <string name="status">Status</string>
 
     <!-- comment form labels -->

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.util.Base64;
 import com.example.manish.androidcms.datasets.CommentTable;
 import com.example.manish.androidcms.datasets.SuggestionTable;
 import com.example.manish.androidcms.models.Blog;
+import com.example.manish.androidcms.models.Note;
 import com.example.manish.androidcms.models.Post;
 import com.example.manish.androidcms.models.PostLocation;
 import com.example.manish.androidcms.models.PostsListPost;
@@ -20,6 +22,9 @@ import com.example.manish.androidcms.networking.OAuthAuthenticator;
 import NetWorking.RestClientUtils;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.MapUtils;
 import org.wordpress.android.util.SqlUtils;
 
@@ -77,6 +82,11 @@ public class CMSDB {
     private static final String DATABASE_NAME = "CMS";
     private static final String CREATE_TABLE_SETTINGS = "create table if not exists accounts (id integer primary key autoincrement, "
             + "url text, blogName text, username text, password text, imagePlacement text, centerThumbnail boolean, fullSizeImage boolean, maxImageWidth text, maxImageWidthId integer);";
+
+    // create table to store notifications
+    private static final String NOTES_TABLE = "notes";
+    private static final String CREATE_TABLE_NOTES = "create table if not exists notes (id integer primary key, "
+            + "note_id text, message text, type text, raw_note_data text, timestamp integer, placeholder boolean);";
 
     public static final String SETTINGS_TABLE = "accounts";
     private static final String MEDIA_TABLE = "media";
@@ -258,6 +268,106 @@ public class CMSDB {
     public Cursor getMediaFile(String blogId, String mediaId) {
         return db.rawQuery("SELECT * FROM " +
                 MEDIA_TABLE + " WHERE blogId=? AND mediaId=?", new String[] { blogId, mediaId });
+    }
+
+    public void addNote(Note note, boolean placeholder) {
+        ContentValues values = new ContentValues();
+        values.put("type", note.getType());
+        values.put("timestamp", note.getTimestamp());
+        values.put("placeholder", placeholder);
+        values.put("raw_note_data", note.toJSONObject().toString()); // easiest way to store schema-less data
+
+        if (note.getId().equals("0") || note.getId().equals("")) {
+            values.put("id", generateIdFor(note));
+            values.put("note_id", "0");
+        } else {
+            values.put("id", note.getId());
+            values.put("note_id", note.getId());
+        }
+
+        db.insertWithOnConflict(NOTES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    protected void clearNotes() {
+        db.delete(NOTES_TABLE, null, null);
+    }
+
+    public void saveNotes(List<Note> notes, boolean clearBeforeSaving) {
+        db.beginTransaction();
+        try {
+            if (clearBeforeSaving)
+                clearNotes();
+            for (Note note: notes)
+                addNote(note, false);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public ArrayList<Note> getLatestNotes() {
+        return getLatestNotes(20);
+    }
+
+    public ArrayList<Note> getLatestNotes(int limit)
+    {
+        Cursor cursor = db.query(NOTES_TABLE,
+                new String[]
+                        {
+                          "note_id",
+                                "raw_note_data",
+                                "placeholder"
+                        }, null, null, null, null, "timestamp DESC", "" + limit);
+
+        ArrayList<Note> notes = new ArrayList<>();
+        while (cursor.moveToNext())
+        {
+            String note_id = cursor.getString(0);
+            String raw_note_data = cursor.getString(1);
+            boolean placeholder = cursor.getInt(2) == 1;
+
+            try
+            {
+                Note note = new Note(new JSONObject(raw_note_data));
+                note.setPlaceholder(placeholder);
+                notes.add(note);
+            }
+            catch (JSONException e) {
+                AppLog.e(AppLog.T.DB, "Can't parse notification with note_id:" + note_id + ", exception:" + e);
+            }
+        }
+        cursor.close();
+        return notes;
+    }
+    public static int generateIdFor(Note note) {
+        if (note == null) {
+            return 0;
+        }
+        return StringUtils.getMd5IntHash(note.getSubject() + note.getType()).intValue();
+    }
+
+    public Note  getNoteById(int id)
+    {
+        Cursor cursor = db.query(
+                NOTES_TABLE,
+                new String[]
+                        {
+                             "raw_note_data"
+                        }, "id=" + id, null, null, null, null);
+        cursor.moveToFirst();
+
+        try
+        {
+            JSONObject jsonNote = new JSONObject(cursor.getString(0));
+            return new Note(jsonNote);
+        }
+        catch (JSONException e) {
+            AppLog.e(AppLog.T.DB, "Can't parse JSON Note: " + e);
+            return null;
+        } catch (CursorIndexOutOfBoundsException e) {
+            AppLog.v(AppLog.T.DB, "No Note with this id: " + e);
+            return null;
+        }
     }
 
     public boolean addBlog(Blog blog) {
@@ -1012,7 +1122,7 @@ public class CMSDB {
         db.execSQL(CREATE_TABLE_QUICKPRESS_SHORTCUTS);
         db.execSQL(CREATE_TABLE_MEDIA);
         db.execSQL(CREATE_TABLE_THEMES);
-
+        db.execSQL(CREATE_TABLE_NOTES);
         CommentTable.createTables(db);
         SuggestionTable.createTables(db);
 
@@ -1035,6 +1145,7 @@ public class CMSDB {
                 db.execSQL(ADD_API_BLOGID);
                 db.execSQL(ADD_DOTCOM_FLAG);
                 db.execSQL(ADD_WP_VERSION);
+                //db.execSQL(CREATE_TABLE_NOTES);
                 currentVersion = 9;
             case 9:
                 db.execSQL(ADD_HTTPUSER);
@@ -1104,7 +1215,7 @@ public class CMSDB {
                 currentVersion++;
             case 26:
                 // Drop the notes table, no longer needed with Simperium.
-                db.execSQL("DROP TABLE IF EXISTS notes;");
+             //---Not using simperium  // db.execSQL("DROP TABLE IF EXISTS notes;");
                 currentVersion++;
             case 27:
                 // Add isUploading column to POSTS
