@@ -114,6 +114,10 @@
         <item name="android:stateListAnimator">@anim/raise</item>
     </style>
 
+    <style name="WordPress.BorderedBackground">
+        <item name="android:background">@color/white</item>
+    </style>
+
     <style name="SignInTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorControlActivated">@color/color_control_activated</item>
         <item name="colorControlHighlight">@color/color_control_highlight</item>

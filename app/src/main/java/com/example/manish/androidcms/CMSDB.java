@@ -171,6 +171,25 @@ public class CMSDB {
         return (returnValue);
     }
 
+    public boolean isLocalBlogIdInDatabase(int localBlogId) {
+        String[] args = {Integer.toString(localBlogId)};
+        return SqlUtils.boolForQuery(db, "SELECT 1 FROM " + SETTINGS_TABLE + " WHERE id=?", args);
+    }
+
+    public int getRemoteBlogIdForLocalTableBlogId(int localBlogId) {
+        int remoteBlogID = SqlUtils.intForQuery(db, "SELECT blogId FROM accounts WHERE id=?", new String[]{Integer.toString(localBlogId)});
+        if (remoteBlogID<=1) { //Make sure we're not returning a wrong ID for jetpack blog.
+            List<Map<String,Object>> allAccounts = this.getAccountsBy("dotcomFlag=0", new String[]{"api_blogid"});
+            for (Map<String, Object> currentAccount : allAccounts) {
+                if (MapUtils.getMapInt(currentAccount, "id")==localBlogId) {
+                    remoteBlogID = MapUtils.getMapInt(currentAccount, "api_blogid");
+                    break;
+                }
+            }
+        }
+        return remoteBlogID;
+    }
+
     public List<String> loadCategories(int id)
     {
         Cursor c = db.query(CATEGORIES_TABLE, new String[]

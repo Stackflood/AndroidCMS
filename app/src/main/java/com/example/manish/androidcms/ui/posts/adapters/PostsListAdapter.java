@@ -203,7 +203,8 @@ public class PostsListAdapter extends BaseAdapter {
 
         @Override
         protected Boolean doInBackground(Void... nada) {
-            loadedPosts = CMS.cmsDB.getPostsListPosts(CMS.getCurrentLocalTableBlogId(), mIsPage);
+            loadedPosts = CMS.cmsDB.getPostsListPosts(CMS.getCurrentLocalTableBlogId(),
+                    mIsPage);
             if (postsListMatch(loadedPosts)) {
                 return false;
             }

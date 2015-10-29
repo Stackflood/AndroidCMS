@@ -46,7 +46,8 @@ public class Note {
     public static enum EnabledActions {ACTION_REPLY,
         ACTION_APPROVE,
         ACTION_UNAPPROVE,
-        ACTION_SPAM}
+        ACTION_SPAM,
+        ACTION_LIKE}
 
     private Map<String,JSONObject> mActions;
     private final JSONObject mNoteJSON;
@@ -75,6 +76,10 @@ public class Note {
     public Note(JSONObject noteJSON){
         mNoteJSON = noteJSON;
         preloadContent();
+    }
+
+    public int getSiteId() {
+        return queryJSON("meta.ids.site", 0);
     }
 
     /**

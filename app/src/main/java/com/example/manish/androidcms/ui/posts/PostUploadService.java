@@ -66,7 +66,7 @@ import xmlrpc.android.XMLRPCFactory;
  * to perform a longer-running operation while not interacting with the user
  * or to supply functionality for other applications to use.
  */
-        public class PostUploadService extends Service {
+public class PostUploadService extends Service {
     private static Context mContext;
     private static final ArrayList<Post> mPostsList = new ArrayList<Post>();
     private static Post mCurrentUploadingPost = null;
@@ -881,7 +881,8 @@ import xmlrpc.android.XMLRPCFactory;
             mNotificationBuilder = new NotificationCompat.Builder(getApplicationContext());
             mNotificationBuilder.setSmallIcon(android.R.drawable.stat_sys_upload);
 
-            Intent notificationIntent = new Intent(mContext, post.isPage() ? PagesActivity.class :
+            Intent notificationIntent = new Intent(mContext, post.isPage() ?
+                    PagesActivity.class :
                     PostsActivity.class);
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
                     | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
@@ -890,7 +891,8 @@ import xmlrpc.android.XMLRPCFactory;
             notificationIntent.setData((Uri.parse("custom://wordpressNotificationIntent"
                     + post.getLocalTableBlogId())));
             notificationIntent.putExtra(PostsActivity.EXTRA_VIEW_PAGES, post.isPage());
-            PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, notificationIntent,
+            PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0,
+                    notificationIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
 
             mNotificationBuilder.setContentIntent(pendingIntent);

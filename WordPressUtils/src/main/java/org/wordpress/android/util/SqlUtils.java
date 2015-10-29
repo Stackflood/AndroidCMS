@@ -31,6 +31,8 @@ public class SqlUtils {
         }
     }
 
+
+
     public static void closeCursor(Cursor c) {
         if (c != null && !c.isClosed()) {
             c.close();

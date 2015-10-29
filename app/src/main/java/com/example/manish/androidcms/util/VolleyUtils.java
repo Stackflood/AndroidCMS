@@ -62,6 +62,13 @@ public class VolleyUtils {
         requestQueue.cancelAll(filter);
     }
 
+    public static int statusCodeFromVolleyError(VolleyError volleyError) {
+        if (volleyError == null || volleyError.networkResponse == null) {
+            return 0;
+        }
+        return volleyError.networkResponse.statusCode;
+    }
+
     /*
      * Return true if the blog is protected with HTTP Basic Auth
      */

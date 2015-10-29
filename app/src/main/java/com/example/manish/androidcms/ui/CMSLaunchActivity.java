@@ -58,6 +58,8 @@ public class CMSLaunchActivity extends ActionBarActivity {
             intent = new Intent(this, PostsActivity.class);
         }
 
+        //added this so application shouldn't break the next time it starts
+        intent = new Intent(this, PostsActivity.class);
         startActivity(intent);
         finish();
     }

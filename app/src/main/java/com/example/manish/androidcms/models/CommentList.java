@@ -1,5 +1,7 @@
 package com.example.manish.androidcms.models;
 
+import com.example.manish.androidcms.ui.posts.PostUploadService;
+
 import java.util.ArrayList;
 
 public class CommentList extends ArrayList<Comment> {
@@ -23,6 +25,8 @@ public class CommentList extends ArrayList<Comment> {
                 set(index, comment);
         }
     }
+
+
 
     /*
      * delete comments in this list that match the passed list

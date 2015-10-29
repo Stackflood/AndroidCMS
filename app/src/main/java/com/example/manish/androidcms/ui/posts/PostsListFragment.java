@@ -264,7 +264,8 @@ public class PostsListFragment extends ListFragment
                     return;
                 if (v == null) //view is gone
                     return;
-                PostsListPost postsListPost = (PostsListPost) getPostListAdapter().getItem(position);
+                PostsListPost postsListPost = (PostsListPost)
+                        getPostListAdapter().getItem(position);
                 if (postsListPost == null)
                     return;
                 if (!mIsFetchingPosts || isLoadingMorePosts()) {

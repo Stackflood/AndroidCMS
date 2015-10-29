@@ -9,6 +9,7 @@ import android.content.Context;
 import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.datasets.CommentTable;
+import com.example.manish.androidcms.ui.comments.CommentsActivity;
 import com.example.manish.androidcms.ui.posts.PostsActivity;
 import com.example.manish.androidcms.ui.stats.StatsActivity;
 
@@ -198,20 +199,20 @@ public class DrawerItems {
                     return (context instanceof PostsActivity) ;
 
                            /* && !(context instanceof PagesActivity);*/
-                /*case MEDIA:
+          /*      case MEDIA:
                     return context instanceof MediaBrowserActivity;
                 case PAGES:
-                    return context instanceof PagesActivity;
+                    return context instanceof PagesActivity;*/
                 case COMMENTS:
                     return context instanceof CommentsActivity;
-                case THEMES:
+                /*case THEMES:
                     return context instanceof ThemeBrowserActivity;
                 case STATS:
                     return context instanceof StatsActivity;
                 case VIEW_SITE:
-                    return context instanceof ViewSiteActivity;*/
+                    return context instanceof ViewSiteActivity;*//*
                 case QUICK_PHOTO:
-                    return false;
+                    return false;*/
                 default :
                     return false;
             }

@@ -35,13 +35,15 @@ public class ListScrollPositionManager {
     }
 
     public void restoreScrollOffset() {
-        mListView.setSelectionFromTop(mListViewScrollStateIndex, mListViewScrollStateOffset);
+        mListView.setSelectionFromTop(mListViewScrollStateIndex,
+                mListViewScrollStateOffset);
         if (mSetSelection) {
             mListView.setItemChecked(mSelectedPosition, true);
         }
     }
 
-    public void saveToPreferences(Context context, String uniqueId) {
+    public void saveToPreferences(Context context,
+                                  String uniqueId) {
         saveScrollOffset();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();

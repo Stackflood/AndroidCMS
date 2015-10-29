@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -32,6 +33,7 @@ import com.example.manish.androidcms.ui.posts.PostsActivity;
 import com.example.manish.androidcms.ui.prefs.SettingsActivity;
 import com.example.manish.androidcms.ui.stats.StatsActivity;
 import com.example.manish.androidcms.util.CMSActivityUtils;
+import com.example.manish.androidcms.util.ToastUtils;
 
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.BlogUtils;
@@ -81,7 +83,8 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
 
         if(getIntent() != null)
         {
-            menuDrawerDisabled = getIntent().getBooleanExtra(StatsActivity.ARG_NO_MENU_DRAWER, false);
+            menuDrawerDisabled = getIntent().
+                    getBooleanExtra(StatsActivity.ARG_NO_MENU_DRAWER, false);
         }
         if (isStaticMenuDrawer() && !menuDrawerDisabled) {
             setContentView(R.layout.activity_drawer_static);
@@ -412,6 +415,47 @@ public abstract class CMSDrawerActivity extends ActionBarActivity {
                 mShouldFinish = false;
                 intent = null;
                 break;
+        }
+
+        if(intent == null)
+        {
+            ToastUtils.showToast(this,R.string.reader_toast_err_generic );
+        }
+
+        if(mShouldFinish)
+        {
+            // set the ActionBar title to that of the incoming activity - left blank for the
+            // reader since it shows a spinner in the toolbar
+            if(getSupportActionBar() != null)
+            {
+                int titleResId = item.getTitleResId();
+                if (titleResId != 0 && activityId != ActivityId.READER) {
+                    getSupportActionBar().setTitle(getString(titleResId));
+                } else {
+                    getSupportActionBar().setTitle(null);
+                }
+            }
+
+            // close the drawer and fade out the activity container so current activity appears to be going away
+            closeDrawer();
+            hideActivityView();
+
+            // start the new activity after a brief delay to give drawer time to close
+            new Handler().postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(intent);
+                        }
+                    }, OPENED_FROM_DRAWER_DELAY
+            );
+
+        }
+        else {
+            // current activity isn't being finished, so just start the new activity
+            closeDrawer();
+            startActivity(intent);
         }
     }
 

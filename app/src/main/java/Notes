@@ -159,6 +159,39 @@ SparseArrays map integers to Objects.  Unlike a normal array of Objects,
      HANDLERS :
      http://developer.android.com/reference/android/os/Handler.html
 
+     A Handler allows you to send and process Message and Runnable
+      objects associated with a thread's MessageQueue. Each Handler instance is
+      associated with a single thread and that thread's message queue.
+      When you create a new Handler, it is bound to the thread / message queue of the
+      thread that is creating it -- from that point on, it will deliver messages and
+      runnables to that message queue and execute them as they come out of the message queue.
+
+     There are two main uses for a Handler: (1) to schedule messages and runnables
+     to be executed as some point in the future; and (2) to enqueue an action to be
+     performed on a different thread than your own.
+
+     Scheduling messages is accomplished with the post(Runnable), postAtTime(Runnable, long),
+      postDelayed(Runnable, long), sendEmptyMessage(int), sendMessage(Message),
+      sendMessageAtTime(Message, long), and sendMessageDelayed(Message, long) methods.
+      The post versions allow you to enqueue Runnable objects to be called by the message
+       queue when they are received; the sendMessage versions allow you to enqueue a
+       Message object containing a bundle of data that will be processed
+
+     by the Handler's handleMessage(Message) method (requiring that you implement a
+     subclass of Handler).
+
+     When posting or sending to a Handler, you can either allow the item to
+      be processed as soon as the message queue is ready to do so, or specify a delay before it gets processed or absolute time for it to be processed. The latter two allow you to implement timeouts, ticks, and other timing-based behavior.
+
+     When a process is created for your application, its main thread is dedicated to
+     running a message queue that takes care of managing the top-level application
+      objects (activities, broadcast receivers, etc) and any windows they create.
+       You can create your own threads, and communicate back with the main application
+       thread through a Handler. This is done by calling the same post or
+        sendMessage methods as before, but from your new thread.
+        The given Runnable or Message will then be scheduled in
+        the Handler's message queue and processed when appropriate.
+
  --->
 
  Example of RELATIVE LAYOUTS
@@ -198,6 +231,46 @@ SparseArrays map integers to Objects.  Unlike a normal array of Objects,
   ---> Android Video Uploader has problems - --- > all versions
 
 
+----> FrameLayout
+
+FrameLayout is designed to block out an area on the screen to display a single item.
+Generally, FrameLayout should be used to hold a single child view, because it can be difficult to organize child views in a way that's
+scalable to different screen sizes without the children overlapping each other.
+ You can, however, add multiple children to a FrameLayout and control their position within the FrameLayout
+  by assigning gravity to each child, using the android:layout_gravity attribute.
+
+Child views are drawn in a stack, with the most recently added child on top. The size of the FrameLayout is the size of its largest child (plus padding), visible or not (if the FrameLayout's parent permits). Views that are GONE are used for sizing only if setConsiderGoneChildrenWhenMeasuring() is set to true.
+
+
+-----> Fragment Lifecycle
+
+http://www.javacodegeeks.com/2013/06/android-fragment-lifecycle-multiple-screen-support.html
+http://a3ab771892fd198a96736e50.javacodegeeks.netdna-cdn.com/wp-content/uploads/2013/06/android_fragment_lifecycle4.png
+
+Let’s move from the top to the bottom. At very beginning of the fragment life the method onInflate is called. We have to notice that this method is called only if we define fragment directly in our layout using the tag <fragment>. In this method we can save some configuration parameter and some attributes define in the XML layout file. After this step onAttach is called. This method is called as soon as the fragment is “attached” to the “father” activity and we can this method to store the reference about the activity. After it we have onCreate. It is one of the most important step, our fragment is in the creation process. This method can be used to start some thread to retrieve data information, maybe from a remote server. The onCreateView is the method called when the fragment has to create its view hierarchy. During this method we will inflate our layout inside the fragment as we do for example in the ListView widget. During this phase we can’t be sure that our activity is still created so we can’t count on it for some operation. We get notified when the “father” activity is created and ready in the onActivityCreated. From now on, our activity is active and created and we can use it when we need. The next step is onStart method. Here we do the common things as in the activity onStart, during this phase our fragment is visible but it isn’t still interacting with the user.When the fragment is ready to interact with user onResume is called. At the end of this phase our fragment is up and running!!
+Then it can happen that the activity is paused and so the activity’s onPause is called. Well onPause fragment method is called too. After it it can happen that the OS decides to destroy our fragment view and so onDestroyView is called. After it, if the system decides to dismiss our fragment it calls onDestroy method. Here we should release all the connection active and so on because our fragment is close to die. Even if it is during the destroy phase it is still attached to the father activity. The last step is detach the fragment from the activity and it happens when onDetach is called.
+
+----- > tools
+
+http://tools.android.com/tips/layout-designtime-attributes
+
+
+--> BaseAdapter
+
+public View getView(int position, View convertView, ViewGroup parent)
+actaully creates the view where you bind your custom layout
+
+
+getView() is called for each item in the list you pass to your adapter.
+ It is called when you set adapter. When getView() is finished the next line after setAdapter(myAdapter) is called.
+  In order to debug getView() you must toggle a breakpoint on it because you can't step into getView() from setAdapter(myAdapter).
+   getView() is also called after notifyDataSetChanged() and on scrolling.
+
+To be more clear, getView() is called whenever a new item is displayed on screen,
+at the count of displayed items. Which means, if you have 1 million items but 15 of them fits on screen,
+getView is called 15 times. Whenever you scroll up/down and new items appear, getView() is called for new ones.
+ And you should be aware of recycler mechanism, too. Which holds a template item layout for each item type,
+ and sends in this view to getView() method as convertView parameter, so you could use it in order to prevent layout inflation.
 
 
 

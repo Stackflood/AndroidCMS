@@ -129,6 +129,7 @@
                 android:tint="@color/post_detail_icon_tint"
                 android:src="@drawable/ic_create_white_24dp"
                 android:contentDescription="@string/edit_post" />
+
         </LinearLayout>
     </RelativeLayout>
 

@@ -12,7 +12,8 @@ import android.widget.TextView;
 import com.example.manish.androidcms.R;
 
 /**
- * custom TextView used in layouts - enables keeping custom typeface handling in one place (so we
+ * custom TextView used in layouts - enables keeping custom
+ * typeface handling in one place (so we
  * avoid having to set the typeface for every single TextView in every single activity)
  */
 public class CMSTextView extends TextView {

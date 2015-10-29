@@ -85,7 +85,7 @@ public class NotificationsListFragment extends ListFragment
             textview.setText(getText(R.string.notifications_empty_list));
         }
 
-        initSwipeToRefreshHelper();
+       //initSwipeToRefreshHelper();
     }
 
     @Override

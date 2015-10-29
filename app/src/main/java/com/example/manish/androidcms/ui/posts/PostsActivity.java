@@ -215,7 +215,8 @@ public class PostsActivity extends CMSDrawerActivity
     protected void onResume() {
         super.onResume();
 
-        // posts can't be shown if there aren't any visible blogs, so redirect to the reader and
+        // posts can't be shown if there aren't any visible blogs,
+        // so redirect to the reader and
         // exit the post list in this situation
         if (CMS.isSignedIn(PostsActivity.this)) {
             if (showCorrectActivityForAccountIfRequired()) {
@@ -284,7 +285,8 @@ public class PostsActivity extends CMSDrawerActivity
         }
 
         FragmentManager fm = getFragmentManager();
-        ViewPostFragment viewPostFragment = (ViewPostFragment) fm.findFragmentById(R.id.postDetail);
+        ViewPostFragment viewPostFragment = (ViewPostFragment)
+                fm.findFragmentById(R.id.postDetail);
 
         if (post != null) {
             if (post.isUploading()){
@@ -406,7 +408,8 @@ public class PostsActivity extends CMSDrawerActivity
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_SUBJECT, post.getTitle());
             String shortlink = WPMeShortlinks.getPostShortlink(CMS.getCurrentBlog(), post);
-            share.putExtra(Intent.EXTRA_TEXT, shortlink != null ? shortlink : post.getPermaLink());
+            share.putExtra(Intent.EXTRA_TEXT,
+                    shortlink != null ? shortlink : post.getPermaLink());
             startActivity(Intent.createChooser(share, getResources()
                     .getText(R.string.share_url)));
             AppLockManager.getInstance().setExtendedTimeout();
@@ -607,6 +610,7 @@ public class PostsActivity extends CMSDrawerActivity
 
     @Override
     public void onDetailPostAction(int action, Post post) {
+
         onPostAction(action, post);
     }
 

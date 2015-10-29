@@ -60,7 +60,8 @@ import de.greenrobot.event.EventBus;
  */
 
 
-/*onCreate( ) Called when the application is starting, before any other application objects have been created.*/
+/*onCreate( ) Called when the application is starting,
+ before any other application objects have been created.*/
 public class CMS extends Application {
 
     public static final String ACCESS_TOKEN_PREFERENCE="wp_pref_wpcom_access_token";
@@ -548,7 +549,8 @@ public class CMS extends Application {
    private void initCMSDb() {
         if (!createAndVerifyCMSDb()) {
             AppLog.e(AppLog.T.DB, "Invalid database, sign out user and delete database");
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            SharedPreferences.Editor editor = PreferenceManager.
+                    getDefaultSharedPreferences(this).edit();
             currentBlog = null;
             editor.remove(CMS.WPCOM_USERNAME_PREFERENCE);
             editor.remove(CMS.ACCESS_TOKEN_PREFERENCE);

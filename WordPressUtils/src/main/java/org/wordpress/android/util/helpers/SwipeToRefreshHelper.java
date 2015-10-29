@@ -3,6 +3,7 @@ package org.wordpress.android.util.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.TypedValue;
 
@@ -10,7 +11,7 @@ import org.wordpress.android.util.R;
 import org.wordpress.android.util.widgets.CustomSwipeRefreshLayout;
 
 public class SwipeToRefreshHelper implements OnRefreshListener {
-    private CustomSwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RefreshListener mRefreshListener;
     private boolean mRefreshing;
 
@@ -18,11 +19,11 @@ public class SwipeToRefreshHelper implements OnRefreshListener {
         public void onRefreshStarted();
     }
 
-    public SwipeToRefreshHelper(Activity activity, CustomSwipeRefreshLayout swipeRefreshLayout, RefreshListener listener) {
+    public SwipeToRefreshHelper(Activity activity, SwipeRefreshLayout swipeRefreshLayout, RefreshListener listener) {
         init(activity, swipeRefreshLayout, listener);
     }
 
-    public void init(Activity activity, CustomSwipeRefreshLayout swipeRefreshLayout, RefreshListener listener) {
+    public void init(Activity activity, SwipeRefreshLayout swipeRefreshLayout, RefreshListener listener) {
         mRefreshListener = listener;
         mSwipeRefreshLayout = swipeRefreshLayout;
         mSwipeRefreshLayout.setOnRefreshListener(this);

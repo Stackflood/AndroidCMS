@@ -26,6 +26,11 @@ public class Comment {
     private String published;
     private String profileImageUrl;
 
+    public CommentStatus getStatusEnum() {
+        return CommentStatus.fromString(status);
+    }
+
+
     public Comment(long postID,
                    long commentID,
                    String authorName,
@@ -51,6 +56,7 @@ public class Comment {
     private Comment() {
         // nop
     }
+
 
     /*
      * nbradbury 11/14/13 - create a comment from JSON (REST response)

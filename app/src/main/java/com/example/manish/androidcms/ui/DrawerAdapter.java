@@ -63,15 +63,15 @@ public class DrawerAdapter extends BaseAdapter {
         DrawerItems.DrawerItem item = mItems.get(position);
         int badgeCount = item.getBadgeCount();
 
-        //holder.txtTitle.setText(item.getTitleResId());
+        holder.txtTitle.setText(item.getTitleResId());
         holder.imgIcon.setImageResource(item.getIconResId());
         holder.divider.setVisibility(item.hasDivider() ? View.VISIBLE : View.GONE);
 
         if (badgeCount > 0) {
-            //holder.txtBadge.setVisibility(View.VISIBLE);
-            //holder.txtBadge.setText(String.valueOf(badgeCount));
+            holder.txtBadge.setVisibility(View.VISIBLE);
+            holder.txtBadge.setText(String.valueOf(badgeCount));
         } else {
-            //holder.txtBadge.setVisibility(View.GONE);
+            holder.txtBadge.setVisibility(View.GONE);
         }
 
         if (item.isSelected(parent.getContext())) {

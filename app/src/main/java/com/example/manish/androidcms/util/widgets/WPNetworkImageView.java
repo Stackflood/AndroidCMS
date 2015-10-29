@@ -7,8 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -23,25 +28,41 @@ import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.datasets.ReaderThumbnailTable;
 import com.example.manish.androidcms.util.ReaderVideoUtils;
 import com.example.manish.androidcms.util.SysUtils;
+import com.example.manish.androidcms.util.VolleyUtils;
+
+import org.wordpress.android.util.AppLog;
+import org.wordpress.android.util.DisplayUtils;
+import org.wordpress.android.util.ImageUtils;
 
 /**
  * most of the code below is from Volley's NetworkImageView, but it's modified to support:
  *  (1) fading in downloaded images
  *  (2) manipulating images before display
  *  (3) automatically retrieving the thumbnail for YouTube & Vimeo videos
- *  (4) adding a listener to determine when image has completed downloading (or failed)
+ *  (4) adding a listener to determine when image request has completed or failed
+ *  (5) automatically retrying mshot requests that return a 307
  */
 public class WPNetworkImageView extends ImageView {
-    public enum ImageType {PHOTO,
-        PHOTO_FULL,
+    public static enum ImageType {NONE,
+        PHOTO,
+        MSHOT,
         VIDEO,
-        AVATAR}
-    private ImageType mImageType = ImageType.PHOTO;
+        AVATAR,
+        BLAVATAR}
+
+    private ImageType mImageType = ImageType.NONE;
     private String mUrl;
     private ImageLoader.ImageContainer mImageContainer;
 
+    private int mDefaultImageResId;
+    private int mErrorImageResId;
+
+    private int mRetryCnt;
+    private static final int MAX_RETRIES = 3;
+    private static final long RETRY_DELAY = 2500;
+
     public interface ImageListener {
-        void onImageLoaded(boolean succeeded);
+        public void onImageLoaded(boolean succeeded);
     }
     private ImageListener mImageListener;
 
@@ -55,6 +76,10 @@ public class WPNetworkImageView extends ImageView {
         super(context, attrs, defStyle);
     }
 
+    public String getUrl() {
+        return mUrl;
+    }
+
     public void setImageUrl(String url, ImageType imageType) {
         setImageUrl(url, imageType, null);
     }
@@ -62,13 +87,10 @@ public class WPNetworkImageView extends ImageView {
         mUrl = url;
         mImageType = imageType;
         mImageListener = imageListener;
+        mRetryCnt = 0;
 
-        if (TextUtils.isEmpty(mUrl)) {
-            showErrorImage(mImageType);
-        } else {
-            // The URL has potentially changed. See if we need to load it.
-            loadImageIfNecessary(false);
-        }
+        // The URL has potentially changed. See if we need to load it.
+        loadImageIfNecessary(false);
     }
 
     /*
@@ -78,7 +100,7 @@ public class WPNetworkImageView extends ImageView {
         mImageType = ImageType.VIDEO;
 
         if (TextUtils.isEmpty(videoUrl)) {
-            showDefaultImage(ImageType.VIDEO);
+            showDefaultImage();
             return;
         }
 
@@ -89,7 +111,7 @@ public class WPNetworkImageView extends ImageView {
             return;
         }
 
-        showDefaultImage(ImageType.VIDEO);
+        showDefaultImage();
 
         // vimeo videos require network request to get thumbnail
         if (ReaderVideoUtils.isVimeoLink(videoUrl)) {
@@ -105,11 +127,33 @@ public class WPNetworkImageView extends ImageView {
         }
     }
 
+    /*
+     * retry the current image request after a brief delay
+     */
+    private void retry(final boolean isInLayoutPass) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppLog.d(AppLog.T.READER, String.format("retrying image request (%d)", mRetryCnt));
+                if (mImageContainer != null) {
+                    mImageContainer.cancelRequest();
+                    mImageContainer = null;
+                }
+                loadImageIfNecessary(isInLayoutPass);
+            }
+        }, RETRY_DELAY);
+    }
+
     /**
      * Loads the image for the view if it isn't already loaded.
      * @param isInLayoutPass True if this was invoked from a layout pass, false otherwise.
      */
     private void loadImageIfNecessary(final boolean isInLayoutPass) {
+        // do nothing if image type hasn't been set yet
+        if (mImageType == ImageType.NONE) {
+            return;
+        }
+
         int width = getWidth();
         int height = getHeight();
 
@@ -129,7 +173,7 @@ public class WPNetworkImageView extends ImageView {
                 mImageContainer.cancelRequest();
                 mImageContainer = null;
             }
-            showErrorImage(mImageType);
+            showErrorImage();
             return;
         }
 
@@ -141,9 +185,13 @@ public class WPNetworkImageView extends ImageView {
             } else {
                 // if there is a pre-existing request, cancel it if it's fetching a different URL.
                 mImageContainer.cancelRequest();
-                showDefaultImage(mImageType);
+                showDefaultImage();
             }
         }
+
+        // enforce a max size to reduce memory usage
+        Point pt = DisplayUtils.getDisplayPixelSize(this.getContext());
+        int maxSize = Math.max(pt.x, pt.y);
 
         // The pre-existing content of this view didn't match the current URL. Load the new image
         // from the network.
@@ -151,9 +199,21 @@ public class WPNetworkImageView extends ImageView {
                 new ImageLoader.ImageListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        showErrorImage(mImageType);
-                        if (mImageListener != null)
-                            mImageListener.onImageLoaded(false);
+                        // mshot requests return a 307 if the mshot has never been requested,
+                        // handle this by retrying request after a short delay to give time
+                        // for server to generate the image
+                        if (mImageType == ImageType.MSHOT
+                                && mRetryCnt < MAX_RETRIES
+                                && VolleyUtils.statusCodeFromVolleyError(error) == 307)
+                        {
+                            mRetryCnt++;
+                            retry(isInLayoutPass);
+                        } else {
+                            showErrorImage();
+                            if (mImageListener != null) {
+                                mImageListener.onImageLoaded(false);
+                            }
+                        }
                     }
 
                     @Override
@@ -174,33 +234,50 @@ public class WPNetworkImageView extends ImageView {
                             handleResponse(response, isImmediate, true);
                         }
                     }
-                });
+                }, maxSize, maxSize);
 
         // update the ImageContainer to be the new bitmap container.
         mImageContainer = newContainer;
+    }
+
+    private static boolean canFadeInImageType(ImageType imageType) {
+        return imageType == ImageType.PHOTO
+                || imageType == ImageType.VIDEO
+                || imageType == ImageType.MSHOT;
     }
 
     private void handleResponse(ImageLoader.ImageContainer response,
                                 boolean isCached,
                                 boolean allowFadeIn) {
         if (response.getBitmap() != null) {
-            setImageBitmap(response.getBitmap());
+            Bitmap bitmap = response.getBitmap();
+
+            // Apply circular rounding to avatars in a background task
+            if (mImageType == ImageType.AVATAR) {
+                new CircularizeBitmapTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, bitmap);
+                return;
+            }
+
+            setImageBitmap(bitmap);
 
             // fade in photos/videos if not cached (not used for other image types since animation can be expensive)
-            if (!isCached && allowFadeIn && (mImageType == ImageType.PHOTO || mImageType == ImageType.VIDEO))
+            if (!isCached && allowFadeIn && canFadeInImageType(mImageType))
                 fadeIn();
 
-            if (mImageListener!=null)
+            if (mImageListener != null) {
                 mImageListener.onImageLoaded(true);
+            }
         } else {
-            showDefaultImage(mImageType);
+            showDefaultImage();
         }
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        loadImageIfNecessary(true);
+        if (!isInEditMode()) {
+            loadImageIfNecessary(true);
+        }
     }
 
     @Override
@@ -222,32 +299,37 @@ public class WPNetworkImageView extends ImageView {
         invalidate();
     }
 
-    private int getColorRes(int resId) {
+    private int getColorRes(@ColorRes int resId) {
         return getContext().getResources().getColor(resId);
     }
 
-    private void showErrorImage(ImageType imageType) {
-        switch (imageType) {
-            case PHOTO_FULL:
-                // null default for full-screen photos
+    public void setDefaultImageResId(@DrawableRes int resourceId) {
+        mDefaultImageResId = resourceId;
+    }
+
+    public void setErrorImageResId(@DrawableRes int resourceId) {
+        mErrorImageResId = resourceId;
+    }
+
+    private void showDefaultImage() {
+        // use default image resource if one was supplied...
+        if (mDefaultImageResId != 0) {
+            setImageResource(mDefaultImageResId);
+            return;
+        }
+
+        // ... otherwise use built-in default
+        switch (mImageType) {
+            case NONE:
+                // do nothing
+                break;
+            case MSHOT:
+                // null default for mshots
                 setImageDrawable(null);
                 break;
             case AVATAR:
-                // "mystery man" for failed avatars
-               // setImageResource(R.drawable.placeholder);
-                break;
-            default :
-                // medium grey box for all others
-                //setImageDrawable(new ColorDrawable(getColorRes(R.color.grey_medium)));
-                break;
-        }
-    }
-
-    private void showDefaultImage(ImageType imageType) {
-        switch (imageType) {
-            case PHOTO_FULL:
-                // null default for full-screen photos
-                setImageDrawable(null);
+                // Grey circle for avatars
+                setImageResource(R.drawable.shape_oval_grey_light);
                 break;
             default :
                 // light grey box for all others
@@ -256,34 +338,32 @@ public class WPNetworkImageView extends ImageView {
         }
     }
 
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if (mImageType == ImageType.VIDEO)
-            drawVideoOverlay(canvas);
-    }
-
-    private void drawVideoOverlay(Canvas canvas) {
-        if (canvas==null)
+    void showErrorImage() {
+        if (mErrorImageResId != 0) {
+            setImageResource(mErrorImageResId);
             return;
+        }
 
-        Bitmap overlay = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_reader_video_overlay, null);
-        int overlaySize = getContext().getResources().getDimensionPixelSize(R.dimen.reader_video_overlay_size);
-
-        // use the size of the view rather than the canvas
-        int srcWidth = this.getWidth();
-        int srcHeight = this.getHeight();
-
-        // skip if overlay is larger than source image
-        if (overlaySize > srcWidth || overlaySize > srcHeight)
-            return;
-
-        final int left = (srcWidth / 2) - (overlaySize / 2);
-        final int top = (srcHeight / 2) - (overlaySize / 2);
-        final Rect rcDst = new Rect(left, top, left + overlaySize, top + overlaySize);
-
-        canvas.drawBitmap(overlay, null, rcDst, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-        overlay.recycle();
+        switch (mImageType) {
+            case NONE:
+                // do nothing
+                break;
+            case AVATAR:
+                if (getContext() == null) break;
+                // circular "mystery man" for failed avatars
+                new CircularizeBitmapTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, BitmapFactory.decodeResource(
+                        getContext().getResources(),
+                        R.drawable.gravatar_placeholder
+                ));
+                break;
+            case BLAVATAR:
+                setImageResource(R.drawable.gravatar_placeholder);
+                break;
+            default :
+                // medium grey box for all others
+                setImageDrawable(new ColorDrawable(getColorRes(R.color.grey_medium)));
+                break;
+        }
     }
 
     // --------------------------------------------------------------------------------------------------
@@ -291,17 +371,31 @@ public class WPNetworkImageView extends ImageView {
 
     private static final int FADE_TRANSITION = 250;
 
-    @SuppressLint("NewApi")
     private void fadeIn() {
-        // use faster property animation if device supports it
-        if (SysUtils.isGteAndroid4()) {
-            ObjectAnimator alpha = ObjectAnimator.ofFloat(this, View.ALPHA, 0.25f, 1f);
-            alpha.setDuration(FADE_TRANSITION);
-            alpha.start();
-        } else {
-            AlphaAnimation animation = new AlphaAnimation(0.25f, 1f);
-            animation.setDuration(FADE_TRANSITION);
-            this.startAnimation(animation);
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(this, View.ALPHA, 0.25f, 1f);
+        alpha.setDuration(FADE_TRANSITION);
+        alpha.start();
+    }
+
+    // Circularizes a bitmap in a background thread
+    private class CircularizeBitmapTask extends AsyncTask<Bitmap, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(Bitmap... params) {
+            if (params == null || params.length == 0) return null;
+
+            Bitmap bitmap = params[0];
+            return ImageUtils.getCircularBitmap(bitmap);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (bitmap != null) {
+                setImageBitmap(bitmap);
+
+                if (mImageListener != null) {
+                    mImageListener.onImageLoaded(true);
+                }
+            }
         }
     }
 }

@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 
+import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.ui.ActivityId;
+import com.example.manish.androidcms.ui.comments.CommentsActivity;
+import com.example.manish.androidcms.ui.notifications.NotificationsActivity;
 import com.example.manish.androidcms.ui.posts.PostsActivity;
 import org.wordpress.android.util.DisplayUtils;
 /**
@@ -20,8 +23,19 @@ public class CMSActivityUtils {
 
         switch (id)
         {
+            case COMMENTS:
+                if (CMS.getCurrentBlog() == null)
+                {
+                    return null;
+                }
+                intent = new Intent(context, CommentsActivity.class);
+                intent.putExtra("id", CMS.getCurrentBlog().getLocalTableBlogId());
+                break;
             case POSTS :
                 intent = new Intent(context, PostsActivity.class);
+                break;
+            case NOTIFICATIONS:
+                intent = new Intent(context, NotificationsActivity.class);
                 break;
             default:
                 intent = null;

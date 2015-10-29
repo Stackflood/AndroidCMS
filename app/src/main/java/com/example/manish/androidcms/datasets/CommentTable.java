@@ -1,5 +1,8 @@
 package com.example.manish.androidcms.datasets;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
@@ -36,7 +39,7 @@ public class CommentTable {
     }
 
     /**
-     * nbradbury - saves comments for passed blog to local db, overwriting existing ones if necessary
+     *  - saves comments for passed blog to local db, overwriting existing ones if necessary
      * @param localBlogId - unique id in account table for this blog
      * @param comments - list of comments to save
      * @return true if saved, false on failure
@@ -91,7 +94,109 @@ public class CommentTable {
         }
     }
 
+    /**
+     *  - updates the status for the passed comment
+     * @param localBlogId - unique id in account table for this blog
+     * @param commentId - id of comment (returned by api)
+     * @param newStatus - status to change to
+     */
+    public static void updateCommentSttaus(int localBlogId, long commentId,
+                                           String newStatus)
+    {
+        ContentValues values = new ContentValues();
+        values.put("status", newStatus);
+        String[] args = {Integer.toString(localBlogId),
+                Long.toString(commentId)};
 
+        getWritableDb().update(COMMENTS_TABLE,
+                values, "blog_id-? AND comment_id=?", args);
+    }
+
+    /**
+     *  11/11/13 - retrieve a single comment
+     * @param localBlogId - unique id in account table for the blog the comment is from
+     * @param commentId - commentId of the actual comment
+     * @return Comment if found, null otherwise
+     */
+    public static Comment getComment(int localBlogId, long commentId)
+    {
+        String[] args = {Integer.toString(localBlogId), Long.toString(commentId)};
+
+        Cursor c = getReadableDb().rawQuery("SELECT * FROM " + COMMENTS_TABLE +
+        " WHERE blog_id=? AND comment_id=?", args);
+
+        try {
+            if(!c.moveToFirst())
+                return  null;
+            return getCommentFromCursor(c);
+
+        }
+        finally {
+            SqlUtils.closeCursor(c);
+        }
+
+    }
+
+    private static SQLiteDatabase getReadableDb()
+    {
+        return CMS.cmsDB.getDatabase();
+    }
+
+    private static Comment getCommentFromCursor(Cursor c)
+    {
+        final String authorName = c.getString(c.getColumnIndex("author_name"));
+        final String content = c.getString(c.getColumnIndex("comment"));
+        final String published = c.getString(c.getColumnIndex("published"));
+        final String status = c.getString(c.getColumnIndex("status"));
+        final String authorUrl = c.getString(c.getColumnIndex("author_url"));
+        final String authorEmail = c.getString(c.getColumnIndex("author_email"));
+        final String postTitle = c.getString(c.getColumnIndex("post_title"));
+        final String profileImageUrl = c.getString(c.getColumnIndex("profile_image_url"));
+
+
+        int postId = c.getInt(c.getColumnIndex("post_id"));
+        int commentId = c.getInt(c.getColumnIndex("comment_id"));
+
+        return new Comment(
+                postId,
+                commentId,
+                authorName,
+                published,
+                content,
+                status,
+                postTitle,
+                authorUrl,
+                authorEmail,
+                profileImageUrl
+        );
+
+    }
+
+    public static CommentList getCommentsForBlog(int localBlogId)
+    {
+        CommentList comments = new CommentList();
+
+        String[] args = {Integer.toString(localBlogId)};
+
+        Cursor c = getReadableDb().rawQuery("SELECT * FROM " + COMMENTS_TABLE +
+        " WHERE blog_id=? ORDER BY published", args);
+
+        try {
+            if(c.moveToFirst())
+            {
+                do {
+                Comment comment = getCommentFromCursor(c);
+                comments.add(comment);
+            }while (c.moveToNext());
+            }
+            return comments;
+
+        }
+        finally {
+            SqlUtils.closeCursor(c);
+        }
+
+    }
     private static void dropTables(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + COMMENTS_TABLE);
     }
