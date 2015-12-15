@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\values-v19\\values-v19.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 67,
+                    "endOffset": 118
+                },
+                "from": {
+                    "file": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.cocosw\\undobar\\1.6\\res\\values-v19\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 152,
+                        "endColumn": 67,
+                        "endOffset": 215
+                    }
+                }
+            }
+        ]
+    }
+]

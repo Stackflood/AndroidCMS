@@ -1,0 +1,313 @@
+#!/usr/bin/env bash
+
+*Whenver got SSLHandshake - protocol error - Android has a bug with REST/SOAP/Http calals being made and paused in between : Don't put debugging breakpoints on such calls.
+
+
+getPostListAdapter() {
+        if (mPostsListAdapter == null) {
+            PostsListAdapter.OnLoadMoreListener loadMoreListener = new PostsListAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore() {
+                    if (mCanLoadMorePosts && !mIsFetchingPosts)
+                        requestPosts(true);
+                }
+            };
+
+            PostsListAdapter.OnPostsLoadedListener postsLoadedListener = new PostsListAdapter.OnPostsLoadedListener() {
+                @Override
+                public void onPostsLoaded
+
+
+ pushing commits on git
+
+--> git status
+
+--> git add .
+
+--> git commit -m "Comments"
+
+--> git push origin master
+
+---->
+Bundle is most often used for passing
+data through various Activities.
+Provides putType() and getType() methods
+ for storing and retrieving data from it.
+
+--->
+An Intent is exactly what it describes. It's an "intention" to do an action.
+
+An Intent is basically a message to say you did or want something to happen. Depending on the intent, apps or the OS might be listening for it and will react accordingly.
+
+Think of it as a blast email to a bunch of friends, in which you tell your friend John to do something. The other folks will ignore the email, but John will react to it.
+
+To listen for an intent (like the phone ringing, or an SMS is received), you implement a broadcast receiver.
+
+If you want to fire off an intent to do something, like pop up the dialer, you fire off an intent saying you will.
+
+intent-based calls are run-time binding.
+
+intent-based invocations are asynchronous.
+
+An Intent provides a facility for performing late runtime binding between the code in different applications. Its most significant use is in the launching of activities, where it can be thought of as the glue between activities. It is basically a passive data structure
+ holding an abstract description of an action to be performed.
+
+ action -- The general action to be performed, such as ACTION_VIEW, ACTION_EDIT, ACTION_MAIN, etc.
+
+ data -- The data to operate on, such as a person record in the contacts database, expressed as a Uri.
+
+
+
+ --> Parcelable
+
+ * Interface for classes whose instances can be written to
+  * and restored from a {@link Parcel}.  Classes implementing the Parcelable
+  * interface must also have a static field called <code>CREATOR</code>, which
+  * is an object implementing the {@link Parcelable.Creator Parcelable.Creator}
+  * interface.
+
+
+  --> Using a synchronized block
+
+      At its simplest level, a block of code that is marked as synchronized in Java tells the JVM: "only let one thread in here at a time".
+
+
+--> /**
+         * Convenience method for inserting a row into the database.
+         *
+         * @param table the table to insert the row into
+         * @param nullColumnHack optional; may be <code>null</code>.
+         *            SQL doesn't allow inserting a completely empty row without
+         *            naming at least one column name.  If your provided <code>values</code> is
+         *            empty, no column names are known and an empty row can't be inserted.
+         *            If not set to null, the <code>nullColumnHack</code> parameter
+         *            provides the name of nullable column name to explicitly insert a NULL into
+         *            in the case where your <code>values</code> is empty.
+         * @param values this map contains the initial column values for the
+         *            row. The keys should be the column names and the values the
+         *            column values
+         * @return the row ID of the newly inserted row, or -1 if an error occurred
+         */
+        public long insert(String table, String nullColumnHack, ContentValues values) {
+
+
+--->
+
+attr.xml
+<declare-styleable name="FlowLayout"> ==
+ TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
+
+
+ --->
+View.getTag() It's basically a way for views to have memories.
+
+
+---->
+
+/**
+ * The SwipeRefreshLayout should be used whenever the user can refresh the
+ * contents of a view via a vertical swipe gesture. The activity that
+ * instantiates this view should add an OnRefreshListener to be notified
+ * whenever the swipe to refresh gesture is completed. The SwipeRefreshLayout
+ * will notify the listener each and every time the gesture is completed again;
+ * the listener is responsible for correctly determining when to actually
+ * initiate a refresh of its content. If the listener determines there should
+ * not be a refresh, it must call setRefreshing(false) to cancel any visual
+ * indication of a refresh. If an activity wishes to show just the progress
+ * animation, it should call setRefreshing(true). To disable the gesture and
+ * progress animation, call setEnabled(false) on the view.
+ * <p>
+ * This layout should be made the parent of the view that will be refreshed as a
+ * result of the gesture and can only support one direct child. This view will
+ * also be made the target of the gesture and will be forced to match both the
+ * width and the height supplied in this layout. The SwipeRefreshLayout does not
+ * provide accessibility events; instead, a menu item must be provided to allow
+ * refresh of the content wherever this gesture is used.
+ * </p>
+ */
+public class SwipeRefreshLayout extends ViewGroup
+
+--->
+
+SparseArrays map integers to Objects.  Unlike a normal array of Objects,
+ * there can be gaps in the indices.  It is intended to be more memory efficient
+ * than using a HashMap to map Integers to Objects, both because it avoids
+ * auto-boxing keys and its data structure doesn't rely on an extra entry object
+ * for each mapping.
+
+ --->
+
+ /**
+      * Causes the Runnable r to be added to the message queue.
+      * The runnable will be run on the thread to which this handler is
+      * attached.
+      *
+      * @param r The Runnable that will be executed.
+      *
+      * @return Returns true if the Runnable was successfully placed in to the
+      *         message queue.  Returns false on failure, usually because the
+      *         looper processing the message queue is exiting.
+      */
+     public final boolean post(Runnable r)
+     {
+        return  sendMessageDelayed(getPostMessage(r), 0);
+     }
+
+
+ ---->
+
+     HANDLERS :
+     http://developer.android.com/reference/android/os/Handler.html
+
+     A Handler allows you to send and process Message and Runnable
+      objects associated with a thread's MessageQueue. Each Handler instance is
+      associated with a single thread and that thread's message queue.
+      When you create a new Handler, it is bound to the thread / message queue of the
+      thread that is creating it -- from that point on, it will deliver messages and
+      runnables to that message queue and execute them as they come out of the message queue.
+
+     There are two main uses for a Handler: (1) to schedule messages and runnables
+     to be executed as some point in the future; and (2) to enqueue an action to be
+     performed on a different thread than your own.
+
+     Scheduling messages is accomplished with the post(Runnable), postAtTime(Runnable, long),
+      postDelayed(Runnable, long), sendEmptyMessage(int), sendMessage(Message),
+      sendMessageAtTime(Message, long), and sendMessageDelayed(Message, long) methods.
+      The post versions allow you to enqueue Runnable objects to be called by the message
+       queue when they are received; the sendMessage versions allow you to enqueue a
+       Message object containing a bundle of data that will be processed
+
+     by the Handler's handleMessage(Message) method (requiring that you implement a
+     subclass of Handler).
+
+     When posting or sending to a Handler, you can either allow the item to
+      be processed as soon as the message queue is ready to do so, or specify a delay before it gets processed or
+      absolute time for it to be processed. The latter two allow you to implement timeouts, ticks, and other timing-based behavior.
+
+     When a process is created for your application, its main thread is dedicated to
+     running a message queue that takes care of managing the top-level application
+      objects (activities, broadcast receivers, etc) and any windows they create.
+       You can create your own threads, and communicate back with the main application
+       thread through a Handler. This is done by calling the same post or
+        sendMessage methods as before, but from your new thread.
+        The given Runnable or Message will then be scheduled in
+        the Handler's message queue and processed when appropriate.
+
+ --->
+
+ Example of RELATIVE LAYOUTS
+
+ http://developer.android.com/guide/topics/ui/layout/relative.html
+
+
+ --> Frame is not available
+
+ Issue doing database access such as :
+
+ Cursor c = db.query(CATEGORIES_TABLE, new String[]
+
+
+ -->
+ To go to next activity : startActivityForResult-- using intent
+ i=intent
+ r= request code
+ startActivityForResult(i,r);
+
+ getting back :
+ setResult(RESULT_OK, mIntent);
+                     finish();
+
+
+ ---> ViewStub
+
+ The < include /> will just include the xml contents in your base xml file as if the whole thing was just a single big file. It�s a nice way to share layout parts between different layouts.The < ViewStub /> is a bit different because it is not directly included, and will be loaded only when you actually use it/need it, i.e, when you set it�s visibility to �true�. This a nice optimization because you could have a complex layout with tons of small views or headers anywhere, and still have your Activity load up really fast.
+  Once you use one of those views, it�ll be loaded.
+
+
+  ----> Broadcast
+
+  A broadcast receiver (short receiver) is an Android component which allows you to register for system or application events.
+  All registered receivers for an event are notified by the Android runtime once this event happens.
+
+  ---> Android Video Uploader has problems - --- > all versions
+
+
+----> FrameLayout
+
+FrameLayout is designed to block out an area on the screen to display a single item.
+Generally, FrameLayout should be used to hold a single child view, because it can be difficult to organize child views in a way that's
+scalable to different screen sizes without the children overlapping each other.
+ You can, however, add multiple children to a FrameLayout and control their position within the FrameLayout
+  by assigning gravity to each child, using the android:layout_gravity attribute.
+
+Child views are drawn in a stack, with the most recently added child on top. The size of the FrameLayout is the size of its largest child (plus padding), visible or not (if the FrameLayout's parent permits). Views that are GONE are used for sizing only if setConsiderGoneChildrenWhenMeasuring() is set to true.
+
+
+-----> Fragment Lifecycle
+
+http://www.javacodegeeks.com/2013/06/android-fragment-lifecycle-multiple-screen-support.html
+http://a3ab771892fd198a96736e50.javacodegeeks.netdna-cdn.com/wp-content/uploads/2013/06/android_fragment_lifecycle4.png
+
+Let�s move from the top to the bottom. At very beginning of the fragment life the method onInflate is called. We have to notice that this method is called only if we define fragment directly in our layout using the tag <fragment>. In this method we can save some configuration parameter and some attributes define in the XML layout file. After this step onAttach is called. This method is called as soon as the fragment is �attached� to the �father� activity and we can this method to store the reference about the activity. After it we have onCreate. It is one of the most important step, our fragment is in the creation process. This method can be used to start some thread to retrieve data information, maybe from a remote server. The onCreateView is the method called when the fragment has to create its view hierarchy. During this method we will inflate our layout inside the fragment as we do for example in the ListView widget. During this phase we can�t be sure that our activity is still created so we can�t count on it for some operation. We get notified when the �father� activity is created and ready in the onActivityCreated. From now on, our activity is active and created and we can use it when we need. The next step is onStart method. Here we do the common things as in the activity onStart, during this phase our fragment is visible but it isn�t still interacting with the user.When the fragment is ready to interact with user onResume is called. At the end of this phase our fragment is up and running!!
+Then it can happen that the activity is paused and so the activity�s onPause is called. Well onPause fragment method is called too. After it it can happen that the OS decides to destroy our fragment view and so onDestroyView is called. After it, if the system decides to dismiss our fragment it calls onDestroy method. Here we should release all the connection active and so on because our fragment is close to die. Even if it is during the destroy phase it is still attached to the father activity. The last step is detach the fragment from the activity and it happens when onDetach is called.
+
+----- > tools
+
+http://tools.android.com/tips/layout-designtime-attributes
+
+
+--> BaseAdapter
+
+public View getView(int position, View convertView, ViewGroup parent)
+actaully creates the view where you bind your custom layout
+
+
+getView() is called for each item in the list you pass to your adapter.
+ It is called when you set adapter. When getView() is finished the next line after setAdapter(myAdapter) is called.
+  In order to debug getView() you must toggle a breakpoint on it because you can't step into getView() from setAdapter(myAdapter).
+   getView() is also called after notifyDataSetChanged() and on scrolling.
+
+To be more clear, getView() is called whenever a new item is displayed on screen,
+at the count of displayed items. Which means, if you have 1 million items but 15 of them fits on screen,
+getView is called 15 times. Whenever you scroll up/down and new items appear, getView() is called for new ones.
+ And you should be aware of recycler mechanism, too. Which holds a template item layout for each item type,
+ and sends in this view to getView() method as convertView parameter, so you could use it in order to prevent layout inflation.
+
+
+
+
+-- > invalidateOptionsMenu
+
+This function tell android that it should redraw the menu. By default, once the menu is created, it won't be redrawn every frame (since that would be useless to redraw the same menu over and over again).
+
+You sould call this function when you changed something in the option menu (added an element, deleted an element or changed a text). This way android will know that it's time te redraw the menu and your change will appear.
+
+Hope this answers your question
+
+: Use - CommentDetailFragment -- > showComment
+
+
+-- > startSupportActionMode(Callback)
+
+
+Callback interface for action modes.
+Supplied to startSupportActionMode(Callback) (Callback)}, a Callback configures and handles events raised by a user's interaction with an action mode.
+
+
+An action mode's lifecycle is as follows:
+
+http://developer.android.com/reference/android/support/v7/view/ActionMode.Callback.html
+
+onCreateActionMode(ActionMode, Menu) once on initial creation
+onPrepareActionMode(ActionMode, Menu) after creation and any time the ActionMode is invalidated
+onActionItemClicked(ActionMode, MenuItem) any time a contextual action button is clicked
+onDestroyActionMode(ActionMode) when the action mode is closed
+
+-- > Service and threads
+
+A thread should be used in a long running process that would block the UI from updating. If it's more than a second or two you might
+want to put it into a background thread and notify the user with a dialog or spinner or something. If you lock the UI thread for more
+ than 5 seconds the user will be prompted with a kill or wait option by the OS.
+
+A service does not run on separate thread, so it will block the UI, but you can spawn a new thread within a service. A service is
+ used more for something that should happen on an interval or keep running/checking for something when there is no UI shown.

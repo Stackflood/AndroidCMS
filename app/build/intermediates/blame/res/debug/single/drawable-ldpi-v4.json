@@ -1,0 +1,86 @@
+[
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__chat_new.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__chat_new.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\com_mixpanel_android_arrowleft_faded.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\drawable-ldpi-v4\\com_mixpanel_android_arrowleft_faded.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__send.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__send.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__action_attach.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__action_attach.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\com_mixpanel_android_arrowright.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\drawable-ldpi-v4\\com_mixpanel_android_arrowright.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\com_mixpanel_android_logo.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\drawable-ldpi-v4\\com_mixpanel_android_logo.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__action_yes.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__action_yes.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__action_new_picture.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__action_new_picture.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__warning.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__warning.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\com_mixpanel_android_checkmark.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\drawable-ldpi-v4\\com_mixpanel_android_checkmark.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__logo.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__logo.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__action_review.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__action_review.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__search_on_conversation_done.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__search_on_conversation_done.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__action_search.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__action_search.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\com_mixpanel_android_arrowleft.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\drawable-ldpi-v4\\com_mixpanel_android_arrowleft.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\com_mixpanel_android_arrowright_faded.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\drawable-ldpi-v4\\com_mixpanel_android_arrowright_faded.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__action_no.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__action_no.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__chat_notif.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__chat_notif.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__report_issue.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__report_issue.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__chat_new_icon.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__chat_new_icon.png"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\hs__chat.png",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\drawable-ldpi-v4\\hs__chat.png"
+    }
+]

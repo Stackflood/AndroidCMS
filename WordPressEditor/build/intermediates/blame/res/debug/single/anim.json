@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.3\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.3\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.3\\res\\anim\\abc_slide_out_top.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\com_mixpanel_android_slide_down.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\anim\\com_mixpanel_android_slide_down.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.3\\res\\anim\\abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.3\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.3\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\com_mixpanel_android_fade_in.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\anim\\com_mixpanel_android_fade_in.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\res\\merged\\debug\\anim\\com_mixpanel_android_fade_out.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\WordPressEditor\\build\\intermediates\\exploded-aar\\com.mixpanel.android\\mixpanel-android\\4.3.0\\res\\anim\\com_mixpanel_android_fade_out.xml"
+    }
+]

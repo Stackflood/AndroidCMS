@@ -1,0 +1,7 @@
+int attr refreshIndicatorColor 0x7f010001
+int attr swipeToRefreshStyle 0x7f010000
+int string no_network_message 0x7f020000
+int string ptr_tip_message 0x7f020001
+int string pull_to_refresh_pull_no_network_label 0x7f020002
+int[] styleable RefreshIndicator { 0x7f010001 }
+int styleable RefreshIndicator_refreshIndicatorColor 0

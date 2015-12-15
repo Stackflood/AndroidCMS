@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@color/light_blue" />
+
+</selector>
+<!-- From: file:/Users/tonyr/a8c/repos/Android/MediaPicker-Android/mediapicker/src/main/res/drawable/media_item_placeholder.xml -->

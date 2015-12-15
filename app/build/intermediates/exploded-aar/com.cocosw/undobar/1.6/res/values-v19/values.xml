@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/develop/UndoBar/library/res/values-v19/styles.xml -->
+    <eat-comment/>
+    <style name="UndoBarDefaultStyle" parent="UndoBarKitKatStyle"/>
+</resources>

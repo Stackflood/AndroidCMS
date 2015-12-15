@@ -1,0 +1,45 @@
+[
+    {
+        "outputFile": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\values-he\\values-he.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 42,
+                    "endOffset": 93
+                },
+                "from": {
+                    "file": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.cocosw\\undobar\\1.6\\res\\values-he\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 151,
+                        "endColumn": 42,
+                        "endOffset": 189
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 98,
+                    "endColumn": 38,
+                    "endOffset": 132
+                },
+                "from": {
+                    "file": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.cocosw\\undobar\\1.6\\res\\values-he\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 194,
+                        "endColumn": 38,
+                        "endOffset": 228
+                    }
+                }
+            }
+        ]
+    }
+]

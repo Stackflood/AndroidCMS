@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidCMS-master.iml" filepath="$PROJECT_DIR$/AndroidCMS-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PersistentEditText/PersistentEditText.iml" filepath="$PROJECT_DIR$/PersistentEditText/PersistentEditText.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WordPressEditor/WordPressEditor.iml" filepath="$PROJECT_DIR$/WordPressEditor/WordPressEditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WordPressUtils/WordPressUtils.iml" filepath="$PROJECT_DIR$/WordPressUtils/WordPressUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-1.0.10/library-1.0.10.iml" filepath="$PROJECT_DIR$/library-1.0.10/library-1.0.10.iml" />
+    </modules>
+  </component>
+</project>

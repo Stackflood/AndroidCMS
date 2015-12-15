@@ -1,0 +1,3 @@
+int attr persistenceEnabled 0x7f010000
+int[] styleable PersistentEditText { 0x7f010000 }
+int styleable PersistentEditText_persistenceEnabled 0

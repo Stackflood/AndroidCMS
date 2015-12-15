@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_media_picker_action_mode.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\menu_media_picker_action_mode.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\comment_detail.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\comment_detail.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\hs__show_conversation.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\menu\\hs__show_conversation.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\hs__messages_menu.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\menu\\hs__messages_menu.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\media_picker_action_mode.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\org.wordpress\\mediapicker\\1.2.1\\res\\menu\\media_picker_action_mode.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\hs__search_on_conversation.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\menu\\hs__search_on_conversation.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\hs__actionbar_indeterminate_progress.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\menu\\hs__actionbar_indeterminate_progress.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\edit_post.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\edit_post.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\webview.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\webview.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\hs__add_conversation_menu.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\menu\\hs__add_conversation_menu.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_main.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\menu_main.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_comments_cab.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\menu_comments_cab.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\media_picker.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\media_picker.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\categories.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\categories.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\edit_comment.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\src\\main\\res\\menu\\edit_comment.xml"
+    },
+    {
+        "merged": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\res\\merged\\debug\\menu\\hs__faqs_fragment.xml",
+        "source": "F:\\EDRIVE\\Android\\AndroidCMS-new\\AndroidCMS-master\\AndroidCMS-master\\app\\build\\intermediates\\exploded-aar\\com.helpshift\\android-aar\\3.7.2\\res\\menu\\hs__faqs_fragment.xml"
+    }
+]

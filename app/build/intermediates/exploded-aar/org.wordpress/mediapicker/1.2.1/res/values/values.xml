@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/tonyr/a8c/repos/Android/MediaPicker-Android/mediapicker/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="grey">#999999</color>
+    <color name="light_blue">#a9f9f9</color>
+    <!-- From: file:/Users/tonyr/a8c/repos/Android/MediaPicker-Android/mediapicker/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="empty_view_text_size">24sp</dimen>
+    <dimen name="media_item_frame_margin_bottom">2dp</dimen>
+    <dimen name="media_item_frame_margin_left">2dp</dimen>
+    <dimen name="media_item_frame_margin_right">2dp</dimen>
+    <dimen name="media_item_frame_margin_top">2dp</dimen>
+    <dimen name="media_item_frame_padding_bottom">6dp</dimen>
+    <dimen name="media_item_frame_padding_left">6dp</dimen>
+    <dimen name="media_item_frame_padding_right">6dp</dimen>
+    <dimen name="media_item_frame_padding_top">6dp</dimen>
+    <dimen name="media_item_height">128dp</dimen>
+    <dimen name="media_padding_bottom">2dp</dimen>
+    <dimen name="media_padding_left">2dp</dimen>
+    <dimen name="media_padding_right">2dp</dimen>
+    <dimen name="media_padding_top">2dp</dimen>
+    <dimen name="media_spacing_horizontal">2dp</dimen>
+    <dimen name="media_spacing_vertical">2dp</dimen>
+    <!-- From: file:/Users/tonyr/a8c/repos/Android/MediaPicker-Android/mediapicker/src/main/res/values/integers.xml -->
+    <eat-comment/>
+    <integer name="num_media_columns">2</integer>
+    <!-- From: file:/Users/tonyr/a8c/repos/Android/MediaPicker-Android/mediapicker/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">Media Picker</string>
+    <string name="cd_media_item_image">media item image</string>
+    <string name="cd_media_item_overlay">media item overlay image</string>
+    <string name="confirm">Confirm</string>
+    <string name="error_fetching_media">Error gathering media from source</string>
+    <string name="fetching_media">Fetching media</string>
+    <string name="new_media_gallery">Create gallery</string>
+    <string name="no_media">No media. Why not take capture some?</string>
+    <string name="no_media_sources">No media sources set.</string>
+</resources>
