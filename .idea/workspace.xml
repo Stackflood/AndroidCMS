@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72a5f1b9-7da6-49ea-9be2-6084d1e9850d" name="Default" comment="" />
@@ -40,49 +40,35 @@
       <file leaf-file-name="CommentDetailFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/manish/androidcms/ui/comments/CommentDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.724138">
+            <state vertical-scroll-proportion="0.0">
               <caret line="89" column="26" selection-start-line="89" selection-start-column="26" selection-end-line="89" selection-end-column="26" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="docComment;class#CommentDetailFragment#0" expanded="false" />
-                <element signature="e#8497#8536#0" expanded="true" />
+                <element signature="e#9238#9239#0" expanded="false" />
+                <element signature="e#9283#9284#0" expanded="false" />
+                <element signature="e#9432#9433#0" expanded="false" />
+                <element signature="e#9499#9500#0" expanded="false" />
+                <element signature="e#9649#9650#0" expanded="false" />
+                <element signature="e#9717#9718#0" expanded="false" />
+                <element signature="e#9866#9867#0" expanded="false" />
+                <element signature="e#9911#9912#0" expanded="false" />
                 <element signature="e#10007#10098#0" expanded="false" />
                 <element signature="e#10642#10735#0" expanded="false" />
-                <element signature="e#11385#11386#0" expanded="true" />
-                <element signature="e#11413#11414#0" expanded="true" />
                 <element signature="e#11916#11991#0" expanded="false" />
-                <element signature="e#13405#13406#0" expanded="true" />
-                <element signature="e#13463#13464#0" expanded="true" />
                 <element signature="method#toggleLikeButton#0;class#CommentDetailFragment#0" expanded="false" />
-                <element signature="e#17569#17621#0" expanded="true" />
-                <element signature="e#17922#17974#0" expanded="true" />
                 <element signature="e#18552#18608#0" expanded="false" />
-                <element signature="e#19776#19817#0" expanded="true" />
-                <element signature="e#20046#20067#0" expanded="true" />
                 <element signature="e#21331#21406#0" expanded="false" />
                 <element signature="e#21706#21803#0" expanded="false" />
-                <element signature="e#22491#22522#0" expanded="true" />
-                <element signature="e#22611#22612#0" expanded="true" />
-                <element signature="e#22647#22648#0" expanded="true" />
-                <element signature="e#23734#23735#0" expanded="true" />
-                <element signature="e#23800#23801#0" expanded="true" />
+                <element signature="e#23672#23673#0" expanded="false" />
+                <element signature="e#23707#23708#0" expanded="false" />
                 <element signature="e#24789#24876#0" expanded="false" />
                 <element signature="e#25637#25681#0" expanded="false" />
-                <element signature="e#26652#26681#0" expanded="true" />
-                <element signature="e#26799#26874#0" expanded="true" />
-                <element signature="e#26993#27054#0" expanded="true" />
-                <element signature="e#32620#32637#0" expanded="true" />
-                <element signature="e#33457#33479#0" expanded="true" />
-                <element signature="e#34520#34552#0" expanded="true" />
-                <element signature="e#34738#34772#0" expanded="true" />
-                <element signature="e#34952#34980#0" expanded="true" />
-                <element signature="e#35182#35211#0" expanded="true" />
+                <element signature="e#33861#33862#0" expanded="false" />
+                <element signature="e#33902#33903#0" expanded="false" />
                 <element signature="e#35592#35680#0" expanded="false" />
-                <element signature="e#37497#37524#0" expanded="true" />
-                <element signature="e#37588#37613#0" expanded="true" />
+                <element signature="e#37969#37970#0" expanded="false" />
+                <element signature="e#38005#38006#0" expanded="false" />
                 <element signature="method#setModerateButtonForStatus#0;class#CommentDetailFragment#0" expanded="false" />
-                <element signature="e#38397#38429#0" expanded="true" />
-                <element signature="e#38682#38710#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,9 +77,13 @@
       <file leaf-file-name="CommentsActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/manish/androidcms/ui/comments/CommentsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.724138">
+            <state vertical-scroll-proportion="0.0">
               <caret line="288" column="32" selection-start-line="288" selection-start-column="16" selection-end-line="288" selection-end-column="32" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#10432#10433#0" expanded="false" />
+                <element signature="e#10482#10483#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -103,7 +93,23 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="74" column="36" selection-start-line="74" selection-start-column="20" selection-end-line="74" selection-end-column="36" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#1354#1355#0" expanded="false" />
+                <element signature="e#1396#1397#0" expanded="false" />
+                <element signature="e#6125#6126#0" expanded="false" />
+                <element signature="e#6234#6235#0" expanded="false" />
+                <element signature="e#8706#8707#0" expanded="false" />
+                <element signature="e#8813#8814#0" expanded="false" />
+                <element signature="e#13040#13041#0" expanded="false" />
+                <element signature="e#13134#13135#0" expanded="false" />
+                <element signature="e#16078#16079#0" expanded="false" />
+                <element signature="e#16174#16175#0" expanded="false" />
+                <element signature="e#18396#18397#0" expanded="false" />
+                <element signature="e#18490#18491#0" expanded="false" />
+                <element signature="e#20860#20861#0" expanded="false" />
+                <element signature="e#20956#20957#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -114,21 +120,28 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="355" column="7" selection-start-line="355" selection-start-column="7" selection-end-line="355" selection-end-column="7" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="method#beforeTextChanged#0;class#3927:4675" expanded="false" />
                 <element signature="method#onTextChanged#0;class#3927:4675" expanded="false" />
-                <element signature="e#11656#11657#0" expanded="true" />
-                <element signature="e#11700#11701#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Notes" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Notes" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/Notes">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15604681">
-              <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gradle.properties" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/gradle.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.9148936">
+              <caret line="43" column="33" selection-start-line="0" selection-start-column="0" selection-end-line="43" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -149,7 +162,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#9877#9878#0" expanded="false" />
+                <element signature="e#9923#9924#0" expanded="false" />
+                <element signature="e#12070#12071#0" expanded="false" />
+                <element signature="e#12116#12117#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -4472,9 +4491,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="177" />
-    <option name="y" value="12" />
-    <option name="width" value="882" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1696" />
     <option name="height" value="1026" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -4510,9 +4529,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -4610,9 +4627,113 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="androidcms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidCMS-master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidCMS-master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="androidcms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidCMS-master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidCMS-master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="androidcms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="comments" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidCMS-master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidCMS-master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -4810,20 +4931,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="177" y="12" width="882" height="1026" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.049482163" sideWeight="0.47201946" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.048331417" sideWeight="0.46943766" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292517" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39930955" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.049482163" sideWeight="0.5279805" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.048331417" sideWeight="0.53056234" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
@@ -4834,12 +4954,13 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31265208" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46210268" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.49755502" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -4931,13 +5052,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/Notes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="285" column="46" selection-start-line="285" selection-start-column="46" selection-end-line="285" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/comment_detail_fragment.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -5241,9 +5355,9 @@
         <state vertical-scroll-proportion="0.7409201">
           <caret line="141" column="49" selection-start-line="141" selection-start-column="49" selection-end-line="141" selection-end-column="49" />
           <folding>
-            <element signature="e#2872#2890#0" expanded="true" />
-            <element signature="e#3117#3135#0" expanded="true" />
-            <element signature="e#6429#6455#0" expanded="true" />
+            <element signature="e#2872#2890#0" expanded="false" />
+            <element signature="e#3117#3135#0" expanded="false" />
+            <element signature="e#6429#6455#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -5277,7 +5391,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#9877#9878#0" expanded="false" />
+            <element signature="e#9923#9924#0" expanded="false" />
+            <element signature="e#12070#12071#0" expanded="false" />
+            <element signature="e#12116#12117#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -5285,15 +5405,35 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="74" column="36" selection-start-line="74" selection-start-column="20" selection-end-line="74" selection-end-column="36" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1354#1355#0" expanded="false" />
+            <element signature="e#1396#1397#0" expanded="false" />
+            <element signature="e#6125#6126#0" expanded="false" />
+            <element signature="e#6234#6235#0" expanded="false" />
+            <element signature="e#8706#8707#0" expanded="false" />
+            <element signature="e#8813#8814#0" expanded="false" />
+            <element signature="e#13040#13041#0" expanded="false" />
+            <element signature="e#13134#13135#0" expanded="false" />
+            <element signature="e#16078#16079#0" expanded="false" />
+            <element signature="e#16174#16175#0" expanded="false" />
+            <element signature="e#18396#18397#0" expanded="false" />
+            <element signature="e#18490#18491#0" expanded="false" />
+            <element signature="e#20860#20861#0" expanded="false" />
+            <element signature="e#20956#20957#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/manish/androidcms/ui/comments/CommentsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.724138">
+        <state vertical-scroll-proportion="0.0">
           <caret line="288" column="32" selection-start-line="288" selection-start-column="16" selection-end-line="288" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#10432#10433#0" expanded="false" />
+            <element signature="e#10482#10483#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -5301,55 +5441,40 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13709678">
           <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/manish/androidcms/ui/comments/CommentDetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.724138">
+        <state vertical-scroll-proportion="0.0">
           <caret line="89" column="26" selection-start-line="89" selection-start-column="26" selection-end-line="89" selection-end-column="26" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="docComment;class#CommentDetailFragment#0" expanded="false" />
-            <element signature="e#8497#8536#0" expanded="true" />
+            <element signature="e#9238#9239#0" expanded="false" />
+            <element signature="e#9283#9284#0" expanded="false" />
+            <element signature="e#9432#9433#0" expanded="false" />
+            <element signature="e#9499#9500#0" expanded="false" />
+            <element signature="e#9649#9650#0" expanded="false" />
+            <element signature="e#9717#9718#0" expanded="false" />
+            <element signature="e#9866#9867#0" expanded="false" />
+            <element signature="e#9911#9912#0" expanded="false" />
             <element signature="e#10007#10098#0" expanded="false" />
             <element signature="e#10642#10735#0" expanded="false" />
-            <element signature="e#11385#11386#0" expanded="true" />
-            <element signature="e#11413#11414#0" expanded="true" />
             <element signature="e#11916#11991#0" expanded="false" />
-            <element signature="e#13405#13406#0" expanded="true" />
-            <element signature="e#13463#13464#0" expanded="true" />
             <element signature="method#toggleLikeButton#0;class#CommentDetailFragment#0" expanded="false" />
-            <element signature="e#17569#17621#0" expanded="true" />
-            <element signature="e#17922#17974#0" expanded="true" />
             <element signature="e#18552#18608#0" expanded="false" />
-            <element signature="e#19776#19817#0" expanded="true" />
-            <element signature="e#20046#20067#0" expanded="true" />
             <element signature="e#21331#21406#0" expanded="false" />
             <element signature="e#21706#21803#0" expanded="false" />
-            <element signature="e#22491#22522#0" expanded="true" />
-            <element signature="e#22611#22612#0" expanded="true" />
-            <element signature="e#22647#22648#0" expanded="true" />
-            <element signature="e#23734#23735#0" expanded="true" />
-            <element signature="e#23800#23801#0" expanded="true" />
+            <element signature="e#23672#23673#0" expanded="false" />
+            <element signature="e#23707#23708#0" expanded="false" />
             <element signature="e#24789#24876#0" expanded="false" />
             <element signature="e#25637#25681#0" expanded="false" />
-            <element signature="e#26652#26681#0" expanded="true" />
-            <element signature="e#26799#26874#0" expanded="true" />
-            <element signature="e#26993#27054#0" expanded="true" />
-            <element signature="e#32620#32637#0" expanded="true" />
-            <element signature="e#33457#33479#0" expanded="true" />
-            <element signature="e#34520#34552#0" expanded="true" />
-            <element signature="e#34738#34772#0" expanded="true" />
-            <element signature="e#34952#34980#0" expanded="true" />
-            <element signature="e#35182#35211#0" expanded="true" />
+            <element signature="e#33861#33862#0" expanded="false" />
+            <element signature="e#33902#33903#0" expanded="false" />
             <element signature="e#35592#35680#0" expanded="false" />
-            <element signature="e#37497#37524#0" expanded="true" />
-            <element signature="e#37588#37613#0" expanded="true" />
+            <element signature="e#37969#37970#0" expanded="false" />
+            <element signature="e#38005#38006#0" expanded="false" />
             <element signature="method#setModerateButtonForStatus#0;class#CommentDetailFragment#0" expanded="false" />
-            <element signature="e#38397#38429#0" expanded="true" />
-            <element signature="e#38682#38710#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -5367,19 +5492,24 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="355" column="7" selection-start-line="355" selection-start-column="7" selection-end-line="355" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#beforeTextChanged#0;class#3927:4675" expanded="false" />
             <element signature="method#onTextChanged#0;class#3927:4675" expanded="false" />
-            <element signature="e#11656#11657#0" expanded="true" />
-            <element signature="e#11700#11701#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/Notes">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15604681">
-          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9148936">
+          <caret line="43" column="33" selection-start-line="0" selection-start-column="0" selection-end-line="43" selection-end-column="33" />
           <folding />
         </state>
       </provider>
