@@ -34,6 +34,7 @@ import com.example.manish.androidcms.util.HelpshiftHelper;
 import com.example.manish.androidcms.util.VolleyUtils;
 import com.google.android.gcm.GCMRegistrar;
 
+import Rest.RestClient;
 import Rest.RestRequest;
 
 
@@ -133,9 +134,6 @@ public class CMS extends Application {
 
     }
 
-
-
-
     public static Blog setCurrentBlog(int id) {
         currentBlog = cmsDB.instantiateBlogByLocalId(id);
         return currentBlog;
@@ -222,6 +220,7 @@ public class CMS extends Application {
 
         return currentBlog;
     }
+
     public static class SignOutAsync extends AsyncTask<Void, Void, Void> {
         public interface SignOutCallback {
             public void onSignOut();
@@ -344,6 +343,7 @@ public class CMS extends Application {
 
         public abstract void OnPostUploadFailed(int localBlogId);
     }
+
     public static void setOnPostUploadedListener(OnPostUploadedListener listener) {
         onPostUploadedListener = listener;
     }
@@ -499,6 +499,15 @@ public class CMS extends Application {
             HelpshiftHelper.getInstance().registerDeviceToken(context, regId);
         }
         AnalyticsTracker.registerPushNotificationToken(regId);*/
+    }
+
+    public static RestClientUtils getRestClientUtilsV1_1() {
+        if (mRestClientUtilsVersion1_1 == null) {
+            OAuthAuthenticator authenticator = OAuthAuthenticatorFactory.instantiate();
+            mRestClientUtilsVersion1_1 = new RestClientUtils(requestQueue, authenticator,
+                    mOnAuthFailedListener, RestClient.REST_CLIENT_VERSIONS.V1_1);
+        }
+        return mRestClientUtilsVersion1_1;
     }
 
     /**

@@ -43,6 +43,7 @@ public class CommentAdapter extends BaseAdapter {
 
     }
 
+
     void deleteComments(final CommentList comments) {
         mComments.deleteComments(comments);
         notifyDataSetChanged();
@@ -55,6 +56,7 @@ public class CommentAdapter extends BaseAdapter {
         mComments.replaceComments(comments);
         notifyDataSetChanged();
     }
+
 
 
     static interface OnSelectedItemsChangeListener {
@@ -70,6 +72,7 @@ public class CommentAdapter extends BaseAdapter {
         }
 
     }
+
 
     CommentList getSelectedComments()
     {
@@ -90,6 +93,7 @@ public class CommentAdapter extends BaseAdapter {
     private boolean isPositionValid(int position) {
         return (position >= 0 && position < mComments.size());
     }
+
 
     public int indexOfCommentId(long commentId) {
         return mComments.indexOfCommentId(commentId);

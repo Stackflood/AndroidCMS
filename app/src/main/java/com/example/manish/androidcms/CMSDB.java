@@ -171,6 +171,7 @@ public class CMSDB {
         return (returnValue);
     }
 
+
     /*
      * returns true if the passed blog is wp.com or jetpack-enabled (ie: returns false for
      * self-hosted blogs that don't use jetpack)

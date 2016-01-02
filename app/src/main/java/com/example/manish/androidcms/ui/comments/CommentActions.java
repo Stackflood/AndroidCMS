@@ -9,7 +9,9 @@ import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.datasets.CommentTable;
 import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.models.Comment;
+
 import com.example.manish.androidcms.models.CommentList;
+
 import com.example.manish.androidcms.models.CommentStatus;
 import com.example.manish.androidcms.models.Note;
 
@@ -20,7 +22,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import java.util.Objects;
+
 
 import Rest.RestRequest;
 import xmlrpc.android.XMLRPCClientInterface;
@@ -58,12 +62,15 @@ public class CommentActions {
     }
 
     /*
+<<<<<<< HEAD
      * listener when comments are moderated or deleted
      */
     public interface OnCommentsModeratedListener {
         public void onCommentsModerated(final CommentList moderatedComments);
     }
     /*
+=======
+>>>>>>> 8c6a8f14fabf851449baff56d7d39e9b9159c13d
     * used by comment fragments to alert container activity of a change to one or more
     * comments (moderated, deleted, added, etc.)
     */
@@ -80,6 +87,7 @@ public class CommentActions {
         public void onModerateComment(int accountId, Comment comment,
                                       CommentStatus newStatus);
     }
+
 
     /**
      * change the status of multiple comments
@@ -239,6 +247,7 @@ public class CommentActions {
             }
         }.start();
     }
+
 
     /**
      * Moderate a comment from a WPCOM notification

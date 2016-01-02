@@ -14,9 +14,9 @@ public final class R {
 		public static final int abc_slide_in_top = 0x7f050003;
 		public static final int abc_slide_out_bottom = 0x7f050004;
 		public static final int abc_slide_out_top = 0x7f050005;
-		public static final int com_mixpanel_android_fade_in = 0x7f050009;
-		public static final int com_mixpanel_android_fade_out = 0x7f05000a;
-		public static final int com_mixpanel_android_slide_down = 0x7f05000b;
+		public static final int com_mixpanel_android_fade_in = 0x7f05000c;
+		public static final int com_mixpanel_android_fade_out = 0x7f05000d;
+		public static final int com_mixpanel_android_slide_down = 0x7f05000e;
 	}
 	public static final class array {
 		public static final int alignment_array = 0x7f0e0000;
@@ -439,7 +439,7 @@ public final class R {
 		public static final int noticon_picture = 0x7f020113;
 		public static final int noticon_picture_grey = 0x7f020114;
 		public static final int pressed_background_wordpress = 0x7f020124;
-		public static final int selectable_background_wordpress = 0x7f02012b;
+		public static final int selectable_background_wordpress = 0x7f020133;
 	}
 	public static final class id {
 		public static final int action_bar = 0x7f10003b;
@@ -585,7 +585,7 @@ public final class R {
 		public static final int fragment_edit_post_content = 0x7f040038;
 		public static final int fragment_editor = 0x7f04003b;
 		public static final int legacy_activity_editor = 0x7f040060;
-		public static final int support_simple_spinner_dropdown_item = 0x7f040078;
+		public static final int support_simple_spinner_dropdown_item = 0x7f040082;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f080000;

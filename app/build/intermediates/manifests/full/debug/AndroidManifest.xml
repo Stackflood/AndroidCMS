@@ -33,8 +33,11 @@
         android:normalScreens="true"
         android:smallScreens="true" />
 
-    <uses-permission android:name="com.example.manish.androidcms.permission.C2D_MESSAGE" />
+<!--     <uses-permission android:name="com.example.manish.androidcms.permission.C2D_MESSAGE" /> -->
+
+    <uses-permission android:name="org.wordpress.android.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -173,11 +176,20 @@
             android:name="com.example.manish.androidcms.ui.posts.PostUploadService"
             android:label="Post Upload Service" >
         </service>
+
+        <!-- Reader Activities -->
+        <activity
+            android:name="com.example.manish.androidcms.ui.reader.ReaderPostListActivity"
+            android:label="@string/reader"
+            android:theme="@style/WordPress.DrawerActivity" />
+
         <service
             android:name="com.example.manish.androidcms.ui.media.services.MediaUploadService"
             android:label="Media Upload Service" >
         </service>
         <service android:name="com.example.manish.androidcms.GCMIntentService" />
+
+        <receiver android:name="com.example.manish.androidcms.ui.notifications.NotificationDismissBroadcastReceiver" />
 
         <!-- We've used a custom receiver here. The one that is bundled in GCM API wasn't able to start the service. -->
         <receiver

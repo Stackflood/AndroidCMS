@@ -5,6 +5,8 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.example.manish.androidcms.CMS;
+import com.example.manish.androidcms.models.ReaderTag;
+import com.example.manish.androidcms.models.ReaderTagType;
 import com.example.manish.androidcms.ui.ActivityId;
 
 /**
@@ -28,6 +30,43 @@ public class AppPrefs {
 
         // email retrieved and attached to mixpanel profile
         MIXPANEL_EMAIL_ADDRESS,
+    }
+
+    private static int getInt(PrefKey key) {
+        try {
+            String value = getString(key);
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private static void setInt(PrefKey key, int value) {
+        setString(key, Integer.toString(value));
+    }
+
+    public static void setReaderTag(ReaderTag tag)
+    {
+        if(tag!=null && !TextUtils.isEmpty(tag.getTagName()))
+        {
+            setString(PrefKey.READER_TAG_NAME, tag.getTagName());
+            setInt(PrefKey.READER_TAG_TYPE, tag.tagType.toInt());
+        }
+        else
+        {
+            prefs().edit().remove(PrefKey.READER_TAG_NAME.name()).
+                    remove(PrefKey.READER_TAG_TYPE.name()).
+                    apply();
+        }
+    }
+
+    public static ReaderTag getReaderTag() {
+        String tagName = getString(PrefKey.READER_TAG_NAME);
+        if (TextUtils.isEmpty(tagName)) {
+            return null;
+        }
+        int tagType = getInt(PrefKey.READER_TAG_TYPE);
+        return new ReaderTag(tagName, ReaderTagType.fromInt(tagType));
     }
 
     /**

@@ -8,9 +8,9 @@ package org.wordpress.android.analytics;
 
 public final class R {
 	public static final class anim {
-		public static final int com_mixpanel_android_fade_in = 0x7f050009;
-		public static final int com_mixpanel_android_fade_out = 0x7f05000a;
-		public static final int com_mixpanel_android_slide_down = 0x7f05000b;
+		public static final int com_mixpanel_android_fade_in = 0x7f05000c;
+		public static final int com_mixpanel_android_fade_out = 0x7f05000d;
+		public static final int com_mixpanel_android_slide_down = 0x7f05000e;
 	}
 	public static final class attr {
 		public static final int refreshIndicatorColor = 0x7f010079;

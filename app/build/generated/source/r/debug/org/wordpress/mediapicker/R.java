@@ -38,9 +38,9 @@ public final class R {
 		public static final int media_item_frame_selector = 0x7f020104;
 		public static final int media_item_placeholder = 0x7f020105;
 		public static final int media_picker_background = 0x7f020107;
-		public static final int tab_icon_create_gallery = 0x7f020143;
-		public static final int tab_unselected_pressed_wordpress = 0x7f020145;
-		public static final int video = 0x7f020153;
+		public static final int tab_icon_create_gallery = 0x7f02014b;
+		public static final int tab_unselected_pressed_wordpress = 0x7f02014d;
+		public static final int video = 0x7f02015b;
 	}
 	public static final class id {
 		public static final int capture_view_overlay = 0x7f100123;
@@ -49,7 +49,7 @@ public final class R {
 		public static final int image_view_background = 0x7f100124;
 		public static final int media_adapter_view = 0x7f10012d;
 		public static final int media_empty_view = 0x7f10012c;
-		public static final int menu_media_selection_confirmed = 0x7f10019f;
+		public static final int menu_media_selection_confirmed = 0x7f1001c0;
 		public static final int video_view_background = 0x7f100125;
 		public static final int video_view_overlay = 0x7f100126;
 	}

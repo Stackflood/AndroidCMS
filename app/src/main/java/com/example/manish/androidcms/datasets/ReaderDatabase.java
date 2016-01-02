@@ -39,6 +39,53 @@ public class ReaderDatabase extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+
+    public static void purgeAsync() {
+        new Thread() {
+            @Override
+            public void run() {
+                purge();
+            }
+        }.start();
+    }
+
+    /*
+     * purge older/unattached data - use purgeAsync() to do this in the background
+     */
+    private static void purge() {
+        SQLiteDatabase db = getWritableDb();
+        db.beginTransaction();
+        try {
+            int numPostsDeleted = ReaderPostTable.purge(db);
+
+            // don't bother purging other data unless posts were purged
+            if (numPostsDeleted > 0) {
+                AppLog.i(AppLog.T.READER, String.format("%d total posts purged", numPostsDeleted));
+
+                // purge unattached comments
+                int numCommentsDeleted = ReaderCommentTable.purge(db);
+                if (numCommentsDeleted > 0) {
+                    AppLog.i(AppLog.T.READER, String.format("%d comments purged", numCommentsDeleted));
+                }
+
+                // purge unattached likes
+                int numLikesDeleted = ReaderLikeTable.purge(db);
+                if (numLikesDeleted > 0) {
+                    AppLog.i(AppLog.T.READER, String.format("%d likes purged", numLikesDeleted));
+                }
+
+                // purge unattached thumbnails
+                int numThumbsPurged = ReaderThumbnailTable.purge(db);
+                if (numThumbsPurged > 0) {
+                    AppLog.i(AppLog.T.READER, String.format("%d thumbnails purged", numThumbsPurged));
+                }
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
     /*
      * version history
      *   67 - added tbl_blog_info to ReaderBlogTable
@@ -96,8 +143,8 @@ public class ReaderDatabase extends SQLiteOpenHelper {
     private void createAllTables(SQLiteDatabase db) {
        /* ReaderCommentTable.createTables(db);
         ReaderLikeTable.createTables(db);
-        ReaderPostTable.createTables(db);
-        ReaderTagTable.createTables(db);*/
+        ReaderPostTable.createTables(db);*/
+        ReaderTagTable.createTables(db);
         ReaderUserTable.createTables(db);
         /*ReaderThumbnailTable.createTables(db);
         ReaderBlogTable.createTables(db);*/
@@ -107,8 +154,8 @@ public class ReaderDatabase extends SQLiteOpenHelper {
     private void dropAllTables(SQLiteDatabase db) {
         /*ReaderCommentTable.dropTables(db);
         ReaderLikeTable.dropTables(db);
-        ReaderPostTable.dropTables(db);
-        ReaderTagTable.dropTables(db);*/
+        ReaderPostTable.dropTables(db);*/
+        ReaderTagTable.dropTables(db);
         ReaderUserTable.dropTables(db);
         /*
         ReaderThumbnailTable.dropTables(db);

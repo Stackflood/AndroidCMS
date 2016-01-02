@@ -3,18 +3,32 @@ package com.example.manish.androidcms.util;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 
 import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.ui.ActivityId;
 import com.example.manish.androidcms.ui.comments.CommentsActivity;
 import com.example.manish.androidcms.ui.notifications.NotificationsActivity;
 import com.example.manish.androidcms.ui.posts.PostsActivity;
+import com.example.manish.androidcms.ui.reader.ReaderPostListActivity;
+
 import org.wordpress.android.util.DisplayUtils;
 /**
  * Created by Manish on 4/1/2015.
  */
 public class CMSActivityUtils {
 
+
+    public static Context getThemedContext(Context context) {
+        if (context instanceof ActionBarActivity) {
+            ActionBar actionBar = ((ActionBarActivity)context).getSupportActionBar();
+            if (actionBar != null) {
+                return actionBar.getThemedContext();
+            }
+        }
+        return context;
+    }
 
     public static Intent getIntentForActivityId
             (Context context, ActivityId id)
@@ -36,6 +50,10 @@ public class CMSActivityUtils {
                 break;
             case NOTIFICATIONS:
                 intent = new Intent(context, NotificationsActivity.class);
+                break;
+
+            case READER:
+                intent = new Intent(context, ReaderPostListActivity.class);
                 break;
             default:
                 intent = null;

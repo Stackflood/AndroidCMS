@@ -26,6 +26,7 @@ public class CommentList extends ArrayList<Comment> {
         }
     }
 
+
     /*
      * returns true if any comments in this list do NOT have the passed status
      */
@@ -48,6 +49,7 @@ public class CommentList extends ArrayList<Comment> {
         }
         return false;
     }
+
 
 
     /*

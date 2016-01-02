@@ -2,11 +2,17 @@ package com.example.manish.androidcms.ui.comments;
 
 import android.app.Activity;
 import android.app.Fragment;
+
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
+
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,12 +29,16 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.example.manish.androidcms.CMS;
+
 import com.example.manish.androidcms.Constants;
+
 import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.datasets.CommentTable;
 import com.example.manish.androidcms.models.CommentStatus;
 import com.example.manish.androidcms.models.Note;
+
 import com.example.manish.androidcms.ui.notifications.NotificationFragment;
+
 import com.example.manish.androidcms.ui.notifications.NotificationsListFragment;
 import com.example.manish.androidcms.ui.reader.actions.ReaderAnim;
 import com.example.manish.androidcms.util.AniUtils;
@@ -36,6 +46,7 @@ import com.example.manish.androidcms.util.DateTimeUtils;
 import com.example.manish.androidcms.util.WPLinkMovementMethod;
 import com.example.manish.androidcms.util.widgets.WPNetworkImageView;
 import com.example.manish.androidcms.widgets.SuggestionAutoCompleteText;
+
 
 import org.ccil.cowan.tagsoup.HTMLModels;
 import org.json.JSONObject;
@@ -45,6 +56,13 @@ import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.EditTextUtils;
 import org.wordpress.android.util.GravatarUtils;
 import org.wordpress.android.util.HtmlUtils;
+
+import org.json.JSONObject;
+import org.w3c.dom.Comment;
+import org.wordpress.android.analytics.AnalyticsTracker;
+import org.wordpress.android.util.EditTextUtils;
+import org.wordpress.android.util.GravatarUtils;
+
 import org.wordpress.android.util.NetworkUtils;
 import org.wordpress.android.util.ToastUtils;
 
@@ -55,9 +73,13 @@ import Rest.RestRequest;
 /**
  * Created by Manish on 10/15/2015.
  */
+
 public class CommentDetailFragment extends Fragment implements NotificationFragment {
 
+
+
     private int mLocalBlogId;
+
 
 
     private CommentActions.OnCommentActionListener mOnCommentActionListener;
@@ -77,8 +99,13 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
     private TextView mBtnTrashComment;
     private ViewGroup mLayoutReply;
     private SuggestionAutoCompleteText mEditReply;
+
     private OnPostClickListener mOnPostClickListener;
     private com.example.manish.androidcms.models.Comment mComment;
+
+
+
+
 
     private boolean mIsSubmittingReply = false;
 
@@ -89,9 +116,11 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
 
     private ImageView mImgSubmitReply;
 
+
     private boolean mShouldFocusReplyField;
 
     private CommentActions.OnCommentChangeListener mOnCommentChangeListener;
+
 
 
     private TextView mBtnLikeTextView;
@@ -126,6 +155,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
     {
         super.onAttach(activity);
 
+
         if (activity instanceof CommentActions.OnCommentChangeListener)
             mOnCommentChangeListener = (CommentActions.OnCommentChangeListener) activity;
 
@@ -134,6 +164,11 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
 
         if (activity instanceof OnPostClickListener)
             mOnPostClickListener = (OnPostClickListener)activity;
+
+
+        if(activity instanceof CommentActions.OnCommentChangeListener)
+            mOnCommentChangeListener = (CommentActions.OnCommentChangeListener) activity;
+
 
         if(activity instanceof CommentActions.OnCommentActionListener)
             mOnCommentActionListener = (CommentActions.OnCommentActionListener)activity;
@@ -298,6 +333,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
     */}
 
 
+
     @Override
     public Note getNote() {
         return mNote;
@@ -310,6 +346,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
             showComment();
         }
     }
+
 
 
     //Then it can happen that the activity is paused and so the activitys onPause is called.
@@ -335,6 +372,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
             menu.removeItem(R.id.menu_edit_comment);
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -368,6 +406,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
         setComment(mLocalBlogId, updatedComment);
     }
 
+
     private boolean canEdit() {
         return (mLocalBlogId > 0 && canModerate());
     }
@@ -375,12 +414,15 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.menu_edit_comment) {
+
             editComment();
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     /*
      * open the comment for editing
@@ -399,6 +441,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
 
         startActivityForResult(intent, Constants.INTENT_COMMENT_EDITOR);
     }
+
 
     //After it, if the system decides to dismiss our fragment it calls onDestroy method. Here we should release all the connection active and so on because our fragment is close to die.
     // Even if it is during the destroy phase it is still attached to the father activity.
@@ -649,6 +692,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
         setComment(localBlogId, CommentTable.getComment(localBlogId, commentId));
     }
 
+
     /*private void setComment(int localBlogId, final com.example.manish.androidcms.models.Comment comment) {
         mComment = comment;
         mLocalBlogId = localBlogId;
@@ -664,8 +708,10 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
             showComment();
     }*/
 
-    private void setComment(int localBlogId,
-                            final com.example.manish.androidcms.models.Comment comment)
+
+
+    private void setComment(int localBlogId, final com.example.manish.androidcms.models.Comment comment)
+
     {
         mComment = comment;
         mLocalBlogId = localBlogId;
@@ -739,6 +785,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
         }
 
         updateStatusViews();
+
 
         // navigate to author's blog when avatar or name clicked
         if(mComment.hasAuthorUrl())
@@ -921,6 +968,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
         return (mEnabledActions != null &&
                 mEnabledActions.contains(Note.EnabledActions.ACTION_REPLY));
     }
+
 
 
 

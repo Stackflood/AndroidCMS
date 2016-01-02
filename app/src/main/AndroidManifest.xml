@@ -31,8 +31,13 @@
         android:normalScreens="true"
         android:smallScreens="true" />
 
+<!--
     <uses-permission android:name="com.example.manish.androidcms.permission.C2D_MESSAGE" />
+-->
+
+    <uses-permission android:name="org.wordpress.android.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -138,10 +143,12 @@
             android:theme="@style/WordPress.DrawerActivity" />
 
         <activity
+
             android:name=".ui.comments.EditCommentActivity"
             android:theme="@style/CalypsoTheme"/>
 
         <activity
+
             android:name=".ui.prefs.SettingsActivity"
             android:theme="@style/WordPress.DrawerActivity"
             >
@@ -181,12 +188,20 @@
             android:label="Post Upload Service" >
         </service>
 
+        <!-- Reader Activities -->
+        <activity
+            android:name=".ui.reader.ReaderPostListActivity"
+            android:theme="@style/WordPress.DrawerActivity"
+            android:label="@string/reader" />
+
         <service
             android:name=".ui.media.services.MediaUploadService"
             android:label="Media Upload Service" >
         </service>
 
         <service android:name=".GCMIntentService"/>
+
+        <receiver android:name=".ui.notifications.NotificationDismissBroadcastReceiver" />
 
         <!-- We've used a custom receiver here. The one that is bundled in GCM API wasn't able to start the service. -->
         <receiver

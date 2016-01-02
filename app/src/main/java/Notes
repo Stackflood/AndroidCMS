@@ -37,7 +37,8 @@ Provides putType() and getType() methods
 --->
 An Intent is exactly what it describes. It's an "intention" to do an action.
 
-An Intent is basically a message to say you did or want something to happen. Depending on the intent, apps or the OS might be listening for it and will react accordingly.
+An Intent is basically a message to say you did or want something to happen.
+Depending on the intent, apps or the OS might be listening for it and will react accordingly.
 
 Think of it as a blast email to a bunch of friends, in which you tell your friend John to do something. The other folks will ignore the email, but John will react to it.
 
@@ -181,8 +182,12 @@ SparseArrays map integers to Objects.  Unlike a normal array of Objects,
      subclass of Handler).
 
      When posting or sending to a Handler, you can either allow the item to
+<<<<<<< HEAD
       be processed as soon as the message queue is ready to do so, or specify a delay before it gets processed or
       absolute time for it to be processed. The latter two allow you to implement timeouts, ticks, and other timing-based behavior.
+=======
+      be processed as soon as the message queue is ready to do so, or specify a delay before it gets processed or absolute time for it to be processed. The latter two allow you to implement timeouts, ticks, and other timing-based behavior.
+>>>>>>> 8c6a8f14fabf851449baff56d7d39e9b9159c13d
 
      When a process is created for your application, its main thread is dedicated to
      running a message queue that takes care of managing the top-level application
@@ -220,8 +225,13 @@ SparseArrays map integers to Objects.  Unlike a normal array of Objects,
 
  ---> ViewStub
 
+<<<<<<< HEAD
  The < include /> will just include the xml contents in your base xml file as if the whole thing was just a single big file. It�s a nice way to share layout parts between different layouts.The < ViewStub /> is a bit different because it is not directly included, and will be loaded only when you actually use it/need it, i.e, when you set it�s visibility to �true�. This a nice optimization because you could have a complex layout with tons of small views or headers anywhere, and still have your Activity load up really fast.
   Once you use one of those views, it�ll be loaded.
+=======
+ The < include /> will just include the xml contents in your base xml file as if the whole thing was just a single big file. It�s a nice way to share layout parts between different layouts.The < ViewStub /> is a bit different because it is not directly included, and will be loaded only when you actually use it/need it, i.e, when you set it�s visibility to �true�. This a nice optimization because you could have a complex layout with tons of small views or headers anywhere, and still have your Activity load up really fast.
+  Once you use one of those views, it�ll be loaded.
+>>>>>>> 8c6a8f14fabf851449baff56d7d39e9b9159c13d
 
 
   ----> Broadcast
@@ -248,8 +258,13 @@ Child views are drawn in a stack, with the most recently added child on top. The
 http://www.javacodegeeks.com/2013/06/android-fragment-lifecycle-multiple-screen-support.html
 http://a3ab771892fd198a96736e50.javacodegeeks.netdna-cdn.com/wp-content/uploads/2013/06/android_fragment_lifecycle4.png
 
+
 Let�s move from the top to the bottom. At very beginning of the fragment life the method onInflate is called. We have to notice that this method is called only if we define fragment directly in our layout using the tag <fragment>. In this method we can save some configuration parameter and some attributes define in the XML layout file. After this step onAttach is called. This method is called as soon as the fragment is �attached� to the �father� activity and we can this method to store the reference about the activity. After it we have onCreate. It is one of the most important step, our fragment is in the creation process. This method can be used to start some thread to retrieve data information, maybe from a remote server. The onCreateView is the method called when the fragment has to create its view hierarchy. During this method we will inflate our layout inside the fragment as we do for example in the ListView widget. During this phase we can�t be sure that our activity is still created so we can�t count on it for some operation. We get notified when the �father� activity is created and ready in the onActivityCreated. From now on, our activity is active and created and we can use it when we need. The next step is onStart method. Here we do the common things as in the activity onStart, during this phase our fragment is visible but it isn�t still interacting with the user.When the fragment is ready to interact with user onResume is called. At the end of this phase our fragment is up and running!!
 Then it can happen that the activity is paused and so the activity�s onPause is called. Well onPause fragment method is called too. After it it can happen that the OS decides to destroy our fragment view and so onDestroyView is called. After it, if the system decides to dismiss our fragment it calls onDestroy method. Here we should release all the connection active and so on because our fragment is close to die. Even if it is during the destroy phase it is still attached to the father activity. The last step is detach the fragment from the activity and it happens when onDetach is called.
+=======
+Let�s move from the top to the bottom. At very beginning of the fragment life the method onInflate is called. We have to notice that this method is called only if we define fragment directly in our layout using the tag <fragment>. In this method we can save some configuration parameter and some attributes define in the XML layout file. After this step onAttach is called. This method is called as soon as the fragment is �attached� to the �father� activity and we can this method to store the reference about the activity. After it we have onCreate. It is one of the most important step, our fragment is in the creation process. This method can be used to start some thread to retrieve data information, maybe from a remote server. The onCreateView is the method called when the fragment has to create its view hierarchy. During this method we will inflate our layout inside the fragment as we do for example in the ListView widget. During this phase we can�t be sure that our activity is still created so we can�t count on it for some operation. We get notified when the �father� activity is created and ready in the onActivityCreated. From now on, our activity is active and created and we can use it when we need. The next step is onStart method. Here we do the common things as in the activity onStart, during this phase our fragment is visible but it isn�t still interacting with the user.When the fragment is ready to interact with user onResume is called. At the end of this phase our fragment is up and running!!
+Then it can happen that the activity is paused and so the activity�s onPause is called. Well onPause fragment method is called too. After it it can happen that the OS decides to destroy our fragment view and so onDestroyView is called. After it, if the system decides to dismiss our fragment it calls onDestroy method. Here we should release all the connection active and so on because our fragment is close to die. Even if it is during the destroy phase it is still attached to the father activity. The last step is detach the fragment from the activity and it happens when onDetach is called.
+
 
 ----- > tools
 
@@ -272,6 +287,7 @@ at the count of displayed items. Which means, if you have 1 million items but 15
 getView is called 15 times. Whenever you scroll up/down and new items appear, getView() is called for new ones.
  And you should be aware of recycler mechanism, too. Which holds a template item layout for each item type,
  and sends in this view to getView() method as convertView parameter, so you could use it in order to prevent layout inflation.
+
 
 
 
@@ -305,9 +321,110 @@ onDestroyActionMode(ActionMode) when the action mode is closed
 
 -- > Service and threads
 
-A thread should be used in a long running process that would block the UI from updating. If it's more than a second or two you might
+A thread should be used in a long running process that would block the UI from updating.
+If it's more than a second or two you might
 want to put it into a background thread and notify the user with a dialog or spinner or something. If you lock the UI thread for more
  than 5 seconds the user will be prompted with a kill or wait option by the OS.
 
-A service does not run on separate thread, so it will block the UI, but you can spawn a new thread within a service. A service is
- used more for something that should happen on an interval or keep running/checking for something when there is no UI shown.
+A service does not run on separate thread, so it will block the UI,
+ but you can spawn a new thread within a service. A service is
+ used more for something that should happen on an interval or
+ keep running/checking for something when there is no UI shown.
+
+What is a Service?
+A Service is an application component representing either an application’s intent to perform a
+longer-running
+operation without interacting with the user or to provide functionality for other applications to use.
+Services run without a dedicated GUI, but like Activities and Broadcast Receivers, they are executable
+in the main thread of the application’s process. A Service could be a facility for an application to expose some
+of its functionality to other applications.
+
+Service Lifecycle Example
+http://www.tutorialspoint.com/android/android_services.htm
+
+What is the difference between Service and Thread?
+Service is like an Activity but has no interface. For example, for fetching information on weather,
+blank activity will not be created. Here Service will be used. It is also known as
+Background Service because it performs tasks in background.
+
+A Thread is a concurrent unit of execution.
+Take note that the UI cannot be updated from a Thread. For this a Handler must be used.
+
+API Key : AIzaSyDWw0fexTs4m_zhTThZUqPFoRppgyg3xi8
+
+
+--- > Async Task :
+
+Detailed :Android UI Main Thread
+
+          Android handles input events/tasks with a single User Interface (UI) thread and the thread is called Main thread. Main thread cannot handle concurrent operations as it handles only one event/operation at a time.
+          Concurrent Processing in Android
+
+          If input events or tasks are not handled concurrently, whole code of an Android application runs in the main thread and each line of code is executed one after each other.
+          Assume if you perform a long lasting operation, for example accessing resource (like MP3, JSON, Image) from the Internet, the application goes hung state until the corresponding operation is finished.
+          To bring good user experience in Android applications, all potentially slow running operations or tasks in an Android application should be made to run asynchronously.
+
+          Here are some examples for slow running tasks
+          Accessing resources (like MP3, JSON, Image) from Internet
+          Database operations
+          Webservice calls
+          Complex logic that takes quite long time
+          AsyncTask in Android
+
+          What is AsyncTask?
+          AsyncTask is an abstract Android class which helps the Android applications to handle the Main UI thread in efficient way. AsyncTask class allows us to perform long lasting tasks/background operations and show the result on the UI thread without affecting the main thread.
+          When to use AsyncTask?
+          Assume you have created a simple Android application which downloads MP3 file from Internet on launching the application.
+          The below state diagram shows the series of operations that will take place when you launch the application you created:
+          Why AsyncTask?
+          As the response (MP3 file) from server is awaited, the application has become unresponsive since the Main thread is still waiting for download operation to complete. To overcome this we can create new thread and implement run method to perform this network call as similar as we usually do in normal Java applications, so that UI remains responsive.
+          But handling it with separate thread may create some additional issues when we try to update UI based on the result of the operation performed since Android UI toolkit is not thread safe.
+          Android took all these issues in consideration and created a dedicated class called ‘AsyncTask’ to handle the tasks/operations that need to be performed at the background asynchronously.
+          AsyncTask should only be used for tasks/operations that take quite few seconds. Some tasks may keep the thread running for long time so such tasks should be handled using java.util.concurrent package.
+
+
+          How to implement AsyncTask in Android applications?
+
+          Create a new class inside Activity class and subclass it by extending AsyncTask as shown below
+
+          private class DownloadMp3Task extends AsyncTask<URL, Integer, Long> {
+           protected Long doInBackground(URL... urls) {
+                //Yet to code
+               }
+           protected void onProgressUpdate(Integer... progress) {
+               //Yet to code
+               }
+           protected void onPostExecute(Long result) {
+               //Yet to code
+               }
+          }
+          Execute the task simply by invoking execute method as shown below:
+          ?
+          1
+          new DownloadMp3Task().execute(mp3URL);
+          AsyncTask – The 4 steps
+
+          When an asynchronous task is executed from UI main thread, the task goes through 4 steps:
+          AsyncTask Steps
+          onPreExecute:
+          Invoked before the task is executed ideally before doInBackground method is called on the UI thread. This method is normally used to setup the task like showing progress bar in the UI.
+          doInBackground:
+          Code running for long lasting time should be put in doInBackground method. When execute method is called in UI main thread, this method is called with the parameters passed.
+          [pgsubscribe]
+          onProgressUpdate:
+          Invoked by calling publishProgress at anytime from doInBackground. This method can be used to display any form of progress in the user interface.
+          onPostExecute:
+          Invoked after background computation in doInBackground method completes processing. Result of the doInBackground is passed to this method.
+          Task Cancellation
+
+          The task can be cancelled by invoking cancel(boolean) method. This will cause subsequent calls to isCancelled() to return true. After invoking this method, onCancelled(Object) method is called instead of onPostExecute() after doInBackground() returns.
+          AsyncTask – Rules to be followed
+
+          The AsyncTask class must be loaded on the UI thread.
+          The task instance must be created on the UI thread.
+          Method execute(Params…) must be invoked on the UI thread.
+          Should not call onPreExecute(), onPostExecute(Result), doInBackground(Params…), onProgressUpdate(Progress…) manually.
+          The task can be executed only once (an exception will be thrown if a second execution is attempted.)
+
+      Links : http://www.vogella.com/tutorials/AndroidBackgroundProcessing/article.html
+      http://developer.android.com/reference/android/os/AsyncTask.html

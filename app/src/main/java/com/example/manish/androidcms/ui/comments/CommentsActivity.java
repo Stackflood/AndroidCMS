@@ -15,9 +15,12 @@ import com.example.manish.androidcms.CMS;
 import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.models.Comment;
 import com.example.manish.androidcms.models.CommentStatus;
+
 import com.example.manish.androidcms.models.Note;
 import com.example.manish.androidcms.ui.CMSDrawerActivity;
 import com.example.manish.androidcms.ui.notifications.NotificationFragment;
+
+
 
 import org.wordpress.android.util.ToastUtils;
 
@@ -27,8 +30,10 @@ import org.wordpress.android.util.ToastUtils;
 public class CommentsActivity extends CMSDrawerActivity
     implements CommentsListFragment.OnCommentSelectedListener,
         CommentActions.OnCommentChangeListener,
+
         CommentActions.OnCommentActionListener,
         NotificationFragment.OnPostClickListener
+
 
 {
 
@@ -38,6 +43,7 @@ public class CommentsActivity extends CMSDrawerActivity
     private static final String KEY_SELECTED_COMMENT_ID = "selected_comment_id";
 
     private long mSelectedCommentId;
+
 
 
 
@@ -57,6 +63,7 @@ public class CommentsActivity extends CMSDrawerActivity
 
         //Fragment fragment =
     }
+
     // It is one of the most important step, our fragment is in the creation process.
     // This method can be
     // used to start some thread to retrieve data information, maybe from a remote server.

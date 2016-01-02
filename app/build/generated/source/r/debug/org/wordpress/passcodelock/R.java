@@ -8,10 +8,10 @@ package org.wordpress.passcodelock;
 
 public final class R {
 	public static final class anim {
-		public static final int cycle_5 = 0x7f05000c;
-		public static final int do_nothing = 0x7f05000d;
-		public static final int shake = 0x7f050014;
-		public static final int slide_up = 0x7f050015;
+		public static final int cycle_5 = 0x7f05000f;
+		public static final int do_nothing = 0x7f050010;
+		public static final int shake = 0x7f050019;
+		public static final int slide_up = 0x7f05001a;
 	}
 	public static final class color {
 		public static final int gray = 0x7f0f0040;

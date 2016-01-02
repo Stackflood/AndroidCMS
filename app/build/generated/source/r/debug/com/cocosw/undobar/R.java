@@ -8,10 +8,10 @@ package com.cocosw.undobar;
 
 public final class R {
 	public static final class anim {
-		public static final int undobar_classic_in_anim = 0x7f050016;
-		public static final int undobar_classic_out_anim = 0x7f050017;
-		public static final int undobar_material_in_anim = 0x7f050018;
-		public static final int undobar_material_out_anim = 0x7f050019;
+		public static final int undobar_classic_in_anim = 0x7f05001b;
+		public static final int undobar_classic_out_anim = 0x7f05001c;
+		public static final int undobar_material_in_anim = 0x7f05001d;
+		public static final int undobar_material_out_anim = 0x7f05001e;
 	}
 	public static final class attr {
 		public static final int buttonStyle = 0x7f0100f9;
@@ -23,7 +23,7 @@ public final class R {
 		public static final int undoBarStyle = 0x7f0100f4;
 	}
 	public static final class color {
-		public static final int undobar_material_button_text_color = 0x7f0f00e0;
+		public static final int undobar_material_button_text_color = 0x7f0f00e1;
 	}
 	public static final class dimen {
 		public static final int marginBottom = 0x7f0b00b2;
@@ -33,24 +33,24 @@ public final class R {
 	public static final class drawable {
 		public static final int ic_retry = 0x7f0200f4;
 		public static final int ic_undobar_undo = 0x7f0200fd;
-		public static final int toast_frame_holo = 0x7f02014a;
-		public static final int toast_frame_holo_button = 0x7f02014b;
-		public static final int toast_frame_holo_button_pressed = 0x7f02014c;
-		public static final int undobar = 0x7f02014d;
-		public static final int undobar_button = 0x7f02014e;
-		public static final int undobar_button_focused = 0x7f02014f;
-		public static final int undobar_button_pressed = 0x7f020150;
-		public static final int undobar_divider = 0x7f020151;
-		public static final int undobar_material_button = 0x7f020152;
+		public static final int toast_frame_holo = 0x7f020152;
+		public static final int toast_frame_holo_button = 0x7f020153;
+		public static final int toast_frame_holo_button_pressed = 0x7f020154;
+		public static final int undobar = 0x7f020155;
+		public static final int undobar_button = 0x7f020156;
+		public static final int undobar_button_focused = 0x7f020157;
+		public static final int undobar_button_pressed = 0x7f020158;
+		public static final int undobar_divider = 0x7f020159;
+		public static final int undobar_material_button = 0x7f02015a;
 	}
 	public static final class id {
-		public static final int _undobar = 0x7f100182;
-		public static final int undobar_button = 0x7f100185;
-		public static final int undobar_divider = 0x7f100184;
-		public static final int undobar_message = 0x7f100183;
+		public static final int _undobar = 0x7f1001a3;
+		public static final int undobar_button = 0x7f1001a6;
+		public static final int undobar_divider = 0x7f1001a5;
+		public static final int undobar_message = 0x7f1001a4;
 	}
 	public static final class layout {
-		public static final int undobar = 0x7f04007b;
+		public static final int undobar = 0x7f040085;
 	}
 	public static final class string {
 		public static final int retry = 0x7f080066;

@@ -19,6 +19,13 @@ import java.io.UnsupportedEncodingException;
  */
 public class VolleyUtils {
 
+    public static String errStringFromVolleyError(VolleyError volleyError) {
+        JSONObject json = volleyErrorToJSON(volleyError);
+        if (json==null)
+            return "";
+        return JSONUtil.getString(json, "error");
+    }
+
     /*
      * attempts to return JSON from a volleyError - useful for WP REST API failures, which often
      * contain JSON in the response

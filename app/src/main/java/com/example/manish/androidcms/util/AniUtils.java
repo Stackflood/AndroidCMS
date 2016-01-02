@@ -1,5 +1,7 @@
 package com.example.manish.androidcms.util;
 
+import android.view.View;
+
 import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;
@@ -7,6 +9,9 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 
 import com.example.manish.androidcms.R;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 /**
  * Created by Manish on 10/15/2015.

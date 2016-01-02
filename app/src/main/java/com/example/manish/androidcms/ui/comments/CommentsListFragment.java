@@ -1,9 +1,12 @@
 package com.example.manish.androidcms.ui.comments;
 
 import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+
+
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,7 +14,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
+
 import android.view.MenuInflater;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +30,9 @@ import com.example.manish.androidcms.R;
 import com.example.manish.androidcms.models.Blog;
 import com.example.manish.androidcms.models.Comment;
 import com.example.manish.androidcms.models.CommentList;
+
 import com.example.manish.androidcms.models.CommentStatus;
+
 import com.example.manish.androidcms.ui.CMSDrawerActivity;
 import com.example.manish.androidcms.ui.EmptyViewMessageType;
 
@@ -382,7 +389,9 @@ public class CommentsListFragment extends Fragment {
 
 
     //This method is called as soon as the fragment is attached to
+
     // the father activity and we can use this method to store the
+
     // reference about the activity.
     public void onAttach(Activity activity)
     {
@@ -403,7 +412,9 @@ public class CommentsListFragment extends Fragment {
     }
 
     //We get notified when the father activity is created and ready in the
+
     //onActivityCreated.
+
     //From now on, our activity is active and created and we can use it when we need.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -589,17 +600,23 @@ public class CommentsListFragment extends Fragment {
 
 
         @Override
+
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu){
 
             mActionMode = actionMode;
             MenuInflater inflater = actionMode.getMenuInflater();
             inflater.inflate(R.menu.menu_comments_cab, menu);
             mSwipeToRefreshHelper.setEnabled(false);
+
+
+
+
             return true;
 
         }
 
         @Override
+
         public boolean onPrepareActionMode(ActionMode actionMode, Menu menu){
 
             final CommentList selectedComments = getCommentAdapter().getSelectedComments();
@@ -791,6 +808,10 @@ public class CommentsListFragment extends Fragment {
         if (mActionMode != null) {
             mActionMode.finish();
         }
+
+
+
+
     }
 }
 

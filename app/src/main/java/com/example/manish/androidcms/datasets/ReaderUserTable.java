@@ -1,10 +1,12 @@
 package com.example.manish.androidcms.datasets;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 import com.example.manish.androidcms.models.ReaderUser;
 import com.example.manish.androidcms.models.ReaderUserList;
+import com.example.manish.androidcms.ui.prefs.AppPrefs;
 
 import org.wordpress.android.util.SqlUtils;
 
@@ -29,6 +31,43 @@ public class ReaderUserTable {
     }
 
 
+    public static ReaderUser getCurrentUser() {
+        return getUser(AppPrefs.getCurrentUserId());
+    }
+
+    private static ReaderUser getUser(long userId)
+    {
+        String args[] = {Long.toString(userId)};
+
+        Cursor c = ReaderDatabase.getReadableDb().rawQuery("SELECT * FROM tbl_users WHERE user_id=?",
+                args);
+
+        try {
+            if(!c.moveToFirst())
+                return null;
+            return getUserFromCursor(c);
+        }
+        finally {
+            SqlUtils.closeCursor(c);
+        }
+    }
+
+
+    private static ReaderUser getUserFromCursor(Cursor c)
+    {
+        ReaderUser user = new ReaderUser();
+
+        user.userId = c.getLong(c.getColumnIndex("user_id"));
+        user.blogId = c.getLong(c.getColumnIndex("blog_id"));
+        user.setUserName(c.getString(c.getColumnIndex("user_name")));
+        user.setDisplayName(c.getString(c.getColumnIndex("display_name")));
+        user.setUrl(c.getString(c.getColumnIndex("url")));
+        user.setProfileUrl(c.getString(c.getColumnIndex("profile_url")));
+        user.setAvatarUrl(c.getString(c.getColumnIndex("avatar_url")));
+
+        return user;
+
+    }
     public static void addOrUpdateUser(ReaderUser user) {
         if (user==null)
             return;

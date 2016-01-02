@@ -13,7 +13,9 @@ import com.example.manish.androidcms.models.CommentList;
 
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.SqlUtils;
+
 import org.wordpress.android.util.StringUtils;
+
 
 /**
  * Created by Manish on 4/1/2015.
@@ -38,7 +40,6 @@ public class CommentTable {
                 + "    PRIMARY KEY (blog_id, post_id, comment_id)"
                 + " );");
     }
-
 
 
     /**
@@ -98,6 +99,7 @@ public class CommentTable {
     }
 
     /**
+<<<<<<< HEAD
      *  - delete a list of comments
      * @param localBlogId - unique id in account table for this blog
      * @param comments - list of comments to delete
@@ -224,6 +226,8 @@ public class CommentTable {
     }
 
     /**
+=======
+>>>>>>> 8c6a8f14fabf851449baff56d7d39e9b9159c13d
      *  - updates the status for the passed comment
      * @param localBlogId - unique id in account table for this blog
      * @param commentId - id of comment (returned by api)

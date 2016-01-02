@@ -1,3 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\drag-sort-listview\0.6.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="e0091dd6658f0ce9203c1f4e6d8767c2baf51be9">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\org.wordpress-drag-sort-listview-0.6.1_141c17ac12413514f38340548498203b7b91faf2.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3_0767a72f6694d65256b4e969681213bd2085a328.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\answers\1.1.2\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="158555fbeff80e5a85464a818eadda8a448a1051">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.crashlytics.sdk.android-answers-1.1.2_a6d8f2a1fc2984d0d8ac5a3e67d5ab2489f27c2c.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-21.0.3_085c56ad00654a27567eabbc8bdb1f21297326f9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\.gradle\caches\modules-2\files-2.1\org.wordpress\gcm\1.0.0\a6d7bce795a14c7f86111756c4ceb44b79de14aa\gcm-1.0.0.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="a6d7bce795a14c7f86111756c4ceb44b79de14aa">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\gcm-1.0.0_0fcc9369f6501163799ca68ace1ba49337499369.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\mediapicker\1.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="564f16804a5e3531683216f8fd9e185ad3b52828">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\org.wordpress-mediapicker-1.2.1_5de478c3317863be35b546195567fbaa5c104709.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\.gradle\caches\modules-2\files-2.1\com.mcxiaoke.volley\library\1.0.19\a8f23f65fc1e522ee4a1a697ee569901a46741fa\library-1.0.19.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="a8f23f65fc1e522ee4a1a697ee569901a46741fa">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\library-1.0.19_6fff3371e9aa4f1c011c88f831a2b7734e127829.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\slidinguppanel\1.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="94c9af30a3d1fd7f822ad54eb5b01a435a1cd4a2">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\org.wordpress-slidinguppanel-1.0.0_750713b4ae49aae5b0d6d39826c8c2ff08a8b559.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\annotations\2.0.0\d8dff1d83a79f0c0609c360f02bcd2f2fc1f1369\annotations-2.0.0.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="d8dff1d83a79f0c0609c360f02bcd2f2fc1f1369">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\annotations-2.0.0_4ad15a93f5178608e39a6540c520db3e92974da8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\.gradle\caches\modules-2\files-2.1\de.greenrobot\eventbus\2.4.0\ddd166d01b3158d1c00576d29f7ed15c030df719\eventbus-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="ddd166d01b3158d1c00576d29f7ed15c030df719">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\eventbus-2.4.0_23db57b8f0516c2d1b5a04674af28517e3d9dc0f.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\WordPressUtils\1.4.0\release\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="d2d5e5b250643874e5e270b031b8cee1b70fe2a4">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\WordPressUtils-1.4.0-release_66841bc79e133704829c76563cebc78b26587253.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-21.0.3_9b2004130209f0bb6fbbd9f707b2e0239cbe0c77.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.helpshift\android-aar\3.7.2\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="3b26a81772656b30847427e57ec74a703d31c512">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.helpshift-android-aar-3.7.2_5b206e16342b265a5482ce341793090d54ede60e.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\analytics\1.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="8cf3e94b89a9d413c4baa2044be5857206ba07e8">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\org.wordpress-analytics-1.0.0_76bab0bb9a1dcd6129caa7697143b21a1c7069f8.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-21.0.3_08bb04b6afdf4a3338b4d44f38bd961d80ab4b07.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\PersistentEditText\1.0\release\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="6fb756d9df4bfa42e385a12952807361df5b4c13">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\PersistentEditText-1.0-release_9690805c6cb62c07654976fdd576b10b05f76c0b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\.gradle\caches\modules-2\files-2.1\commons-lang\commons-lang\2.6\ce1edb914c94ebc388f086c6827e8bdeec71ac2\commons-lang-2.6.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="0ce1edb914c94ebc388f086c6827e8bdeec71ac2">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\commons-lang-2.6_8532a7a3a5cbb800f92acc950b628e1b75399c0d.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.mixpanel.android\mixpanel-android\4.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="aa7cc7ba0ac99fc204dc397c880563a30313949b">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.mixpanel.android-mixpanel-android-4.3.0_eed015f22b3565f408844ea08201874261c5d900.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.github.chrisbanes.photoview\library\1.2.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="81aa0e8e77d948204aa6754019c6f3c04dd922e3">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.github.chrisbanes.photoview-library-1.2.3_0ee7b5799ede76d451858d176c7fa35ade01a2ec.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="0dcc55e70f7ebf7238fe2ec53f662eb378ab2668">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3_09c167cd909d558431370afc3207710c672e90bf.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.2\1f96456ca233dec780aa224bff076d8e8bca3908\gson-2.2.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="1f96456ca233dec780aa224bff076d8e8bca3908">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\gson-2.2.2_9b046ab9796c9c76e43c8f7bf02f13210aa7debf.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\io.fabric.sdk.android\fabric\1.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="0a4af6a85230b990eb8690b696d2db9247338611">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\io.fabric.sdk.android-fabric-1.2.0_248123af74f6e4bc0f81e8315bef3449dc57afb7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\.gradle\caches\modules-2\files-2.1\org.ccil.cowan.tagsoup\tagsoup\1.2.1\5584627487e984c03456266d3f8802eb85a9ce97\tagsoup-1.2.1.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="5584627487e984c03456266d3f8802eb85a9ce97">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\tagsoup-1.2.1_07e2c61d7b5b445c1a4ec8c2e9b4c6d13e1b7044.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="2c2071dcaf7a008c3b01a6381a33be55396bab09">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.android.support-support-v13-21.0.3_3c747802be7d363e588e824d397b3fe204bb46e0.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\crashlytics\2.2.2\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="1014d409d1af641616ca7a2b3fda549cf559d605">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.crashlytics.sdk.android-crashlytics-2.2.2_0d2a89a533e27af501bd605e67eb216087e855b6.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\beta\1.1.2\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="0d6546c1c73cb64a6907f694e6c4bf4b50fefa70">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.crashlytics.sdk.android-beta-1.1.2_662ebec95effe97e90c40807c58cee80316ea521.jar" />
+    </item>
+    <item
+        jar="C:\Users\Manish\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3_ae6920ece5798e12acc8ac54396ba61be81e2521.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.cocosw\undobar\1.6\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="17fcf456c1c72c9128ceaf62879139e57a4142c9">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.cocosw-undobar-1.6_d46ddd40f1a722fd011b08fd8d0d6cea8b06a5cd.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\android-passcodelock\0.0.6\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="d95dce2a71686ee47453813b20ee4e31f58ed645">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\org.wordpress-android-passcodelock-0.0.6_d9ebdcf331259473b3cdf91aa16b3148cf791610.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\WordPressEditor\1.0\release\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="bfa23253c330ee52d7b804caeffc6dafe935fc24">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\WordPressEditor-1.0-release_eb97bb9569666d0619cf6b69412f6437106556d4.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\org.wordpress\emailchecker\0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="8ddb6e8715eebce7d817bede37f6524d928f3e01">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\org.wordpress-emailchecker-0.3_a63711729c664d51b716f31588009f064ad32abf.jar" />
+    </item>
+    <item
+        jar="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="F:\EDRIVE\Android\AndroidCMS-new\AndroidCMS-master\AndroidCMS-master\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-21.0.3_80123f23a23ccd5503cadc05f390e738345b97e5.jar" />
+    </item>
+
+</items>

@@ -259,6 +259,7 @@ public class NotificationsActivity extends CMSDrawerActivity {
                 }
         );
     }
+
     private class NoteProvider implements NotificationsListFragment.NoteProvider {
         @Override
         public boolean canRequestMore() {
