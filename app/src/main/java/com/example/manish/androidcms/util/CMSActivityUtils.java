@@ -12,6 +12,7 @@ import com.example.manish.androidcms.ui.comments.CommentsActivity;
 import com.example.manish.androidcms.ui.notifications.NotificationsActivity;
 import com.example.manish.androidcms.ui.posts.PostsActivity;
 import com.example.manish.androidcms.ui.reader.ReaderPostListActivity;
+import com.example.manish.androidcms.ui.stats.StatsActivity;
 
 import org.wordpress.android.util.DisplayUtils;
 /**
@@ -54,6 +55,16 @@ public class CMSActivityUtils {
 
             case READER:
                 intent = new Intent(context, ReaderPostListActivity.class);
+                break;
+
+            case STATS:
+                if(CMS.getCurrentBlog() == null)
+                {
+                    return null;
+                }
+                intent = new Intent(context, StatsActivity.class);
+                intent.putExtra(StatsActivity.ARG_LOCAL_TABLE_BLOG_ID,
+                        CMS.getCurrentBlog().getLocalTableBlogId());
                 break;
             default:
                 intent = null;

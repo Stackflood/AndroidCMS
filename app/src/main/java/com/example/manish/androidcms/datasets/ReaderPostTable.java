@@ -123,6 +123,56 @@ public class ReaderPostTable {
         return numDeleted;
     }
 
+    protected static void createTables(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE tbl_posts ("
+                + "	post_id		        INTEGER DEFAULT 0,"
+                + " blog_id             INTEGER DEFAULT 0,"
+                + " feed_id             INTEGER DEFAULT 0,"
+                + " pseudo_id           TEXT NOT NULL,"
+                + "	author_name	        TEXT,"
+                + " author_id           INTEGER DEFAULT 0,"
+                + "	title	            TEXT,"
+                + "	text                TEXT,"
+                + "	excerpt             TEXT,"
+                + " url                 TEXT,"
+                + " short_url           TEXT,"
+                + " blog_url            TEXT,"
+                + " blog_name           TEXT,"
+                + " featured_image      TEXT,"
+                + " featured_video      TEXT,"
+                + " post_avatar         TEXT,"
+                + " timestamp           INTEGER DEFAULT 0,"
+                + " published           TEXT,"
+                + " num_replies         INTEGER DEFAULT 0,"
+                + " num_likes           INTEGER DEFAULT 0,"
+                + " is_liked            INTEGER DEFAULT 0,"
+                + " is_followed         INTEGER DEFAULT 0,"
+                + " is_comments_open    INTEGER DEFAULT 0,"
+                + " is_reblogged        INTEGER DEFAULT 0,"
+                + " is_external         INTEGER DEFAULT 0,"
+                + " is_private          INTEGER DEFAULT 0,"
+                + " is_videopress       INTEGER DEFAULT 0,"
+                + " is_jetpack          INTEGER DEFAULT 0,"
+                + " primary_tag         TEXT,"
+                + " secondary_tag       TEXT,"
+                + " is_likes_enabled    INTEGER DEFAULT 0,"
+                + " is_sharing_enabled  INTEGER DEFAULT 0,"
+                + " attachments_json    TEXT,"
+                + " PRIMARY KEY (post_id, blog_id)"
+                + ")");
+        db.execSQL("CREATE INDEX idx_posts_timestamp ON tbl_posts(timestamp)");
+
+        db.execSQL("CREATE TABLE tbl_post_tags ("
+                + "   post_id     INTEGER DEFAULT 0,"
+                + "   blog_id     INTEGER DEFAULT 0,"
+                + "   feed_id     INTEGER DEFAULT 0,"
+                + "   pseudo_id   TEXT NOT NULL,"
+                + "   tag_name    TEXT NOT NULL COLLATE NOCASE,"
+                + "   tag_type    INTEGER DEFAULT 0,"
+                + "   PRIMARY KEY (post_id, blog_id, tag_name, tag_type)"
+                + ")");
+    }
+
     /*
      * purge excess posts in the passed tag - note we only keep as many posts as are returned
      * by a single request

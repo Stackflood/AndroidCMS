@@ -27,7 +27,8 @@ public class ReaderTagSpinnerAdapter extends BaseAdapter {
 
 
 
-    public ReaderTagSpinnerAdapter(Context context, ReaderInterfaces.DataLoadedListener dataListener) {
+    public ReaderTagSpinnerAdapter(Context context,
+                                   ReaderInterfaces.DataLoadedListener dataListener) {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mDataListener = dataListener;
         refreshTags();
@@ -102,7 +103,8 @@ public class ReaderTagSpinnerAdapter extends BaseAdapter {
         final TagViewHolder holder;
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.reader_spinner_dropdown_item, parent, false);
+            convertView = mInflater.inflate(R.layout.reader_spinner_dropdown_item,
+                    parent, false);
             holder = new TagViewHolder(convertView);
             convertView.setTag(holder);
         } else {

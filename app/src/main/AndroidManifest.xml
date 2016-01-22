@@ -175,6 +175,12 @@
             android:theme="@style/WordPress.Dialog" />
 
 
+        <!-- Stats Activities -->
+        <activity android:name=".ui.stats.StatsActivity"
+            android:theme="@style/WordPress.DrawerActivity"/>
+
+
+
         <!-- Notifications activities -->
         <activity
             android:name=".ui.notifications.NotificationsActivity"

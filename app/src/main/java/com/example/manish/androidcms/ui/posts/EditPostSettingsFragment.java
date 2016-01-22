@@ -41,6 +41,7 @@ import com.example.manish.androidcms.models.PostLocation;
 import com.example.manish.androidcms.models.PostStatus;
 import com.example.manish.androidcms.ui.ActivityId;
 import com.example.manish.androidcms.ui.media.WordPressMediaUtils;
+import android.os.AsyncTask;
 
 import org.json.JSONArray;
 import org.wordpress.android.util.AppLog;
@@ -54,7 +55,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
+
 
 /**
  * Created by Manish on 5/14/2015.

@@ -600,7 +600,6 @@ public class CommentsListFragment extends Fragment {
 
 
         @Override
-
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu){
 
             mActionMode = actionMode;
@@ -616,7 +615,6 @@ public class CommentsListFragment extends Fragment {
         }
 
         @Override
-
         public boolean onPrepareActionMode(ActionMode actionMode, Menu menu){
 
             final CommentList selectedComments = getCommentAdapter().getSelectedComments();
@@ -714,7 +712,8 @@ public class CommentsListFragment extends Fragment {
                 }
             };
 
-            CommentActions.moderateComments(CMS.getCurrentLocalTableBlogId(), selectedComments, CommentStatus.TRASH,
+            CommentActions.moderateComments(CMS.getCurrentLocalTableBlogId(),
+                    selectedComments, CommentStatus.TRASH,
                     listener);
         }
 

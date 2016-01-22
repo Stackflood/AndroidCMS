@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.cocosw.undobar.UndoBarController;
 import com.example.manish.androidcms.R;
@@ -44,7 +44,7 @@ import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.HtmlUtils;
 import org.wordpress.android.util.NetworkUtils;
 import org.wordpress.android.util.helpers.SwipeToRefreshHelper;
-import org.wordpress.android.util.widgets.CustomSwipeRefreshLayout;
+import com.example.manish.androidcms.util.widgets.CustomSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -126,6 +126,7 @@ public class ReaderPostListFragment extends Fragment
     public void onShowPostPopup(View view, final ReaderPost post) {
 
     }
+
     private ReaderRecyclerView mRecyclerView;
     private final HistoryStack mTagPreviewHistory = new HistoryStack("tag_preview_history");
 
@@ -257,9 +258,9 @@ public class ReaderPostListFragment extends Fragment
     // we do for example in the ListView widget. During this phase we can’t be
     // sure that our activity is still created so we can’t count on it for some operation.
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(LayoutInflater inflater
                              ViewGroup container, Bundle savedInstanceState)
-    {
+    {,
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.reader_fragment_post_cards,
                 container, false);
 
@@ -397,12 +398,44 @@ public class ReaderPostListFragment extends Fragment
     public void onStart() {
         super.onStart();
 
-        EventBus.getDefault().register(this);
+       EventBus.getDefault().register(this);
 
         purgeDatabaseIfNeeded();
         performInitialUpdateIfNeeded();
         if (getPostListType() == ReaderTypes.ReaderPostListType.TAG_FOLLOWED) {
             //updateFollowedTagsAndBlogsIfNeeded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(ReaderEvents.FollowedTagsChanged event) {
+        if (getPostListType() == ReaderTypes.ReaderPostListType.TAG_FOLLOWED) {
+            // list fragment is viewing followed tags, tell it to refresh the list of tags
+            refreshTags();
+            // update the current tag if the list fragment is empty - this will happen if
+            // the tag table was previously empty (ie: first run)
+            if (isPostAdapterEmpty()) {
+                updateCurrentTag();
+            }
+        }
+    }
+
+    void updateCurrentTag() {
+        updatePostsWithTag(getCurrentTag(), ReaderPostService.UpdateAction.REQUEST_NEWER);
+    }
+
+
+    boolean isPostAdapterEmpty() {
+        return (mPostAdapter == null || mPostAdapter.isEmpty());
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(ReaderEvents.FollowedBlogsChanged event) {
+        // refresh posts if user is viewing "Blogs I Follow"
+        if (getPostListType() == ReaderTypes.ReaderPostListType.TAG_FOLLOWED
+                && hasCurrentTag()
+                && getCurrentTag().isBlogsIFollow()) {
+            refreshPosts();
         }
     }
 
@@ -526,7 +559,8 @@ public class ReaderPostListFragment extends Fragment
         if (!isAdded() || !(getActivity() instanceof ActionBarActivity)) {
             return;
         }
-        final android.support.v7.app.ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        final android.support.v7.app.ActionBar actionBar =
+                ((ActionBarActivity)getActivity()).getSupportActionBar();
         if (actionBar == null) {
             return;
         }
@@ -563,7 +597,9 @@ public class ReaderPostListFragment extends Fragment
         mSpinner.setAdapter(getSpinnerAdapter());
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent,
+                                       View view,
+                                       int position, long id) {
                 final ReaderTag tag = (ReaderTag) getSpinnerAdapter().getItem(position);
                 if (tag == null) {
                     return;

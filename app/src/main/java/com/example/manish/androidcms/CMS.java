@@ -3,6 +3,7 @@ package com.example.manish.androidcms;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.net.http.HttpResponseCache;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import com.android.volley.RequestQueue;
@@ -68,6 +70,9 @@ public class CMS extends Application {
     public static final String ACCESS_TOKEN_PREFERENCE="wp_pref_wpcom_access_token";
     public static final String WPCOM_USERNAME_PREFERENCE="wp_pref_wpcom_username";
     public static final String IS_SIGNED_OUT_PREFERENCE="wp_pref_is_signed_out";
+
+    public static final String BROADCAST_ACTION_REST_API_UNAUTHORIZED = "REST_API_UNAUTHORIZED";
+
     public static String versionName;
     public static CMSDB cmsDB;
     public static boolean postsShouldRefresh;
@@ -383,8 +388,21 @@ public class CMS extends Application {
             if (getContext() == null) return;
             // If this is called, it means the WP.com token is no longer valid.
             EventBus.getDefault().post(new CoreEvents.RestApiUnauthorized());
+
+            sendLocalBroadcast(getContext(), BROADCAST_ACTION_REST_API_UNAUTHORIZED);
+
         }
     };
+
+    public static boolean sendLocalBroadcast(Context context, String action) {
+        if (context == null || TextUtils.isEmpty(action)) {
+            return false;
+        }
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
+        Intent intent = new Intent();
+        intent.setAction(action);
+        return lbm.sendBroadcast(intent);
+    }
 
     public static void setupVolleyQueue() {
         requestQueue = Volley.newRequestQueue(mContext,

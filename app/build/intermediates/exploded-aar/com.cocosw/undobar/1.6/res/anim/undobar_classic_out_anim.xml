@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:anim/anticipate_overshoot_interpolator"
-    android:fromYDelta="0" android:toYDelta="100%"
-    android:duration="500" /><!-- From: file:/D:/develop/UndoBar/library/res/anim/undobar_classic_out_anim.xml -->

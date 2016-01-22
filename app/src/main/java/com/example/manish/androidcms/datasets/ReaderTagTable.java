@@ -21,8 +21,6 @@ import java.util.Date;
  *  tbl_tags_recommended stores the list of recommended tags returned by the api
  */
 public class ReaderTagTable {
-
-
     /*
      * determine whether the passed tag should be auto-updated based on when it was last updated
      */
@@ -52,6 +50,7 @@ public class ReaderTagTable {
 
 
     private static final int NEVER_UPDATED = -1;
+
     private static int minutesSinceLastUpdate(ReaderTag tag) {
         if (tag == null) {
             return 0;
@@ -111,6 +110,7 @@ public class ReaderTagTable {
             SqlUtils.closeCursor(c);
         }
     }
+
     public static ReaderTagList getFollowedTags() {
         return getTagsOfType(ReaderTagType.FOLLOWED);
     }
@@ -126,12 +126,6 @@ public class ReaderTagTable {
 
         return new ReaderTag(tagName, endpoint, tagType);
     }
-
-
-
-
-
-
 
     public static void setTagLastUpdated(ReaderTag tag) {
         if (tag == null) {

@@ -116,25 +116,22 @@ dependencies {
 buildscript {
     repositories {
         mavenCentral()
-        maven { url 'https://maven.fabric.io/repo' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
 
         classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
-        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
 repositories {
     mavenCentral()
     maven { url 'http://wordpress-mobile.github.io/WordPress-Android' }
-    maven { url 'https://maven.fabric.io/repo' }
+
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'android-cq'
-apply plugin: 'io.fabric'
 
 android {
     packagingOptions {
@@ -151,6 +148,7 @@ android {
         versionCode 175
         minSdkVersion 14
         targetSdkVersion 21
+        multiDexEnabled true
 
         buildConfigField "String", "APP_PN_KEY", "\"org.wordpress.android.playstore\""
     }
@@ -180,14 +178,13 @@ android {
 }
 
 dependencies {
-    compile 'com.crashlytics.sdk.android:crashlytics:2.2.2'
+    //compile 'com.crashlytics.sdk.android:crashlytics:2.2.2'
     // Provided by maven central
     compile('org.wordpress:mediapicker:1.2.1') {
         exclude group: 'com.android.support'
     }
     compile 'com.google.code.gson:gson:2.2.2'
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
-    compile 'com.android.support:support-v13:21.0.+'
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
@@ -212,61 +209,63 @@ dependencies {
     // Simperium
     /*compile 'com.simperium.android:simperium:0.6.2'
 
-                    releaseCompile project(path:':libs:utils:WordPressUtils', configuration: 'release')
-                    debugCompile project(path:':libs:utils:WordPressUtils', configuration: 'debug')
-                    releaseCompile project(path:':libs:networking:WordPressNetworking', configuration: 'release')
-                    debugCompile project(path:':libs:networking:WordPressNetworking', configuration: 'debug')
-                    releaseCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'release')
-                    debugCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'debug')
-                    releaseCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'release')
-                    debugCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'debug')
-                    releaseCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'release')
-                    debugCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'debug')
-                    releaseCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'release')
-                    debugCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'debug')
-                    releaseCompile project(path:':libs:editor:WordPressEditor', configuration: 'release')
-                    debugCompile project(path:':libs:editor:WordPressEditor', configuration: 'debug')
-                }
+                                                releaseCompile project(path:':libs:utils:WordPressUtils', configuration: 'release')
+                                                debugCompile project(path:':libs:utils:WordPressUtils', configuration: 'debug')
+                                                releaseCompile project(path:':libs:networking:WordPressNetworking', configuration: 'release')
+                                                debugCompile project(path:':libs:networking:WordPressNetworking', configuration: 'debug')
+                                                releaseCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'release')
+                                                debugCompile project(path:':libs:wpcomrest:WordPressComRest', configuration: 'debug')
+                                                releaseCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'release')
+                                                debugCompile project(path:':libs:graphview:WordPressGraphView', configuration: 'debug')
+                                                releaseCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'release')
+                                                debugCompile project(path:':libs:persistentedittext:PersistentEditText', configuration: 'debug')
+                                                releaseCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'release')
+                                                debugCompile project(path:':libs:analytics:WordPressAnalytics', configuration: 'debug')
+                                                releaseCompile project(path:':libs:editor:WordPressEditor', configuration: 'release')
+                                                debugCompile project(path:':libs:editor:WordPressEditor', configuration: 'debug')
+                                            }
 
-                configurations.all {
-                    // Exclude packaged wordpress sub projects, force the use of the source project
-                    // (eg. use :libs:utils:WordPressUtils instead of 'org.wordpress:utils')
-                    exclude group: 'org.wordpress', module: 'utils'
-                    exclude group: 'org.wordpress', module: 'analytics'
-                }
+                                            configurations.all {
+                                                // Exclude packaged wordpress sub projects, force the use of the source project
+                                                // (eg. use :libs:utils:WordPressUtils instead of 'org.wordpress:utils')
+                                                exclude group: 'org.wordpress', module: 'utils'
+                                                exclude group: 'org.wordpress', module: 'analytics'
+                                            }
 
-                task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
-                    def outputFile = new File("${rootDir}/WordPress/crashlytics.properties")
-                    def inputFile = file("${rootDir}/WordPress/gradle.properties")
-                    if (!inputFile.exists()) {
-                        throw new StopActionException("Build configuration file:" + inputFile
-                                + " doesn't exist, follow README instructions")
-                    }
-                    outputs.file outputFile
-                    inputs.file inputFile
-                    doLast {
-                        def properties = new Properties()
-                        inputFile.withInputStream { stream ->
-                            properties.load(stream)
-                        }
-                        def crashlyticsApiKey = properties.getProperty('crashlytics.apikey', '0')
-                        def writer = new FileWriter(outputFile)
-                        writer.write("""// auto-generated file from ${rootDir}/gradle.properties do not modify
-                apiKey=${crashlyticsApiKey}""")
-                        writer.close()
-                    }
-                }
+                                            task generateCrashlyticsConfig(group: "generate", description: "Generate Crashlytics config") {
+                                                def outputFile = new File("${rootDir}/WordPress/crashlytics.properties")
+                                                def inputFile = file("${rootDir}/WordPress/gradle.properties")
+                                                if (!inputFile.exists()) {
+                                                    throw new StopActionException("Build configuration file:" + inputFile
+                                                            + " doesn't exist, follow README instructions")
+                                                }
+                                                outputs.file outputFile
+                                                inputs.file inputFile
+                                                doLast {
+                                                    def properties = new Properties()
+                                                    inputFile.withInputStream { stream ->
+                                                        properties.load(stream)
+                                                    }
+                                                    def crashlyticsApiKey = properties.getProperty('crashlytics.apikey', '0')
+                                                    def writer = new FileWriter(outputFile)
+                                                    writer.write("""// auto-generated file from ${rootDir}/gradle.properties do not modify
+                                            apiKey=${crashlyticsApiKey}""")
+                                                    writer.close()
+                                                }
+                                            }
 
-                // Add generatgetPostListAdaptereCrashlyticsConfig to all generateBuildConfig tasks (all variants)
-                android.applicationVariants.all { variant ->
-                    variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
-                }*/
+                                            // Add generatgetPostListAdaptereCrashlyticsConfig to all generateBuildConfig tasks (all variants)
+                                            android.applicationVariants.all { variant ->
+                                                variant.generateBuildConfig.dependsOn(generateCrashlyticsConfig)
+                                            }*/
     //compile project(':PersistentEditText')
     //compile project(':WordPressUtils')
     compile project(':PersistentEditText')
     compile project(':WordPressUtils')
     compile project(':WordPressEditor')
+    compile project(':GraphViewNew')
 }
+
 // Add properties named "wp.xxx" to our BuildConfig
 android.buildTypes.all { buildType ->
     project.properties.any { property ->
@@ -277,8 +276,14 @@ android.buildTypes.all { buildType ->
     }
 }
 
+/*configurations {
+    compile.exclude module: 'support-annotations'
+}*/
+
 // For app signing
-if (["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0) {
+if (["storeFile", "storePassword", "keyAlias", "keyPassword"].count {
+    !project.hasProperty(it)
+} == 0) {
     android {
         signingConfigs {
             release {

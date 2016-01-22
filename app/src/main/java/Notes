@@ -226,7 +226,15 @@ SparseArrays map integers to Objects.  Unlike a normal array of Objects,
  ---> ViewStub
 
 <<<<<<< HEAD
- The < include /> will just include the xml contents in your base xml file as if the whole thing was just a single big file. It�s a nice way to share layout parts between different layouts.The < ViewStub /> is a bit different because it is not directly included, and will be loaded only when you actually use it/need it, i.e, when you set it�s visibility to �true�. This a nice optimization because you could have a complex layout with tons of small views or headers anywhere, and still have your Activity load up really fast.
+ The < include /> will just include the xml contents in your
+ base xml file as if the whole thing was just a single big file.
+ It�s a nice way to share layout parts between different layouts.
+ The < ViewStub /> is a bit different because it is not directly included,
+  and will be loaded only when you actually use it/need it, i.e,
+  when you set it�s visibility to �true�. This a nice
+  optimization because you could have a complex layout
+   with tons of small views or headers anywhere,
+   and still have your Activity load up really fast.
   Once you use one of those views, it�ll be loaded.
 =======
  The < include /> will just include the xml contents in your base xml file as if the whole thing was just a single big file. It�s a nice way to share layout parts between different layouts.The < ViewStub /> is a bit different because it is not directly included, and will be loaded only when you actually use it/need it, i.e, when you set it�s visibility to �true�. This a nice optimization because you could have a complex layout with tons of small views or headers anywhere, and still have your Activity load up really fast.

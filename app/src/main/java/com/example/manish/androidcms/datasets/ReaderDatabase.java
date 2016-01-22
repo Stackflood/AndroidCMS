@@ -142,8 +142,8 @@ public class ReaderDatabase extends SQLiteOpenHelper {
     }
     private void createAllTables(SQLiteDatabase db) {
        /* ReaderCommentTable.createTables(db);
-        ReaderLikeTable.createTables(db);
-        ReaderPostTable.createTables(db);*/
+        ReaderLikeTable.createTables(db);*/
+        ReaderPostTable.createTables(db);
         ReaderTagTable.createTables(db);
         ReaderUserTable.createTables(db);
         /*ReaderThumbnailTable.createTables(db);

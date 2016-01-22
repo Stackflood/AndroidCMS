@@ -10,6 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/GraphViewNew" />
             <option value="$PROJECT_DIR$/PersistentEditText" />
             <option value="$PROJECT_DIR$/WordPressEditor" />
             <option value="$PROJECT_DIR$/WordPressUtils" />
